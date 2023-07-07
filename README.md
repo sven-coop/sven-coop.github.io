@@ -12,7 +12,8 @@ Based on baso88's (with quality of life features.)
 
 
 ## Building
-When Sven Co-op updates to a new version the AngelScript API will change. To build your own documentation if this repository becomes outdated:
+When Sven Co-op updates to a new version, the AngelScript API will change.
+To build your own documentation if this repository becomes outdated:
 
 - Run Sven Co-op with the launch command: `-as_outputdocs outputdocs`
 - This will create a file at `...\Sven Co-op\svencoop\outputdocs.txt`
