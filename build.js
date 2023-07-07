@@ -1,4 +1,4 @@
-// as_outputdocs api.asdoc
+// as_outputdocs outputdocs
 // as_listmapscriptinfo
 // as_scriptbaseclasses
 
@@ -9,8 +9,9 @@ import Handlebars from 'handlebars';
 // share links
 // ScriptBases
 // Constant's values
+// Advnaced Search
 
-const inputFile = './api.asdoc';
+const inputFile = './outputdocs.txt';
 
 const buildDir = './dist/';
 const srcDir = './src/';
@@ -40,6 +41,7 @@ const typesArray = [
 	'@',
 	'&',
 	'?',
+	'any',
 	'array',
 	'dictionary',
 	'dictionaryValue',
@@ -688,52 +690,63 @@ function generateDocs(api) {
 	}
 }
 
+
+function stringifyObject(obj) {
+  return '{' + Object.keys(obj).map(key => `${key}:${JSON.stringify(obj[key])}`).join(',') + '}';
+}
+
+/*
+P - Primary Search Term.
+D - Documentation.
+W - Webpage
+C - Context
+J - Jumpto
+*/
 function generateDatabase(api) {
 	// WRITE CLASSES TO DATABASE
 	for (const cls of api.Classes) {
 		searchDatabase.push({
-			Primary: cls.ClassName,
-			Descriptor: cls.Documentation,
-			Page: cls.ClassName,
-			Context: 'Class',
+			P: cls.ClassName,
+			D: cls.Documentation,
+			W: cls.ClassName,
+			C: 'Class',
 		});
 		for (const method of cls.Methods) {
 			if (method.IsFirst) {
 				searchDatabase.push({
-					Primary: method.Id,
-					Descriptor: method.Documentation,
-					Page: cls.ClassName,
-					UniqueId: method.UniqueId,
-					Context: cls.ClassName,
-					Jump: 1,
+					P: method.Id,
+					D: method.Documentation,
+					W: cls.ClassName,
+					C: cls.ClassName,
+					J: 1,
 				});
 			}
 		}
 		for (const prop of cls.Properties) {
 			searchDatabase.push({
-				Primary: prop.Id,
-				Descriptor: prop.Documentation,
-				Page: cls.ClassName,
-				Context: cls.ClassName,
-				Jump: 1,
+				P: prop.Id,
+				D: prop.Documentation,
+				W: cls.ClassName,
+				C: cls.ClassName,
+				J: 1,
 			});
 		}
 	}
 	// WRITE ENUMS TO DATABASE
 	for (const enm of api.Enums) {
 		searchDatabase.push({
-			Primary: enm.Name,
-			Descriptor: enm.Documentation,
-			Page: enm.Name,
-			Context: 'Enum',
+			P: enm.Name,
+			D: enm.Documentation,
+			W: enm.Name,
+			C: 'Enum',
 		});
 		for (const val of enm.Values) {
 			searchDatabase.push({
-				Primary: val.Name,
-				Descriptor: val.Documentation,
-				Page: enm.Name,
-				Context: enm.Name,
-				Jump: 1,
+				P: val.Name,
+				D: val.Documentation,
+				W: enm.Name,
+				C: enm.Name,
+				J: 1,
 			});
 		}
 	}
@@ -741,66 +754,69 @@ function generateDatabase(api) {
 	for (const func of api.Functions) {
 		if (func.IsFirst) {
 			searchDatabase.push({
-				Primary: func.Id,
-				Descriptor: func.Documentation,
-				Page: 'Functions',
-				Context: 'Global Function',
-				Jump: 1,
+				P: func.Id,
+				D: func.Documentation,
+				W: 'Functions',
+				C: 'Global Function',
+				J: 1,
 			});
 		}
 	}
 	// WRITE PROPERTIES TO DATABASE
 	for (const prop of api.Properties) {
 		searchDatabase.push({
-			Primary: prop.Id,
-			Descriptor: prop.Documentation,
-			Page: 'Properties',
-			Context: 'Global Property',
-			Jump: 1,
+			P: prop.Id,
+			D: prop.Documentation,
+			W: 'Properties',
+			C: 'Global Property',
+			J: 1,
 		});
 	}
 	// WRITE TYPEDEFS TO DATABASE
 	for (const typeDef of api.Typedefs) {
 		searchDatabase.push({
-			Primary: typeDef.Name,
-			Descriptor: typeDef.Documentation,
-			Page: 'Typedefs',
-			Context: 'Typedef',
-			Jump: 1,
+			P: typeDef.Name,
+			D: typeDef.Documentation,
+			W: 'Typedefs',
+			C: 'Typedef',
+			J: 1,
 		});
 	}
 	// WRITE FUNCDEFS TO DATABASE
 	for (const funcDef of api.FuncDefs) {
 		searchDatabase.push({
-			Primary: funcDef.Id,
-			Descriptor: funcDef.Documentation,
-			Page: 'FuncDefs',
-			Context: 'FuncDef',
-			Jump: 1,
+			P: funcDef.Id,
+			D: funcDef.Documentation,
+			W: 'FuncDefs',
+			C: 'FuncDef',
+			J: 1,
 		});
 	}
 	// WRITE INTERFACES TO DATABASE
 	for (const inter of api.Interfaces) {
 		searchDatabase.push({
-			Primary: inter.InterfaceName,
-			Descriptor: inter.Documentation,
-			Page: 'Interfaces',
-			Context: 'Interface',
+			P: inter.InterfaceName,
+			D: inter.Documentation,
+			W: 'Interfaces',
+			C: 'Interface',
 		});
 		for (const method of inter.Methods) {
 			if (method.IsFirst) {
 				searchDatabase.push({
-					Primary: method.Id,
-					Descriptor: method.Documentation,
-					Page: 'Interfaces',
-					UniqueId: method.UniqueId,
-					Context: inter.InterfaceName,
-					Jump: 1,
+					P: method.Id,
+					D: method.Documentation,
+					W: 'Interfaces',
+					C: inter.InterfaceName,
+					J: 1,
 				});
 			}
 		}
 	}
-	writeFileSync(buildDir + searchFile, JSON.stringify(searchDatabase), 'utf8');
+	const data = 'export const database = [' 
+  + searchDatabase.map(obj => stringifyObject(obj)).join(',') 
+  + '];';
+	writeFileSync(buildDir + 'db.js', data, 'utf8');
+	//writeFileSync(buildDir + searchFile, JSON.stringify(searchDatabase), 'utf8');
 }
 
 const api = parseASDOC(readFileSync(inputFile, 'utf8'));
