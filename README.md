@@ -16,5 +16,6 @@ When Sven Co-op updates to a new version the AngelScript API will change. To bui
 
 - Run Sven Co-op with the launch command: `-as_outputdocs outputdocs`
 - This will place the documentation at `...\Sven Co-op\svencoop\outputdocs.txt`
-- Place the newly generated `outputdocs.txt` into a clone of this repository.
-- Build the site using `npm run build`, if you have Node.js installed.
+- Place the newly generated `outputdocs.txt` into a clone of this repo.
+- Install or update [Node.js](https://nodejs.org/en)
+- Build the site using `npm run build` with the working directory as your cloned repo.
