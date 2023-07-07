@@ -11,7 +11,7 @@ import Handlebars from 'handlebars';
 // Constant's values
 
 const inputFile = './api.asdoc';
-const outputFile = './api.json';
+//const outputFile = './api.json';
 
 const buildDir = './dist/';
 const srcDir = './src/';
