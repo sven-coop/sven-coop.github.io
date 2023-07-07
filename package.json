@@ -7,7 +7,7 @@
 	"scripts": {
 		"clear": "rm -rf dist && mkdir dist",
 		"build": "npm run clear && node build.js",
-		"deploy": "npx run clear && node build.js && gh-pages -d dist"
+		"deploy": "npm run clear && node build.js && gh-pages -d dist"
 	},
 	"keywords": [],
 	"author": "",
