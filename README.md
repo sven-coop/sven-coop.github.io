@@ -15,7 +15,9 @@ Based on baso88's (with quality of life features.)
 When Sven Co-op updates to a new version the AngelScript API will change. To build your own documentation if this repository becomes outdated:
 
 - Run Sven Co-op with the launch command: `-as_outputdocs outputdocs`
-- This will place the documentation at `...\Sven Co-op\svencoop\outputdocs.txt`
-- Place the newly generated `outputdocs.txt` into a clone of this repo.
-- Install or update [Node.js](https://nodejs.org/en)
-- Build the site using `npm run build` with the working directory as your cloned repo.
+- This will create a file at `...\Sven Co-op\svencoop\outputdocs.txt`
+- Move the newly generated `outputdocs.txt` into a clone of this repo.
+- Update or install [Node.js](https://nodejs.org/en).
+- In terminal, set your working directory to the cloned repo.
+- Type `npm install` to install the dependencies. 
+- Type `npm run build` to generate the site into a `dist` folder.
