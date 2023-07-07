@@ -1,3 +1,5 @@
+import { database } from './db.js';
+
 const INPUT_ELEMENT_ID = 'search-input';
 const SUGGESTIONS_ELEMENT_ID = 'search-suggestions';
 const SUGGESTIONS_MAX_SIZE = 16;
@@ -43,99 +45,88 @@ document.addEventListener('keydown', function (event) {
 	}
 });
 
-fetch('./search.json')
-	.then((response) => {
-		if (!response.ok) {
-			throw new Error('HTTP error ' + response.status);
-		}
-		return response.json();
-	})
-	.then((db) => {
-		inputElement.addEventListener('input', () => {
-			isFocused = true;
-			worker.postMessage({
-				list: db,
-				keys: ['Primary'],
-				pattern: inputElement.value,
-			});
-		});
-
-		inputElement.addEventListener('focus', () => {
-			isFocused = true;
-			suggestionsElement.removeAttribute('hidden');
-		});
-
-		inputElement.addEventListener('blur', () => {
-			isFocused = false;
-			suggestionsElement.setAttribute('hidden', '');
-		});
-
-		inputElement.addEventListener('keydown', function (event) {
-			const listItems = suggestionsElement.querySelectorAll('.suggestion');
-
-			switch (event.key) {
-				case 'ArrowDown':
-					currentIndex++;
-					if (currentIndex >= listItems.length) currentIndex = 0;
-					highlightSuggestion(listItems, currentIndex);
-					event.preventDefault();
-					break;
-				case 'ArrowUp':
-					currentIndex--;
-					if (currentIndex < 0) currentIndex = listItems.length - 1;
-					highlightSuggestion(listItems, currentIndex);
-					event.preventDefault();
-					break;
-				case 'Enter':
-					if (currentIndex > -1)
-						listItems[currentIndex].querySelector('a').click();
-					else listItems[0].querySelector('a').click();
-					break;
-				default:
-					return;
-			}
-		});
-
-		function highlightSuggestion(listItems, index) {
-			for (const item of listItems) item.classList.remove('highlight');
-			listItems[index].classList.add('highlight');
-		}
-
-		suggestionsElement.addEventListener('mousedown', function (event) {
-			event.preventDefault();
-			event.stopPropagation();
-		});
-
-		worker.onmessage = function (e) {
-			suggestionsCache = e.data.slice(0, SUGGESTIONS_MAX_SIZE);
-			renderSuggestions();
-		};
-
-		const renderSuggestions = () => {
-			if (isFocused) {
-				suggestionsElement.innerHTML = '';
-				for (const option of suggestionsCache) {
-					const listItem = document.createElement('li');
-					listItem.classList.add('suggestion');
-
-					const span_secondary = document.createElement('span');
-					span_secondary.innerText = ' > ' + option.item.Context;
-					span_secondary.classList.add('secondary');
-
-					const span = document.createElement('span');
-					span.innerText = option.item.Primary;
-
-					const anchor = document.createElement('a');
-
-					if (option.item.Jump == 1)
-						anchor.href = `${option.item.Page}#${option.item.Primary}`;
-					else anchor.href = `${option.item.Page}`;
-
-					anchor.appendChild(span);
-					anchor.appendChild(span_secondary);
-					listItem.appendChild(anchor);
-					suggestionsElement.appendChild(listItem);
-				}
-			}
-		};
+inputElement.addEventListener('input', () => {
+	isFocused = true;
+	worker.postMessage({
+		list: database,
+		keys: ['P'],
+		pattern: inputElement.value,
 	});
+});
+
+inputElement.addEventListener('focus', () => {
+	isFocused = true;
+	suggestionsElement.removeAttribute('hidden');
+});
+
+inputElement.addEventListener('blur', () => {
+	isFocused = false;
+	suggestionsElement.setAttribute('hidden', '');
+});
+
+inputElement.addEventListener('keydown', function (event) {
+	const listItems = suggestionsElement.querySelectorAll('.suggestion');
+
+	switch (event.key) {
+		case 'ArrowDown':
+			currentIndex++;
+			if (currentIndex >= listItems.length) currentIndex = 0;
+			highlightSuggestion(listItems, currentIndex);
+			event.preventDefault();
+			break;
+		case 'ArrowUp':
+			currentIndex--;
+			if (currentIndex < 0) currentIndex = listItems.length - 1;
+			highlightSuggestion(listItems, currentIndex);
+			event.preventDefault();
+			break;
+		case 'Enter':
+			if (currentIndex > -1) listItems[currentIndex].querySelector('a').click();
+			else listItems[0].querySelector('a').click();
+			break;
+		default:
+			return;
+	}
+});
+
+function highlightSuggestion(listItems, index) {
+	for (const item of listItems) item.classList.remove('highlight');
+	listItems[index].classList.add('highlight');
+}
+
+suggestionsElement.addEventListener('mousedown', function (event) {
+	event.preventDefault();
+	event.stopPropagation();
+});
+
+worker.onmessage = function (e) {
+	suggestionsCache = e.data.slice(0, SUGGESTIONS_MAX_SIZE);
+	renderSuggestions();
+};
+
+const renderSuggestions = () => {
+	if (isFocused) {
+		suggestionsElement.innerHTML = '';
+		for (const option of suggestionsCache) {
+			const listItem = document.createElement('li');
+			listItem.classList.add('suggestion');
+
+			const span_secondary = document.createElement('span');
+			span_secondary.innerText = ' > ' + option.item.C;
+			span_secondary.classList.add('secondary');
+
+			const span = document.createElement('span');
+			span.innerText = option.item.P;
+
+			const anchor = document.createElement('a');
+
+			if (option.item.J == 1) anchor.href = `${option.item.W}#${option.item.P}`;
+			else anchor.href = `${option.item.W}`;
+
+			anchor.appendChild(span);
+			anchor.appendChild(span_secondary);
+			listItem.appendChild(anchor);
+			suggestionsElement.appendChild(listItem);
+		}
+	}
+};
