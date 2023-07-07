@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+		<title>PlayerHookFlag</title>
+  </head>
+  <body>
+	<header>
+		<nav>
+			<a href="/">Index</a> > <a href="/Enums">Enums</a> > <a href="/PlayerHookFlag">PlayerHookFlag</a>
+		</nav>
+		<div>
+			<input type="search" id="search-input" placeholder="Search">
+			<ul id="search-suggestions"></ul>
+		</div>
+	</header>
+    <main>
+      <h1>PlayerHookFlag</h1>
+      <p>Player hook flags. Used to skip execution of code when a hook performs an action that overrides built-in behavior.</p>
+        <h2 id="Values">Values</h2>
+        <table>
+        	<thead>
+        		<tr>
+        				<th>Name</th>
+        				<th>Value</th>
+        				<th>Description</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+        				<tr id='PlrHook_SkipVehicles'>
+        					<td>PlrHook_SkipVehicles</td>
+        					<td>1</td>
+        					<td>Don't run vehicle checks</td>
+        				</tr>
+        				<tr id='PlrHook_SkipUse'>
+        					<td>PlrHook_SkipUse</td>
+        					<td>2</td>
+        					<td>Don't run +use checks</td>
+        				</tr>
+        	</tbody>
+        </table>    </main>
+	<script type="module" src="script.mjs" async defer></script>
+  </body>
+</html>

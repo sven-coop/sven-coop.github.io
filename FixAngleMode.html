@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+		<title>FixAngleMode</title>
+  </head>
+  <body>
+	<header>
+		<nav>
+			<a href="/">Index</a> > <a href="/Enums">Enums</a> > <a href="/FixAngleMode">FixAngleMode</a>
+		</nav>
+		<div>
+			<input type="search" id="search-input" placeholder="Search">
+			<ul id="search-suggestions"></ul>
+		</div>
+	</header>
+    <main>
+      <h1>FixAngleMode</h1>
+      <p><a href='/entvars_t#fixangle'>entvars_t::fixangle</a> modes</p>
+        <h2 id="Values">Values</h2>
+        <table>
+        	<thead>
+        		<tr>
+        				<th>Name</th>
+        				<th>Value</th>
+        				<th>Description</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+        				<tr id='FAM_NOTHING'>
+        					<td>FAM_NOTHING</td>
+        					<td>0</td>
+        					<td>Do nothing</td>
+        				</tr>
+        				<tr id='FAM_FORCEVIEWANGLES'>
+        					<td>FAM_FORCEVIEWANGLES</td>
+        					<td>1</td>
+        					<td>Force player view angles to <a href='/entvars_t#angles'>entvars_t::angles</a></td>
+        				</tr>
+        				<tr id='FAM_ADDAVELOCITY'>
+        					<td>FAM_ADDAVELOCITY</td>
+        					<td>2</td>
+        					<td>Add avelocity to player view angles</td>
+        				</tr>
+        	</tbody>
+        </table>    </main>
+	<script type="module" src="script.mjs" async defer></script>
+  </body>
+</html>
