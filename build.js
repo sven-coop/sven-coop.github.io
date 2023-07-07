@@ -1,5 +1,4 @@
 // as_outputdocs outputdocs
-// as_listmapscriptinfo
 // as_scriptbaseclasses
 
 import { writeFileSync, readFileSync, copyFileSync } from 'fs';
@@ -69,7 +68,7 @@ const pagePartial = readFileSync(srcDir + 'page.hbs', 'utf8');
 // get_pContainingEntity, pContainingEntity.vars
 // In_Buttons, entvars_t.buttons
 
-//Parses .asdoc file into JS object
+//Parses AngelScript doc file into JS object
 function parseASDOC(data) {
 	const IS_AN_ARRAY = {
 		Interfaces: true,
@@ -816,7 +815,6 @@ function generateDatabase(api) {
   + searchDatabase.map(obj => stringifyObject(obj)).join(',') 
   + '];';
 	writeFileSync(buildDir + 'db.js', data, 'utf8');
-	//writeFileSync(buildDir + searchFile, JSON.stringify(searchDatabase), 'utf8');
 }
 
 const api = parseASDOC(readFileSync(inputFile, 'utf8'));
