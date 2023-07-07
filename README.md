@@ -1,7 +1,11 @@
-# docs
+# Sven Co-op Documentation Generator
 
-Sven Co-op Documentation Site Generator
+https://sven-coop.github.io/
+
+
 Based on baso88's, with quality of life features.
 
-TODO:
+
+## TODO
  - ScriptBases Documentation
+ - Community notes
