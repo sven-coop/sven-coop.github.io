@@ -1,0 +1,79 @@
+<table>
+	<thead>
+		<tr>
+			{{#each Columns}}
+				<th>{{this}}</th>
+			{{/each}}
+		</tr>
+	</thead>
+	<tbody>
+		{{#if IsClassPage}}
+			{{#each Rows}}
+				<tr id='{{ClassName}}'>
+					<td>{{ns Namespace}}</td>
+					<td><a href='{{ClassName}}.html'>{{ClassName}}</a></td>
+					<td>{{doc FirstLine}}</td>
+				</tr>
+			{{/each}}
+		{{else if IsInterfacePage}}
+			{{#each Rows}}
+				<tr id='{{InterfaceName}}'>
+					<td><a href='{{InterfaceName}}.html'>{{InterfaceName}}</a></td>
+					<td>{{doc FirstLine}}</td>
+				</tr>
+			{{/each}}
+		{{else if IsEnumPage}}
+			{{#each Rows}}
+				<tr id='{{Name}}'>
+					<td>{{ns Namespace}}</td>
+					<td><a href='{{Name}}.html'>{{Name}}</a></td>
+					<td>{{doc FirstLine}}</td>
+				</tr>
+			{{/each}}
+		{{else if IsNamespacePage}}
+			{{#each Rows}}
+				<tr id='{{Name}}'>
+					<td><a href='{{File}}.html'>{{Name}}</a></td>
+				</tr>
+			{{/each}}
+		{{else if IsDecDes}}
+			{{#each Rows}}
+				<tr id='{{UniqueId}}'>
+					<td>{{dec Declaration}}</td>
+					<td>{{doc Documentation}}</td>
+				</tr>
+			{{/each}}
+		{{else if IsNamDecDes}}
+			{{#each Rows}}
+				<tr id='{{UniqueId}}'>
+					<td>{{ns Namespace}}</td>
+					<td>{{dec Declaration}}</td>
+					<td>{{doc Documentation}}</td>
+				</tr>
+			{{/each}}
+		{{else if Enum}}
+			{{#each Rows}}
+				<tr id='{{Name}}'>
+					<td>{{Name}}</td>
+					<td>{{Value}}</td>
+					<td>{{doc Documentation}}</td>
+				</tr>
+			{{/each}}
+		{{else if Typedef}}
+			{{#each Rows}}
+				<tr id='{{Name}}'>
+					<td>{{Type}}</td>
+					<td>{{Name}}</td>
+					<td>{{Documentation}}</td>
+				</tr>
+			{{/each}}
+		{{else if FuncDef}}
+			{{#each Rows}}
+				<tr id='{{UniqueId}}'>
+					<td>{{dec Name}}</td>
+					<td>{{doc Documentation}}</td>
+				</tr>
+			{{/each}}
+		{{/if}}
+	</tbody>
+</table>

@@ -1,0 +1,23 @@
+<h1>{{Title}}</h1>
+{{#if Namespace}}
+<p><b>Namespace:</b> <a href="Namespace.{{Namespace}}.html">{{Namespace}}</a></p>
+{{/if}}
+{{#if Description}}
+<p>{{doc Description}}</p>
+{{/if}}
+{{#if Type}}
+<p><b>Type:</b> {{Type}}</p>
+{{/if}}
+{{#if RenderNav}}
+<ul>
+	{{#each Tables}}
+	<li><a href="#{{Title}}">{{Title}}</a></li>
+	{{/each}}
+</ul>
+{{/if}}
+{{#each Tables}}
+  {{#if Rows}}
+  <h2 id="{{Title}}">{{Title}}</h2>
+  {{> Table }}
+  {{/if}}
+{{/each}}

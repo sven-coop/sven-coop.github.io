@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+	{{#if FileName}}
+		<title>{{FileName}}</title>
+	{{else}}
+		<title>Index</title>
+	{{/if}}
+  </head>
+  <body>
+	<header>
+		<nav>
+	    {{#if ParentFileName}}
+			{{#if DisplayName}}
+			<a href="/">Index</a> > <a href="/{{ParentFileName}}">{{ParentFileName}}</a> > <a href="/{{FileName}}">{{DisplayName}}</a>
+			{{else}}
+			<a href="/">Index</a> > <a href="/{{ParentFileName}}">{{ParentFileName}}</a> > <a href="/{{FileName}}">{{FileName}}</a>
+			{{/if}}
+		  {{else}}
+		  {{#if FileName}}
+			<a href="/">Index</a> > <a href="/{{FileName}}">{{FileName}}</a>
+			{{else}}
+			<a href="/">Index</a> >
+			{{/if}}
+	    {{/if}}
+		</nav>
+		<div>
+			<input type="search" id="search-input" placeholder="Search">
+			<ul id="search-suggestions"></ul>
+		</div>
+	</header>
+    <main>
+      {{> Main }}
+    </main>
+	<script type="module" src="script.mjs" async defer></script>
+  </body>
+</html>

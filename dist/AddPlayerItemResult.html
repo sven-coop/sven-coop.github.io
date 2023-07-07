@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+		<title>AddPlayerItemResult</title>
+  </head>
+  <body>
+	<header>
+		<nav>
+			<a href="/">Index</a> > <a href="/Enums">Enums</a> > <a href="/AddPlayerItemResult">AddPlayerItemResult</a>
+		</nav>
+		<div>
+			<input type="search" id="search-input" placeholder="Search">
+			<ul id="search-suggestions"></ul>
+		</div>
+	</header>
+    <main>
+      <h1>AddPlayerItemResult</h1>
+      <p>Return values for <a href='/CBaseEntity#AddPlayerItem'>CBaseEntity::AddPlayerItem</a></p>
+        <h2 id="Values">Values</h2>
+        <table>
+        	<thead>
+        		<tr>
+        				<th>Name</th>
+        				<th>Value</th>
+        				<th>Description</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+        				<tr id='APIR_NotAdded'>
+        					<td>APIR_NotAdded</td>
+        					<td>0</td>
+        					<td>Player could not pick up this item</td>
+        				</tr>
+        				<tr id='APIR_DuplicateAdd'>
+        					<td>APIR_DuplicateAdd</td>
+        					<td>2</td>
+        					<td>Player was able to add it as duplicate</td>
+        				</tr>
+        				<tr id='APIR_Added'>
+        					<td>APIR_Added</td>
+        					<td>3</td>
+        					<td>Player picked up this item</td>
+        				</tr>
+        	</tbody>
+        </table>    </main>
+	<script type="module" src="script.mjs" async defer></script>
+  </body>
+</html>
