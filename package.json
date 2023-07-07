@@ -1,19 +1,19 @@
 {
-  "name": "sc_as_docs",
-  "version": "1.0.0",
-  "description": "",
-  "main": "sc_as_docs.js",
-  "type": "module",
-  "scripts": {
+	"name": "sc_as_docs",
+	"version": "1.0.0",
+	"description": "",
+	"main": "build.js",
+	"type": "module",
+	"scripts": {
 		"deploy": "gh-pages -d dist"
 	},
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "handlebars": "^4.7.7"
-  },
-  "devDependencies": {
-    "gh-pages": "^5.0.0"
-  }
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"handlebars": "^4.7.7"
+	},
+	"devDependencies": {
+		"gh-pages": "^5.0.0"
+	}
 }

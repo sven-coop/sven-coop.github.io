@@ -11,14 +11,14 @@
 			{{#each Rows}}
 				<tr id='{{ClassName}}'>
 					<td>{{ns Namespace}}</td>
-					<td><a href='{{ClassName}}.html'>{{ClassName}}</a></td>
+					<td><a href='/{{ClassName}}'>{{ClassName}}</a></td>
 					<td>{{doc FirstLine}}</td>
 				</tr>
 			{{/each}}
 		{{else if IsInterfacePage}}
 			{{#each Rows}}
 				<tr id='{{InterfaceName}}'>
-					<td><a href='{{InterfaceName}}.html'>{{InterfaceName}}</a></td>
+					<td><a href='/{{InterfaceName}}'>{{InterfaceName}}</a></td>
 					<td>{{doc FirstLine}}</td>
 				</tr>
 			{{/each}}
@@ -26,14 +26,14 @@
 			{{#each Rows}}
 				<tr id='{{Name}}'>
 					<td>{{ns Namespace}}</td>
-					<td><a href='{{Name}}.html'>{{Name}}</a></td>
+					<td><a href='/{{Name}}'>{{Name}}</a></td>
 					<td>{{doc FirstLine}}</td>
 				</tr>
 			{{/each}}
 		{{else if IsNamespacePage}}
 			{{#each Rows}}
 				<tr id='{{Name}}'>
-					<td><a href='{{File}}.html'>{{Name}}</a></td>
+					<td><a href='/{{File}}'>{{Name}}</a></td>
 				</tr>
 			{{/each}}
 		{{else if IsDecDes}}

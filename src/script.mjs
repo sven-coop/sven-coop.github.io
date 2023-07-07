@@ -128,8 +128,8 @@ fetch('./search.json')
 					const anchor = document.createElement('a');
 
 					if (option.item.Jump == 1)
-						anchor.href = `${option.item.Page}.html#${option.item.Primary}`;
-					else anchor.href = `${option.item.Page}.html`;
+						anchor.href = `${option.item.Page}#${option.item.Primary}`;
+					else anchor.href = `${option.item.Page}`;
 
 					anchor.appendChild(span);
 					anchor.appendChild(span_secondary);
