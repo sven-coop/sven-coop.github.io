@@ -5,7 +5,8 @@
 	"main": "build.js",
 	"type": "module",
 	"scripts": {
-		"deploy": "gh-pages -d dist"
+		"build" : "node build.js",
+		"deploy": "node build.js && gh-pages -d dist"
 	},
 	"keywords": [],
 	"author": "",
