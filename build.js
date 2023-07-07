@@ -11,7 +11,6 @@ import Handlebars from 'handlebars';
 // Constant's values
 
 const inputFile = './api.asdoc';
-//const outputFile = './api.json';
 
 const buildDir = './dist/';
 const srcDir = './src/';
@@ -805,8 +804,6 @@ function generateDatabase(api) {
 }
 
 const api = parseASDOC(readFileSync(inputFile, 'utf8'));
-
-//writeFileSync(outputFile, JSON.stringify(api, null, 2));
 
 generateNamespaceData(api);
 generateTokenLookup(api);
