@@ -331,7 +331,7 @@ function generateTokenLookup(api) {
 					Page: cls.ClassName,
 					Fragment: method.Id,
 				});
-		for (const prop of cls.Properties) // ! maybe .
+		for (const prop of cls.Properties)
 			tokenLookup.set(`${cls.ClassName}::${prop.Id}`, {
 				Page: cls.ClassName,
 				Fragment: prop.Id,
