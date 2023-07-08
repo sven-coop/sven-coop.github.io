@@ -15,8 +15,13 @@ const inputFile = './outputdocs.txt';
 const buildDir = './dist/';
 const srcDir = './src/';
 
-const searchFile = 'search.json';
+const dbFile = 'db.js';
 const searchDatabase = [];
+
+const additionsFile = './additions.json';
+
+const indexPartial = readFileSync(srcDir + 'index.hbs', 'utf8');
+const pagePartial = readFileSync(srcDir + 'page.hbs', 'utf8');
 
 const namespaces = new Map();
 const overloadChecker = new Map();
@@ -37,9 +42,12 @@ const typesArray = [
 	'double',
 	'bool',
 	'const',
+	'final',
 	'@',
 	'&',
 	'?',
+	'<',
+	'>',
 	'any',
 	'array',
 	'dictionary',
@@ -58,9 +66,6 @@ const commonTokens = [
 	'Task',
 ];
 
-const indexPartial = readFileSync(srcDir + 'index.hbs', 'utf8');
-const pagePartial = readFileSync(srcDir + 'page.hbs', 'utf8');
-
 // * EDGE CASES *
 // light_level, g_EngineFuncs.GetEntityIllum
 // MakeVectors, g_Engine::v_forward
@@ -69,7 +74,7 @@ const pagePartial = readFileSync(srcDir + 'page.hbs', 'utf8');
 // In_Buttons, entvars_t.buttons
 
 //Parses AngelScript doc file into JS object
-function parseASDOC(data) {
+function parseOutputDocs(data) {
 	const IS_AN_ARRAY = {
 		Interfaces: true,
 		Classes: true,
@@ -188,7 +193,7 @@ Handlebars.registerHelper('doc', function (text) {
 Handlebars.registerHelper('dec', function (text) {
 	if (typeof text !== 'string') return text;
 
-	var words = text.split(/( |\(|,|\)|@|&)/g);
+	var words = text.split(/( |\(|,|\)|@|&|<|>)/g);
 
 	let ignoreIndex = -1;
 	for (var i = 1; i < words.length; i++)
@@ -222,9 +227,7 @@ Handlebars.registerHelper('dec', function (text) {
 					`<a class="${style}" href='/${token.Page}#${token.Fragment}'>${word}</a>`
 				);
 			else
-				newWords.push(
-					`<a class="${style}" href='/${token.Page}'>${word}</a>`
-				);
+				newWords.push(`<a class="${style}" href='/${token.Page}'>${word}</a>`);
 		} else if (isType) {
 			newWords.push(`<span class="type">${word}</span>`);
 		} else if (nextWord == ' ' && (word == 'in' || word == 'out')) {
@@ -390,6 +393,13 @@ function generateTokenLookup(api) {
 
 	api.FuncDefs.reverse();
 	setId(api.FuncDefs, 'Name');
+	for (const funcdef of api.FuncDefs) {
+		tokenLookup.set(`${funcdef.Id}`, {
+			Page: 'Typedefs',
+			Fragment: funcdef.Id,
+		});
+		typesArray.push(funcdef.Id);
+	}
 
 	sortAlphabetically(api.Interfaces, 'InterfaceName');
 	setFirstLine(api.Interfaces);
@@ -523,7 +533,7 @@ function generateDocs(api) {
 			{
 				Title: 'Classes',
 				IsClassPage: true,
-				Columns: ['Namepspace', 'Name', 'Description'],
+				Columns: ['Namespace', 'Name', 'Description'],
 				Rows: api.Classes,
 			},
 		],
@@ -684,14 +694,25 @@ function generateDocs(api) {
 					Columns: ['Declaration', 'Description'],
 					Rows: inter.Methods,
 				},
+				{
+					Title: 'Properties',
+					IsDecDes: true,
+					Columns: ['Declaration', 'Description'],
+					Rows: inter.Properties,
+				},
 			],
 		});
 	}
 }
 
-
 function stringifyObject(obj) {
-  return '{' + Object.keys(obj).map(key => `${key}:${JSON.stringify(obj[key])}`).join(',') + '}';
+	return (
+		'{' +
+		Object.keys(obj)
+			.map((key) => `${key}:${JSON.stringify(obj[key])}`)
+			.join(',') +
+		'}'
+	);
 }
 
 /*
@@ -811,14 +832,38 @@ function generateDatabase(api) {
 			}
 		}
 	}
-	const data = 'export const database = [' 
-  + searchDatabase.map(obj => stringifyObject(obj)).join(',') 
-  + '];';
-	writeFileSync(buildDir + 'db.js', data, 'utf8');
+	const data =
+		'export const database = [' +
+		searchDatabase.map((obj) => stringifyObject(obj)).join(',') +
+		'];';
+	writeFileSync(buildDir + dbFile, data, 'utf8');
 }
 
-const api = parseASDOC(readFileSync(inputFile, 'utf8'));
+function applyAdditions(api) {
+	const additions = JSON.parse(readFileSync(additionsFile, 'utf8'));
 
+	function writePairs(add_obj, org_obj) {
+		for (const [key, value] of Object.entries(add_obj)) {
+			org_obj[key] = value;
+		}
+	}
+
+	for (const add_inter of additions.Interfaces) {
+		let foundMatch = false;
+		for (const org_inter of api.Interfaces)
+			if (add_inter.InterfaceName == org_inter.InterfaceName) {
+				writePairs(add_inter, org_inter);
+				foundMatch = true;
+			}
+		if(!foundMatch) {
+			api.Interfaces.push(add_inter);
+		}
+	}
+}
+
+const api = parseOutputDocs(readFileSync(inputFile, 'utf8'));
+
+applyAdditions(api);
 generateNamespaceData(api);
 generateTokenLookup(api);
 generateDatabase(api);
