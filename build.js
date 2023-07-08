@@ -10,7 +10,8 @@ import Handlebars from 'handlebars';
 // Constant's values
 // Advnaced Search
 
-const inputFile = './outputdocs.txt';
+const inputDocs = './outputdocs.txt';
+const outputDocs = './outputdocs.json'; // For the repo and reference.
 
 const buildDir = './dist/';
 const srcDir = './src/';
@@ -861,9 +862,10 @@ function applyAdditions(api) {
 	}
 }
 
-const api = parseOutputDocs(readFileSync(inputFile, 'utf8'));
-
+const api = parseOutputDocs(readFileSync(inputDocs, 'utf8'));
+writeFileSync(outputDocs, JSON.stringify(api, null, 1), 'utf8');
 applyAdditions(api);
+
 generateNamespaceData(api);
 generateTokenLookup(api);
 generateDatabase(api);

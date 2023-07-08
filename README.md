@@ -2,14 +2,10 @@
 
 https://sven-coop.github.io/
 
-
-Based on baso88's (with quality of life features.)
-
+Community additions can be proposed in the `additions.json` file following the same hierarchy `outputdocs.json`
 
 ## TODO
- - ScriptBases Documentation
- - Community notes
-
+ - Advanced Search
 
 ## Building
 When Sven Co-op updates to a new version, the AngelScript API will change.
