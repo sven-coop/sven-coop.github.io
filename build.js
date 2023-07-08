@@ -869,6 +869,8 @@ applyAdditions(api);
 generateNamespaceData(api);
 generateTokenLookup(api);
 generateDatabase(api);
+
+Handlebars.registerPartial('SvenVersion', api.GameVersion.toString());
 generateDocs(api);
 
 copyFileSync(srcDir + 'style.css', buildDir + 'style.css');

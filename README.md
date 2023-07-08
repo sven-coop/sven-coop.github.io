@@ -2,7 +2,7 @@
 
 https://sven-coop.github.io/
 
-Community additions can be proposed in the `additions.json` file following the same hierarchy `outputdocs.json`
+Community additions can be proposed in the `additions.json` file following the same hierarchy as `outputdocs.json`
 
 ## TODO
  - Advanced Search
