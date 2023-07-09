@@ -32,7 +32,7 @@
 }
 
 html {
-	font-family: monospace;
+	font-family: Consolas, monospace;
 	font-size: 1.25rem;
 }
 
@@ -71,8 +71,8 @@ header {
 	padding: 0.4rem 0.8rem;
 }
 
-#search-suggestions
-a:hover, .highlight {
+#search-suggestions a:hover,
+.highlight {
 	background-color: var(--tertiary);
 }
 
@@ -103,7 +103,6 @@ th {
 	overflow: visible;
 }
 
-
 th {
 	background-color: var(--header);
 }
@@ -126,20 +125,17 @@ tr:nth-child(odd):target {
 	animation-duration: 2s;
 }
 
-
-.type{
+.type {
 	color: black;
 }
-.value{
+.value {
 	color: inherit;
 }
-
 
 a:link,
 a:visited {
 	text-decoration: none;
 }
-
 
 a:hover,
 a:active {
@@ -163,10 +159,10 @@ a:active {
 			background-color: var(--dark-tertiary);
 		}
 	}
-	.type{
+	.type {
 		color: hsl(0, 0%, 60%);
 	}
-	.inout{
+	.inout {
 		color: grey;
 	}
 	body,
@@ -181,7 +177,8 @@ a:active {
 	th {
 		background-color: var(--dark-header);
 	}
-	#search-suggestions a:hover, .highlight,
+	#search-suggestions a:hover,
+	.highlight,
 	tr:nth-child(even) {
 		background-color: var(--dark-tertiary);
 	}
