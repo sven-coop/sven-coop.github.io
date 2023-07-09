@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
 		<meta name="description" content="Sven Co-op {{> SvenVersion }} AngelScript API documentation.">
 		<meta property="og:type" content="website">
-		<meta property="og:title" content={{#if DisplayName}}"{{DisplayName}}"{{else}}"{{FileName}}"{{/if}}>
+		<meta property="og:title" content={{#if DisplayName}}"{{DisplayName}}"{{else}}{{#if FileName}}"{{FileName}}"{{else}}"Index"{{/if}}{{/if}}>
 		<meta property="og:site_name" content="Sven Co-op AngelScript API">
 		<meta property="og:description" content="Sven Co-op {{> SvenVersion }} AngelScript API documentation.">
 		<meta property="og:image" content="https://raw.githubusercontent.com/sven-coop/sven-coop.github.io/main/src/sc.png">

@@ -2,10 +2,11 @@
 
 https://sven-coop.github.io/
 
-Community additions can be proposed in the `additions.json` file following the same hierarchy as `outputdocs.json`
+Community additions can be proposed in the `additions.yaml` file following the same hierarchy as `outputdocs.yaml`
 
 ## TODO
  - Advanced Search
+ - 'Inherited from'
 
 ## Building
 When Sven Co-op updates to a new version, the AngelScript API will change.

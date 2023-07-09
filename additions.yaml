@@ -1,0 +1,423 @@
+Interfaces:
+  - InterfaceName: ScriptClassInterface
+    Namespace: ""
+    Documentation: ""
+    Methods:
+      - Declaration: void SetSelf(CBaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetPev(entvars_t@ pValue) final
+        Documentation: ""
+      - Declaration: void SetBaseClass(BaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetCallbackHandler(CustomEntityCallbackHandler@ pValue) final
+        Documentation: ""
+      - Declaration: void SetThink(ThinkFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetTouch(TouchFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetBlocked(BlockedFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetUse(UseFunction@ pFunction) final
+        Documentation: ""
+    Properties:
+      - Declaration: CBaseEntity@ self
+        Documentation: ""
+      - Declaration: entvars_t@ pev
+        Documentation: ""
+      - Declaration: BaseEntity@ BaseClass
+        Documentation: ""
+      - Declaration: CustomEntityCallbackHandler@ callback
+        Documentation: ""
+  - InterfaceName: ScriptBaseAnimating
+    Namespace: ""
+    Documentation: ""
+    Methods:
+      - Declaration: void SetSelf(CBaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetPev(entvars_t@ pValue) final
+        Documentation: ""
+      - Declaration: void SetBaseClass(BaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetCallbackHandler(CustomEntityCallbackHandler@ pValue) final
+        Documentation: ""
+      - Declaration: void SetThink(ThinkFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetTouch(TouchFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetBlocked(BlockedFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetUse(UseFunction@ pFunction) final
+        Documentation: ""
+    Properties:
+      - Declaration: CBaseAnimating@ self
+        Documentation: ""
+      - Declaration: entvars_t@ pev
+        Documentation: ""
+      - Declaration: BaseEntity@ BaseClass
+        Documentation: ""
+      - Declaration: CustomEntityCallbackHandler@ callback
+        Documentation: ""
+  - InterfaceName: ScriptBaseMonsterEntity
+    Namespace: ""
+    Documentation: ""
+    Methods:
+      - Declaration: void SetSelf(CBaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetPev(entvars_t@ pValue) final
+        Documentation: ""
+      - Declaration: void SetBaseClass(BaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetCallbackHandler(CustomEntityCallbackHandler@ pValue) final
+        Documentation: ""
+      - Declaration: void SetThink(ThinkFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetTouch(TouchFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetBlocked(BlockedFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetUse(UseFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: Schedule@ ScheduleFromName(const string& in szName)
+        Documentation: ""
+    Properties:
+      - Declaration: CBaseMonster@ self
+        Documentation: ""
+      - Declaration: entvars_t@ pev
+        Documentation: ""
+      - Declaration: BaseMonster@ BaseClass
+        Documentation: ""
+      - Declaration: CustomEntityCallbackHandler@ callback
+        Documentation: ""
+      - Declaration: array<ScriptSchedule@>@ m_Schedules
+        Documentation: ""
+  - InterfaceName: ScriptBaseTankEntity
+    Namespace: ""
+    Documentation: ""
+    Methods:
+      - Declaration: void SetSelf(CBaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetPev(entvars_t@ pValue) final
+        Documentation: ""
+      - Declaration: void SetBaseClass(BaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetCallbackHandler(CustomEntityCallbackHandler@ pValue) final
+        Documentation: ""
+      - Declaration: void SetThink(ThinkFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetTouch(TouchFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetBlocked(BlockedFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetUse(UseFunction@ pFunction) final
+        Documentation: ""
+    Properties:
+      - Declaration: CBaseTank@ self
+        Documentation: ""
+      - Declaration: entvars_t@ pev
+        Documentation: ""
+      - Declaration: BaseTank@ BaseClass
+        Documentation: ""
+      - Declaration: CustomEntityCallbackHandler@ callback
+        Documentation: ""
+  - InterfaceName: ScriptBasePlayerItemEntity
+    Namespace: ""
+    Documentation: ""
+    Methods:
+      - Declaration: void SetSelf(CBaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetPev(entvars_t@ pValue) final
+        Documentation: ""
+      - Declaration: void SetBaseClass(BaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetCallbackHandler(CustomEntityCallbackHandler@ pValue) final
+        Documentation: ""
+      - Declaration: void SetThink(ThinkFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetTouch(TouchFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetBlocked(BlockedFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetUse(UseFunction@ pFunction) final
+        Documentation: ""
+    Properties:
+      - Declaration: CBasePlayerItem@ self
+        Documentation: ""
+      - Declaration: entvars_t@ pev
+        Documentation: ""
+      - Declaration: BasePlayerItem@ BaseClass
+        Documentation: ""
+      - Declaration: CustomEntityCallbackHandler@ callback
+        Documentation: ""
+  - InterfaceName: ScriptBasePlayerWeaponEntity
+    Namespace: ""
+    Documentation: ""
+    Methods:
+      - Declaration: void SetSelf(CBaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetPev(entvars_t@ pValue) final
+        Documentation: ""
+      - Declaration: void SetBaseClass(BaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetCallbackHandler(CustomEntityCallbackHandler@ pValue) final
+        Documentation: ""
+      - Declaration: void SetThink(ThinkFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetTouch(TouchFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetBlocked(BlockedFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetUse(UseFunction@ pFunction) final
+        Documentation: ""
+    Properties:
+      - Declaration: CBasePlayerWeapon@ self
+        Documentation: ""
+      - Declaration: entvars_t@ pev
+        Documentation: ""
+      - Declaration: BasePlayerWeapon@ BaseClass
+        Documentation: ""
+      - Declaration: CustomEntityCallbackHandler@ callback
+        Documentation: ""
+  - InterfaceName: ScriptBaseItemEntity
+    Namespace: ""
+    Documentation: ""
+    Methods:
+      - Declaration: void SetSelf(CBaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetPev(entvars_t@ pValue) final
+        Documentation: ""
+      - Declaration: void SetBaseClass(BaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetCallbackHandler(CustomEntityCallbackHandler@ pValue) final
+        Documentation: ""
+      - Declaration: void SetThink(ThinkFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetTouch(TouchFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetBlocked(BlockedFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetUse(UseFunction@ pFunction) final
+        Documentation: ""
+    Properties:
+      - Declaration: CItem@ self
+        Documentation: ""
+      - Declaration: entvars_t@ pev
+        Documentation: ""
+      - Declaration: BaseItem@ BaseClass
+        Documentation: ""
+      - Declaration: CustomEntityCallbackHandler@ callback
+        Documentation: ""
+  - InterfaceName: ScriptBasePlayerAmmoEntity
+    Namespace: ""
+    Documentation: ""
+    Methods:
+      - Declaration: void SetSelf(CBaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetPev(entvars_t@ pValue) final
+        Documentation: ""
+      - Declaration: void SetBaseClass(BaseEntity@ pValue) final
+        Documentation: ""
+      - Declaration: void SetCallbackHandler(CustomEntityCallbackHandler@ pValue) final
+        Documentation: ""
+      - Declaration: void SetThink(ThinkFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetTouch(TouchFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetBlocked(BlockedFunction@ pFunction) final
+        Documentation: ""
+      - Declaration: void SetUse(UseFunction@ pFunction) final
+        Documentation: ""
+    Properties:
+      - Declaration: CBasePlayerAmmo@ self
+        Documentation: ""
+      - Declaration: entvars_t@ pev
+        Documentation: ""
+      - Declaration: BasePlayerAmmo@ BaseClass
+        Documentation: ""
+      - Declaration: CustomEntityCallbackHandler@ callback
+        Documentation: ""
+Properties:
+  - Declaration: const float WORLD_BOUNDARY
+    AddDocumentation: "Value: 65536.0"
+  - Declaration: const size_t INVALID_INDEX
+    AddDocumentation: "Value: 4294967295"
+  - Declaration: const size_t NO_MORE_TOKENS
+    AddDocumentation: "Value: 4294967294"
+  - Declaration: const float VIEW_FIELD_FULL
+    AddDocumentation: "Value: -1.0"
+  - Declaration: const float VIEW_FIELD_WIDE
+    AddDocumentation: "Value: -0.7"
+  - Declaration: const float VIEW_FIELD_NARROW
+    AddDocumentation: "Value: 0.7"
+  - Declaration: const float VIEW_FIELD_ULTRA_NARROW
+    AddDocumentation: "Value: 0.9"
+  - Declaration: const size_t MAX_OLD_ENEMIES
+    AddDocumentation: "Value: 4"
+  - Declaration: const size_t ROUTE_SIZE
+    AddDocumentation: "Value: 8"
+  - Declaration: const size_t MAX_AMMO_TYPES
+    AddDocumentation: "Value: 64"
+  - Declaration: const size_t MAX_ITEM_TYPES
+    AddDocumentation: "Value: 10"
+  - Declaration: const float AUTOAIM_2DEGREES
+    AddDocumentation: "Value: 0.034899"
+  - Declaration: const float AUTOAIM_5DEGREES
+    AddDocumentation: "Value: 0.087156"
+  - Declaration: const float AUTOAIM_8DEGREES
+    AddDocumentation: "Value: 0.139173"
+  - Declaration: const float AUTOAIM_10DEGREES
+    AddDocumentation: "Value: 0.173648"
+  - Declaration: const float PLAYERCOMMAND_WAIT
+    AddDocumentation: "Value: 4.0"
+  - Declaration: const size_t MAX_WORLD_SOUNDS
+    AddDocumentation: "Value: 1024"
+  - Declaration: const int SOUNDLIST_EMPTY
+    AddDocumentation: "Value: -1"
+  - Declaration: const int SOUNDLISTTYPE_FREE
+    AddDocumentation: "Value: 1"
+  - Declaration: const int SOUNDLISTTYPE_ACTIVE
+    AddDocumentation: "Value: 2"
+  - Declaration: const int SOUND_NEVER_EXPIRE
+    AddDocumentation: "Value: -1"
+  - Declaration: const int LOUD_GUN_VOLUME
+    AddDocumentation: "Value: 1536"
+  - Declaration: const int NORMAL_GUN_VOLUME
+    AddDocumentation: "Value: 1024"
+  - Declaration: const int QUIET_GUN_VOLUME
+    AddDocumentation: "Value: 200"
+  - Declaration: const int BRIGHT_GUN_FLASH
+    AddDocumentation: "Value: 512"
+  - Declaration: const int NORMAL_GUN_FLASH
+    AddDocumentation: "Value: 256"
+  - Declaration: const int DIM_GUN_FLASH
+    AddDocumentation: "Value: 128"
+  - Declaration: const int BIG_EXPLOSION_VOLUME
+    AddDocumentation: "Value: 2048"
+  - Declaration: const int NORMAL_EXPLOSION_VOLUME
+    AddDocumentation: "Value: 1024"
+  - Declaration: const int SMALL_EXPLOSION_VOLUME
+    AddDocumentation: "Value: 512"
+  - Declaration: const int WEAPON_ACTIVITY_VOLUME
+    AddDocumentation: "Value: 64"
+  - Declaration: const int WEAPON_NOCLIP
+    AddDocumentation: "Value: -1"
+  - Declaration: const float ATTN_NONE
+    Documentation: "0.0"
+  - Declaration: const float ATTN_NORM
+    Documentation: "0.8"
+  - Declaration: const float ATTN_IDLE
+    Documentation: "2.0"
+  - Declaration: const float ATTN_STATIC
+    Documentation: "1.25"
+  - Declaration: const float VOL_NORM
+    AddDocumentation: "Value: 1.0"
+  - Declaration: const uint FTRACE_SIMPLEBOX
+    AddDocumentation: "Value: 1"
+  - Declaration: const uint32 WeaponTertiaryAttack
+    AddDocumentation: "Value: 0"
+  - Declaration: const uint32 WeaponSecondaryAttack
+    AddDocumentation: "Value: 1"
+  - Declaration: const uint32 WeaponPrimaryAttack
+    AddDocumentation: "Value: 2"
+  - Declaration: const uint32 PlayerPreDecal
+    AddDocumentation: "Value: 3"
+  - Declaration: const uint32 PlayerDecal
+    AddDocumentation: "Value: 4"
+  - Declaration: const uint32 GetPlayerSpawnSpot
+    AddDocumentation: "Value: 5"
+  - Declaration: const uint32 PlayerPostThink
+    AddDocumentation: "Value: 6"
+  - Declaration: const uint32 PlayerPreThink
+    AddDocumentation: "Value: 7"
+  - Declaration: const uint32 PlayerUse
+    AddDocumentation: "Value: 8"
+  - Declaration: const uint32 PlayerLeftObserver
+    AddDocumentation: "Value: 9"
+  - Declaration: const uint32 PlayerEnteredObserver
+    AddDocumentation: "Value: 10"
+  - Declaration: const uint32 PlayerKilled
+    AddDocumentation: "Value: 11"
+  - Declaration: const uint32 PlayerTakeDamage
+    AddDocumentation: "Value: 12"
+  - Declaration: const uint32 PlayerCanRespawn
+    AddDocumentation: "Value: 13"
+  - Declaration: const uint32 PlayerSpawn
+    AddDocumentation: "Value: 14"
+  - Declaration: const uint32 ClientConnected
+    AddDocumentation: "Value: 15"
+  - Declaration: const uint32 Collected
+    AddDocumentation: "Value: 16"
+  - Declaration: const uint32 Materialize
+    AddDocumentation: "Value: 17"
+  - Declaration: const uint32 CanCollect
+    AddDocumentation: "Value: 18"
+  - Declaration: const uint32 CanPlayerUseReservedSlot
+    AddDocumentation: "Value: 19"
+  - Declaration: const uint32 ClientSay
+    AddDocumentation: "Value: 20"
+  - Declaration: const uint32 ClientPutInServer
+    AddDocumentation: "Value: 21"
+  - Declaration: const uint32 ClientDisconnect
+    AddDocumentation: "Value: 22"
+  - Declaration: const uint32 EntityCreated
+    AddDocumentation: "Value: 23"
+  - Declaration: const uint32 MapChange
+    AddDocumentation: "Value: 24"
+  - Declaration: const Vector VEC_HULL_MIN
+    AddDocumentation: "Value: (-16.0, -16.0, -36.0)"
+  - Declaration: const Vector VEC_HULL_MAX
+    AddDocumentation: "Value: (16.0, 16.0, 36.0)"
+  - Declaration: const Vector VEC_HUMAN_HULL_MIN
+    AddDocumentation: "Value: (-16.0, -16.0, 0.0)"
+  - Declaration: const Vector VEC_HUMAN_HULL_MAX
+    AddDocumentation: "Value: (16.0, 16.0, 72.0)"
+  - Declaration: const Vector VEC_HUMAN_HULL_DUCK
+    AddDocumentation: "Value: (16.0, 16.0, 36.0)"
+  - Declaration: const Vector VEC_VIEW
+    AddDocumentation: "Value: (0.0, 0.0, 28.0)"
+  - Declaration: const Vector VEC_DUCK_HULL_MIN
+    AddDocumentation: "Value: (-16.0, -16.0, -18.0)"
+  - Declaration: const Vector VEC_DUCK_HULL_MAX
+    AddDocumentation: "Value: (16.0, 16.0, 18.0)"
+  - Declaration: const Vector VEC_DUCK_VIEW
+    AddDocumentation: "Value: (0.0, 0.0, 12.0)"
+  - Declaration: const Vector VECTOR_CONE_1DEGREES
+    Documentation: "(0.008730, 0.008730, 0.008730)"
+  - Declaration: const Vector VECTOR_CONE_2DEGREES
+    Documentation: "(0.017450, 0.017450, 0.017450)"
+  - Declaration: const Vector VECTOR_CONE_3DEGREES
+    Documentation: "(0.026180, 0.026180, 0.026180)"
+  - Declaration: const Vector VECTOR_CONE_4DEGREES
+    Documentation: "(0.034900, 0.034900, 0.034900)"
+  - Declaration: const Vector VECTOR_CONE_5DEGREES
+    Documentation: "(0.043620, 0.043620, 0.043620)"
+  - Declaration: const Vector VECTOR_CONE_6DEGREES
+    Documentation: "(0.052340, 0.052340, 0.052340)"
+  - Declaration: const Vector VECTOR_CONE_7DEGREES
+    Documentation: "(0.061050, 0.061050, 0.061050)"
+  - Declaration: const Vector VECTOR_CONE_8DEGREES
+    Documentation: "(0.069760, 0.069760, 0.069760)"
+  - Declaration: const Vector VECTOR_CONE_9DEGREES
+    Documentation: "(0.078460, 0.078460, 0.078460)"
+  - Declaration: const Vector VECTOR_CONE_10DEGREES
+    Documentation: "(0.087160, 0.087160, 0.087160)"
+  - Declaration: const Vector VECTOR_CONE_15DEGREES
+    Documentation: "(0.130530, 0.130530, 0.130530)"
+  - Declaration: const Vector VECTOR_CONE_20DEGREES
+    Documentation: "(0.173650, 0.173650, 0.173650)"
+  - Declaration: const RGBA RGBA_WHITE
+    AddDocumentation: "(255, 255, 255, 255)"
+  - Declaration: const RGBA RGBA_BLACK
+    AddDocumentation: "(0, 0, 0, 255)"
+  - Declaration: const RGBA RGBA_RED
+    AddDocumentation: "(255, 0, 0, 255)"
+  - Declaration: const RGBA RGBA_GREEN
+    AddDocumentation: "(0, 255, 0, 255)"
+  - Declaration: const RGBA RGBA_BLUE
+    AddDocumentation: "(0, 0, 255, 255)"
+  - Declaration: const RGBA RGBA_YELLOW
+    AddDocumentation: "(255, 255, 0, 255)"
+  - Declaration: const RGBA RGBA_ORANGE
+    AddDocumentation: "(255, 128, 0, 255)"
+  - Declaration: const RGBA RGBA_SVENCOOP
+    AddDocumentation: "(100, 130, 200, 255)"
+

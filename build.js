@@ -1,17 +1,9 @@
-// as_outputdocs outputdocs
-// as_scriptbaseclasses
-
 import { writeFileSync, readFileSync, copyFileSync } from 'fs';
+import yaml from 'js-yaml';
 import Handlebars from 'handlebars';
 
-// TODO:
-// share links
-// ScriptBases
-// Constant's values
-// Advnaced Search
-
 const inputDocs = './outputdocs.txt';
-const outputDocs = './outputdocs.json'; // For the repo and reference.
+const outputDocs = './outputdocs.yaml'; // For the repo and reference.
 
 const buildDir = './dist/';
 const srcDir = './src/';
@@ -19,7 +11,7 @@ const srcDir = './src/';
 const dbFile = 'db.js';
 const searchDatabase = [];
 
-const additionsFile = './additions.json';
+const additionsFile = './additions.yaml';
 
 const indexPartial = readFileSync(srcDir + 'index.hbs', 'utf8');
 const pagePartial = readFileSync(srcDir + 'page.hbs', 'utf8');
@@ -76,39 +68,39 @@ const commonTokens = [
 
 //Parses AngelScript doc file into JS object
 function parseOutputDocs(data) {
-	const IS_AN_ARRAY = {
-		Interfaces: true,
-		Classes: true,
-		Enums: true,
-		Functions: true,
-		Properties: true,
-		Typedefs: true,
-		FuncDefs: true,
-		Methods: true,
-		Values: true,
-		Properties: true,
-	};
+	const IS_AN_ARRAY = [
+		'Interfaces',
+		'Classes',
+		'Enums',
+		'Functions',
+		'Properties',
+		'Typedefs',
+		'FuncDefs',
+		'Methods',
+		'Values',
+		'Properties',
+	];
 
-	const IS_AN_OBJ = {
-		Interface: true,
-		Method: true,
-		Class: true,
-		Value: true,
-		Property: true,
-		Enum: true,
-		Function: true,
-		Typedef: true,
-		FuncDef: true,
-	};
+	const IS_AN_OBJ = [
+		'Interface',
+		'Method',
+		'Class',
+		'Value',
+		'Property',
+		'Enum',
+		'Function',
+		'Typedef',
+		'FuncDef',
+	];
 
 	const lines = data.split('\n');
 	lines.shift(); // skip the 'AngelScipt Documentation'
 	lines.shift(); // skip the {}
 
 	let previousLineKey;
-	let stack = [];
+	const stack = [];
 
-	let api = {};
+	const api = {};
 	stack.push(api);
 
 	for (let line of lines) {
@@ -133,10 +125,10 @@ function parseOutputDocs(data) {
 			if (key == '}') {
 				stack.pop();
 			} else if (key == '{') {
-				if (IS_AN_ARRAY[previousLineKey]) {
+				if (IS_AN_ARRAY.includes(previousLineKey)) {
 					peek[previousLineKey] = [];
 					stack.push(peek[previousLineKey]);
-				} else if (IS_AN_OBJ[previousLineKey]) {
+				} else if (IS_AN_OBJ.includes(previousLineKey)) {
 					let obj = {};
 					peek.push(obj);
 					stack.push(obj);
@@ -154,6 +146,26 @@ function parseOutputDocs(data) {
 		}
 		previousLineKey = key;
 	}
+
+	const IS_IDENTIFIER = ['Declaration', 'InterfaceName', 'ClassName', 'Name'];
+
+	function reorderObjectById(obj) {
+		let id = null;
+		for (const prop in obj) if (IS_IDENTIFIER.includes(prop)) id = prop;
+		if (id != null) {
+			const reorderedObj = {};
+			reorderedObj[id] = obj[id];
+			for (const prop in obj) if (prop !== id) reorderedObj[prop] = obj[prop];
+			return reorderedObj;
+		}
+		return obj;
+	}
+
+	// Reorder so first field of object is the identifier. For YAML
+	for (const [key, value] of Object.entries(api))
+		if (Array.isArray(value))
+			for (var i = 0; i < value.length; i++)
+				api[key][i] = reorderObjectById(value[i]);
 
 	const jsonString = JSON.stringify(api, null, 2)
 		.replace(/\\\\/g, '\\') // Replace `double backslashes` with `single backslash`
@@ -841,11 +853,12 @@ function generateDatabase(api) {
 }
 
 function applyAdditions(api) {
-	const additions = JSON.parse(readFileSync(additionsFile, 'utf8'));
+	const additions = yaml.load(readFileSync(additionsFile, 'utf8'));
 
 	function writePairs(add_obj, org_obj) {
 		for (const [key, value] of Object.entries(add_obj)) {
-			org_obj[key] = value;
+			if (key == 'AddDocumentation') org_obj.Documentation += '\n' + value;
+			else org_obj[key] = value;
 		}
 	}
 
@@ -856,14 +869,21 @@ function applyAdditions(api) {
 				writePairs(add_inter, org_inter);
 				foundMatch = true;
 			}
-		if(!foundMatch) {
+		if (!foundMatch) {
 			api.Interfaces.push(add_inter);
 		}
+	}
+
+	for (const add_prop of additions.Properties) {
+		for (const org_prop of api.Properties)
+			if (add_prop.Declaration == org_prop.Declaration) {
+				writePairs(add_prop, org_prop);
+			}
 	}
 }
 
 const api = parseOutputDocs(readFileSync(inputDocs, 'utf8'));
-writeFileSync(outputDocs, JSON.stringify(api, null, 1), 'utf8');
+writeFileSync(outputDocs, yaml.dump(api), 'utf8');
 applyAdditions(api);
 
 generateNamespaceData(api);
