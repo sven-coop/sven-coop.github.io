@@ -830,7 +830,7 @@ function generateDatabase(api) {
 		searchDatabase.push({
 			P: inter.InterfaceName,
 			D: inter.Documentation,
-			W: 'Interfaces',
+			W: inter.InterfaceName,
 			C: 'Interface',
 		});
 		for (const method of inter.Methods) {
@@ -838,7 +838,7 @@ function generateDatabase(api) {
 				searchDatabase.push({
 					P: method.Id,
 					D: method.Documentation,
-					W: 'Interfaces',
+					W: inter.InterfaceName,
 					C: inter.InterfaceName,
 					J: 1,
 				});
