@@ -1,7 +1,7 @@
-Interfaces:
-  - InterfaceName: ScriptClassInterface
+Classes:
+  - ClassName: ScriptBaseEntity
     Namespace: ""
-    Documentation: ""
+    Documentation: "Custom entity for CBaseEntity"
     Methods:
       - Declaration: void SetSelf(CBaseEntity@ pValue) final
         Documentation: ""
@@ -28,9 +28,9 @@ Interfaces:
         Documentation: ""
       - Declaration: CustomEntityCallbackHandler@ callback
         Documentation: ""
-  - InterfaceName: ScriptBaseAnimating
+  - ClassName: ScriptBaseAnimating
     Namespace: ""
-    Documentation: ""
+    Documentation: "Custom entity for CBaseAnimating"
     Methods:
       - Declaration: void SetSelf(CBaseEntity@ pValue) final
         Documentation: ""
@@ -57,9 +57,9 @@ Interfaces:
         Documentation: ""
       - Declaration: CustomEntityCallbackHandler@ callback
         Documentation: ""
-  - InterfaceName: ScriptBaseMonsterEntity
+  - ClassName: ScriptBaseMonsterEntity
     Namespace: ""
-    Documentation: ""
+    Documentation: "Custom entity for CBaseMonster"
     Methods:
       - Declaration: void SetSelf(CBaseEntity@ pValue) final
         Documentation: ""
@@ -90,9 +90,9 @@ Interfaces:
         Documentation: ""
       - Declaration: array<ScriptSchedule@>@ m_Schedules
         Documentation: ""
-  - InterfaceName: ScriptBaseTankEntity
+  - ClassName: ScriptBaseTankEntity
     Namespace: ""
-    Documentation: ""
+    Documentation: "Custom entity for CBaseTank"
     Methods:
       - Declaration: void SetSelf(CBaseEntity@ pValue) final
         Documentation: ""
@@ -119,9 +119,9 @@ Interfaces:
         Documentation: ""
       - Declaration: CustomEntityCallbackHandler@ callback
         Documentation: ""
-  - InterfaceName: ScriptBasePlayerItemEntity
+  - ClassName: ScriptBasePlayerItemEntity
     Namespace: ""
-    Documentation: ""
+    Documentation: "Custom entity for CBasePlayerItem"
     Methods:
       - Declaration: void SetSelf(CBaseEntity@ pValue) final
         Documentation: ""
@@ -148,9 +148,9 @@ Interfaces:
         Documentation: ""
       - Declaration: CustomEntityCallbackHandler@ callback
         Documentation: ""
-  - InterfaceName: ScriptBasePlayerWeaponEntity
+  - ClassName: ScriptBasePlayerWeaponEntity
     Namespace: ""
-    Documentation: ""
+    Documentation: "Custom entity for CBasePlayerWeapon"
     Methods:
       - Declaration: void SetSelf(CBaseEntity@ pValue) final
         Documentation: ""
@@ -177,9 +177,9 @@ Interfaces:
         Documentation: ""
       - Declaration: CustomEntityCallbackHandler@ callback
         Documentation: ""
-  - InterfaceName: ScriptBaseItemEntity
+  - ClassName: ScriptBaseItemEntity
     Namespace: ""
-    Documentation: ""
+    Documentation: "Custom entity for CItem"
     Methods:
       - Declaration: void SetSelf(CBaseEntity@ pValue) final
         Documentation: ""
@@ -206,9 +206,9 @@ Interfaces:
         Documentation: ""
       - Declaration: CustomEntityCallbackHandler@ callback
         Documentation: ""
-  - InterfaceName: ScriptBasePlayerAmmoEntity
+  - ClassName: ScriptBasePlayerAmmoEntity
     Namespace: ""
-    Documentation: ""
+    Documentation: "Custom entity for CBasePlayerAmmo"
     Methods:
       - Declaration: void SetSelf(CBaseEntity@ pValue) final
         Documentation: ""

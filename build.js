@@ -862,17 +862,21 @@ function applyAdditions(api) {
 		}
 	}
 
-	for (const add_inter of additions.Interfaces) {
-		let foundMatch = false;
-		for (const org_inter of api.Interfaces)
-			if (add_inter.InterfaceName == org_inter.InterfaceName) {
-				writePairs(add_inter, org_inter);
-				foundMatch = true;
-			}
-		if (!foundMatch) {
-			api.Interfaces.push(add_inter);
-		}
+	for (const add_class of additions.Classes) {
+		api.Classes.push(add_class);
 	}
+
+	// for (const add_inter of additions.Interfaces) {
+	// 	let foundMatch = false;
+	// 	for (const org_inter of api.Interfaces)
+	// 		if (add_inter.InterfaceName == org_inter.InterfaceName) {
+	// 			writePairs(add_inter, org_inter);
+	// 			foundMatch = true;
+	// 		}
+	// 	if (!foundMatch) {
+	// 		api.Interfaces.push(add_inter);
+	// 	}
+	// }
 
 	for (const add_prop of additions.Properties) {
 		for (const org_prop of api.Properties)
