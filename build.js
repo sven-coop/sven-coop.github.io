@@ -408,7 +408,7 @@ function generateTokenLookup(api) {
 	setId(api.FuncDefs, 'Name');
 	for (const funcdef of api.FuncDefs) {
 		tokenLookup.set(`${funcdef.Id}`, {
-			Page: 'Typedefs',
+			Page: 'FuncDefs',
 			Fragment: funcdef.Id,
 		});
 		typesArray.push(funcdef.Id);
