@@ -1,8 +1,8 @@
 "Angelscript Documentation"
 {
 	DocVersion 2
-	GameVersion 5.25
-	APIVersion 1.25
+	GameVersion 5.26
+	APIVersion 1.26
 	Interfaces
 	{
 		Interface
@@ -994,38 +994,48 @@
 				}
 				Method
 				{
+					Declaration "void SetIsDst(int iIsDst)"
+					Documentation "Set daylight savings active."
+				}
+				Method
+				{
 					Declaration "void SetYear(int iYear)"
 					Documentation "Set year."
 				}
 				Method
 				{
 					Declaration "void SetMonth(int iMonth)"
-					Documentation "Set month (0-11)."
+					Documentation "Set month of the year (1-12)."
 				}
 				Method
 				{
 					Declaration "void SetDayOfMonth(int iDay)"
-					Documentation "Set day of month (0-30)."
+					Documentation "Set day of the month (1-31)."
 				}
 				Method
 				{
 					Declaration "void SetHour(int iHours)"
-					Documentation "Set hours (0-23)."
+					Documentation "Set hours since midnight (0-23)."
 				}
 				Method
 				{
 					Declaration "void SetMinutes(int iMinutes)"
-					Documentation "Set minutes (0-59)."
+					Documentation "Set minutes after the hour (0-59)."
 				}
 				Method
 				{
 					Declaration "void SetSeconds(int iSeconds)"
-					Documentation "Set seconds (0-59)."
+					Documentation "Set seconds after the minute including leap second (0-60)."
 				}
 				Method
 				{
 					Declaration "void SetMilliseconds(uint uiMilliseconds)"
 					Documentation "Set milliseconds."
+				}
+				Method
+				{
+					Declaration "int GetIsDst() const"
+					Documentation "Get daylight savings active."
 				}
 				Method
 				{
@@ -1035,27 +1045,27 @@
 				Method
 				{
 					Declaration "int GetMonth() const"
-					Documentation "Get month (0-11)."
+					Documentation "Get month of the year (1-12)."
 				}
 				Method
 				{
 					Declaration "int GetDayOfMonth() const"
-					Documentation "Get day of month (0-30)."
+					Documentation "Get day of the month (1-31)."
 				}
 				Method
 				{
 					Declaration "int GetHour() const"
-					Documentation "Get hours (0-23)."
+					Documentation "Get hours since midnight (0-23)."
 				}
 				Method
 				{
 					Declaration "int GetMinutes() const"
-					Documentation "Get minutes (0-59)."
+					Documentation "Get minutes after the hour (0-59)."
 				}
 				Method
 				{
 					Declaration "int GetSeconds() const"
-					Documentation "Get seconds (0-59)."
+					Documentation "Get seconds after the minute including leap second (0-60)."
 				}
 				Method
 				{
@@ -2356,59 +2366,6 @@
 		Class
 		{
 			Namespace ""
-			ClassName RGBA
-			Documentation "Color stored as four uint8 components"
-			Flags 2
-			Methods
-			{
-				Method
-				{
-					Declaration "RGBA& opAssign(const RGBA& in other)"
-					Documentation "Assignment operator"
-				}
-				Method
-				{
-					Declaration "void RGBA(const RGBA& in other)"
-					Documentation "Copy constructor"
-				}
-				Method
-				{
-					Declaration "void RGBA(uint8 r, uint8 g, uint8 b, uint8 a = 255)"
-					Documentation Constructor
-				}
-				Method
-				{
-					Declaration "void RGBA()"
-					Documentation Constructor
-				}
-			}
-			Properties
-			{
-				Property
-				{
-					Declaration "uint8 a"
-					Documentation "Alpha component"
-				}
-				Property
-				{
-					Declaration "uint8 b"
-					Documentation "Blue component"
-				}
-				Property
-				{
-					Declaration "uint8 g"
-					Documentation "Green component"
-				}
-				Property
-				{
-					Declaration "uint8 r"
-					Documentation "Red component"
-				}
-			}
-		}
-		Class
-		{
-			Namespace ""
 			ClassName CEntityFuncs
 			Documentation "Global entity functions"
 			Flags 262145
@@ -3128,6 +3085,11 @@
 				}
 				Method
 				{
+					Declaration "void StringToRGBA(RGBA& out rgba, const string& in szString, const char delimiter = char(\' \'))"
+					Documentation "Converts the given string to an RGBA (alpha component is optional)"
+				}
+				Method
+				{
 					Declaration "void StringToVector(Vector& out vecVector, const string& in szString, const char delimiter = char(\' \'))"
 					Documentation "Converts the given string to a vector"
 				}
@@ -3642,7 +3604,7 @@
 				}
 				Method
 				{
-					Declaration "void GetItemInfo(ItemInfo& out info)"
+					Declaration "bool GetItemInfo(ItemInfo& out info)"
 					Documentation "Calls the base class implementation of GetItemInfo"
 				}
 				Method
@@ -3885,7 +3847,7 @@
 				}
 				Method
 				{
-					Declaration "void GetItemInfo(ItemInfo& out info)"
+					Declaration "bool GetItemInfo(ItemInfo& out info)"
 					Documentation "Calls the base class implementation of GetItemInfo"
 				}
 				Method
@@ -6113,6 +6075,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -6125,6 +6107,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -6453,7 +6440,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -6911,6 +6898,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -6923,6 +6930,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -7246,7 +7258,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -7844,6 +7856,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -7856,6 +7888,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -8179,7 +8216,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -8735,6 +8772,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -8747,6 +8804,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -9075,7 +9137,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -9688,6 +9750,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -9700,6 +9782,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -10028,7 +10115,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -10516,6 +10603,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -10528,6 +10635,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -10856,7 +10968,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -11174,6 +11286,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -11186,6 +11318,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -11514,7 +11651,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -11842,7 +11979,7 @@
 				}
 				Method
 				{
-					Declaration "float Frames() const"
+					Declaration "int Frames() const"
 					Documentation "Gets the number of frames in this sprite."
 				}
 				Method
@@ -11892,6 +12029,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -11904,6 +12061,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -12232,7 +12394,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -12670,7 +12832,7 @@
 				}
 				Method
 				{
-					Declaration "void SelectNextItem()"
+					Declaration "void SelectNextItem(int iItem)"
 					Documentation "Selects the next item relative to the given item."
 				}
 				Method
@@ -12805,7 +12967,7 @@
 				}
 				Method
 				{
-					Declaration "void RemoveAllItems(const bool fRemoveSuit)"
+					Declaration "void RemoveAllItems(const bool removeSuit = false, const bool removeLongJump = false)"
 					Documentation "Removes all items from the player\'s inventory."
 				}
 				Method
@@ -13395,8 +13557,8 @@
 				}
 				Method
 				{
-					Declaration "void BestVisibleEnemy()"
-					Documentation "finds best visible enemy for attack"
+					Declaration "CBaseEntity@ BestVisibleEnemy()"
+					Documentation "Finds best visible enemy for attack"
 				}
 				Method
 				{
@@ -13431,6 +13593,11 @@
 				Method
 				{
 					Declaration "float DamageForce(float flDamage)"
+					Documentation "Returns the amount of force applied to this monster when the given amount of damage is done."
+				}
+				Method
+				{
+					Declaration "float DamageForce(float flDamage, int bitsDamageType)"
 					Documentation "Returns the amount of force applied to this monster when the given amount of damage is done."
 				}
 				Method
@@ -13650,6 +13817,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -13662,6 +13849,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -13985,7 +14177,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -15458,8 +15650,8 @@
 				}
 				Method
 				{
-					Declaration "void BestVisibleEnemy()"
-					Documentation "finds best visible enemy for attack"
+					Declaration "CBaseEntity@ BestVisibleEnemy()"
+					Documentation "Finds best visible enemy for attack"
 				}
 				Method
 				{
@@ -15494,6 +15686,11 @@
 				Method
 				{
 					Declaration "float DamageForce(float flDamage)"
+					Documentation "Returns the amount of force applied to this monster when the given amount of damage is done."
+				}
+				Method
+				{
+					Declaration "float DamageForce(float flDamage, int bitsDamageType)"
 					Documentation "Returns the amount of force applied to this monster when the given amount of damage is done."
 				}
 				Method
@@ -15713,6 +15910,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -15725,6 +15942,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -16048,7 +16270,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -17396,8 +17618,8 @@
 				}
 				Method
 				{
-					Declaration "void BestVisibleEnemy()"
-					Documentation "finds best visible enemy for attack"
+					Declaration "CBaseEntity@ BestVisibleEnemy()"
+					Documentation "Finds best visible enemy for attack"
 				}
 				Method
 				{
@@ -17432,6 +17654,11 @@
 				Method
 				{
 					Declaration "float DamageForce(float flDamage)"
+					Documentation "Returns the amount of force applied to this monster when the given amount of damage is done."
+				}
+				Method
+				{
+					Declaration "float DamageForce(float flDamage, int bitsDamageType)"
 					Documentation "Returns the amount of force applied to this monster when the given amount of damage is done."
 				}
 				Method
@@ -17651,6 +17878,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -17663,6 +17910,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -17986,7 +18238,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -19274,8 +19526,8 @@
 				}
 				Method
 				{
-					Declaration "void BestVisibleEnemy()"
-					Documentation "finds best visible enemy for attack"
+					Declaration "CBaseEntity@ BestVisibleEnemy()"
+					Documentation "Finds best visible enemy for attack"
 				}
 				Method
 				{
@@ -19310,6 +19562,11 @@
 				Method
 				{
 					Declaration "float DamageForce(float flDamage)"
+					Documentation "Returns the amount of force applied to this monster when the given amount of damage is done."
+				}
+				Method
+				{
+					Declaration "float DamageForce(float flDamage, int bitsDamageType)"
 					Documentation "Returns the amount of force applied to this monster when the given amount of damage is done."
 				}
 				Method
@@ -19529,6 +19786,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -19541,6 +19818,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -19864,7 +20146,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -20632,6 +20914,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -20644,6 +20946,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -20972,7 +21279,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -21245,23 +21552,28 @@
 				}
 				Method
 				{
-					Declaration "void Destroy()"
-					Documentation "Destroys this item."
+					Declaration "void Destroy(bool fIgnoreTriggers = false)"
+					Documentation "Destroy this item."
 				}
 				Method
 				{
-					Declaration "void Return()"
-					Documentation "Returns this item to its original spawn location."
+					Declaration "void Return(bool fIgnoreTriggers = false)"
+					Documentation "Return this item to its original spawn location."
 				}
 				Method
 				{
-					Declaration "bool Drop(bool fForce = false, CBaseEntity@ pCaller = null)"
-					Documentation "Drops this item, if it\'s being carried."
+					Declaration "bool Drop(bool fForce = false, CBaseEntity@ pCaller = null, bool fIgnoreTriggers = false)"
+					Documentation "Drop this item if it\'s being carried."
 				}
 				Method
 				{
 					Declaration "bool CanCollect(CBaseEntity@ pOther)"
 					Documentation "Returns whether this item can be collected by the given entity."
+				}
+				Method
+				{
+					Declaration "bool TryCollect(CBaseEntity@ pOther, bool fIgnoreTriggers = false)"
+					Documentation "Try to collect this item."
 				}
 				Method
 				{
@@ -21280,6 +21592,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -21292,6 +21624,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -21620,7 +21957,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -21793,8 +22130,18 @@
 			{
 				Property
 				{
+					Declaration "bool m_fHandledWearingOut"
+					Documentation "Item has performed its wearing out trigger"
+				}
+				Property
+				{
 					Declaration "bool m_fRemovedByForced"
 					Documentation "Item was just removed by force"
+				}
+				Property
+				{
+					Declaration "float m_flActivateTime"
+					Documentation "Time the item was last self-activated"
 				}
 				Property
 				{
@@ -21810,6 +22157,11 @@
 				{
 					Declaration "float m_flTouchedTime"
 					Documentation "Time the item was last touched"
+				}
+				Property
+				{
+					Declaration "int m_iActivateCount"
+					Documentation "Number of times the item has been self-activated"
 				}
 				Property
 				{
@@ -21873,8 +22225,13 @@
 				}
 				Property
 				{
+					Declaration "bool m_fEffectsWaitUntilActivated"
+					Documentation "Holder effects do not apply until the item is activated (ignored if m_fCanBeActivated is false)"
+				}
+				Property
+				{
 					Declaration "string_t m_szTriggerOnDestroy"
-					Documentation "On destroy"
+					Documentation "On destruction"
 				}
 				Property
 				{
@@ -21925,6 +22282,36 @@
 				{
 					Declaration "string_t m_szTriggerOnUseSelf"
 					Documentation "On use by trigger (for collector)"
+				}
+				Property
+				{
+					Declaration "string_t m_szTriggerOnCantActivateOther"
+					Documentation "On failed self-activation (for everyone else)"
+				}
+				Property
+				{
+					Declaration "string_t m_szTriggerOnCantActivateTeam"
+					Documentation "On failed self-activation (for collector\'s team)"
+				}
+				Property
+				{
+					Declaration "string_t m_szTriggerOnCantActivateSelf"
+					Documentation "On failed self - activation(for collector)"
+				}
+				Property
+				{
+					Declaration "string_t m_szTriggerOnActivateOther"
+					Documentation "On self-activation (for everyone else)"
+				}
+				Property
+				{
+					Declaration "string_t m_szTriggerOnActivateTeam"
+					Documentation "On self-activation (for collector\'s team)"
+				}
+				Property
+				{
+					Declaration "string_t m_szTriggerOnActivateSelf"
+					Documentation "On self-activation (for collector)"
 				}
 				Property
 				{
@@ -22013,8 +22400,23 @@
 				}
 				Property
 				{
+					Declaration "bool m_fHoldTimeWaitUntilActivated"
+					Documentation "Maximum hold time is not started until the item is activated (ignored if m_fCanBeActivated is false)"
+				}
+				Property
+				{
+					Declaration "bool m_fCanBeActivated"
+					Documentation "Holder is allowed to activate this item by choice at any time"
+				}
+				Property
+				{
 					Declaration "float m_flWearOutTime"
 					Documentation "Perform a trigger prior to this item being forcibly dropped (0 = none)"
+				}
+				Property
+				{
+					Declaration "float m_flActivateWaitTime"
+					Documentation "Time to wait between each activation (0 = none)"
 				}
 				Property
 				{
@@ -22133,6 +22535,11 @@
 				}
 				Property
 				{
+					Declaration "int m_iActivateLimit"
+					Documentation "How many times the item can be activated (0 = infinite)."
+				}
+				Property
+				{
 					Declaration "int m_iCollectLimit"
 					Documentation "How many times the item can be picked up, destroyed when limit is reached (0 = infinite)."
 				}
@@ -22143,7 +22550,7 @@
 				}
 				Property
 				{
-					Declaration "string m_szDisplayName"
+					Declaration "string_t m_szDisplayName"
 					Documentation "Friendly item name for client-side UI."
 				}
 				Property
@@ -22298,6 +22705,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -22310,6 +22737,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -22638,7 +23070,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -23191,7 +23623,7 @@
 				}
 				Method
 				{
-					Declaration "void GetItemInfo(ItemInfo& out info)"
+					Declaration "bool GetItemInfo(ItemInfo& out info)"
 					Documentation "Gets item info."
 				}
 				Method
@@ -23233,6 +23665,11 @@
 				{
 					Declaration "void DefaultTouch(CBaseEntity@ pOther)"
 					Documentation "Touch function. Default touch."
+				}
+				Method
+				{
+					Declaration "void Collect(CBaseEntity@ pOther, CollectTypes collectType)"
+					Documentation "Attempts to let pOther collect this item, while specifying the collect type."
 				}
 				Method
 				{
@@ -23391,6 +23828,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -23403,6 +23860,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -23726,7 +24188,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -23996,6 +24458,11 @@
 				{
 					Declaration "bool m_bPlayEmptySound"
 					Documentation "Whether to play the empty sound when the player attempts to fire"
+				}
+				Property
+				{
+					Declaration "int m_dropType"
+					Documentation "The current drop type. Check the DROP_TYPE Enum."
 				}
 				Property
 				{
@@ -24284,7 +24751,7 @@
 				}
 				Method
 				{
-					Declaration "void GetItemInfo(ItemInfo& out info)"
+					Declaration "bool GetItemInfo(ItemInfo& out info)"
 					Documentation "Gets item info."
 				}
 				Method
@@ -24326,6 +24793,11 @@
 				{
 					Declaration "void DefaultTouch(CBaseEntity@ pOther)"
 					Documentation "Touch function. Default touch."
+				}
+				Method
+				{
+					Declaration "void Collect(CBaseEntity@ pOther, CollectTypes collectType)"
+					Documentation "Attempts to let pOther collect this item, while specifying the collect type."
 				}
 				Method
 				{
@@ -24484,6 +24956,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -24496,6 +24988,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -24819,7 +25316,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -25000,6 +25497,11 @@
 			}
 			Properties
 			{
+				Property
+				{
+					Declaration "int m_dropType"
+					Documentation "The current drop type. Check the DROP_TYPE Enum."
+				}
 				Property
 				{
 					Declaration "bool m_bExclusiveHold"
@@ -25342,6 +25844,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -25354,6 +25876,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -25677,7 +26204,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -26255,6 +26782,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -26267,6 +26814,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -26590,7 +27142,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -26973,6 +27525,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -26985,6 +27557,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -27308,7 +27885,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -27691,6 +28268,26 @@
 				}
 				Method
 				{
+					Declaration "void ClearEntityFlags()"
+					Documentation "Clear all entity flag masks (EFLAG)"
+				}
+				Method
+				{
+					Declaration "bool HasEntityFlag(int FlagMask) const"
+					Documentation "Check if it has such entity flag mask (EFLAG) set"
+				}
+				Method
+				{
+					Declaration "void RemoveEntityFlag(int FlagMask)"
+					Documentation "Remove a entity flag mask (EFLAG)"
+				}
+				Method
+				{
+					Declaration "void AddEntityFlag(int FlagMask)"
+					Documentation "Add a entity flag mask (EFLAG)"
+				}
+				Method
+				{
 					Declaration "void EndRevive(float flTimeUntilRevive)"
 					Documentation "Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start."
 				}
@@ -27703,6 +28300,11 @@
 				{
 					Declaration "bool IsRevivable()"
 					Documentation "Returns whether this entity is revivable at this time."
+				}
+				Method
+				{
+					Declaration "void OnSetOriginByMap()"
+					Documentation "Entity callback after trigger_setorigin has moved the entity."
 				}
 				Method
 				{
@@ -28031,7 +28633,7 @@
 				}
 				Method
 				{
-					Declaration "void Killed(entvars_t@pevAtttacker, int iGibbed)"
+					Declaration "void Killed(entvars_t@ pevAttacker, int iGibbed)"
 					Documentation "Tells this entity it\'s been killed. See the GIB enum for possible values."
 				}
 				Method
@@ -28281,6 +28883,74 @@
 				{
 					Declaration "entvars_t@ pev"
 					Documentation "Entity variables"
+				}
+			}
+		}
+		Class
+		{
+			Namespace ""
+			ClassName RGBA
+			Documentation "Color stored as four uint8 components"
+			Flags 2
+			Methods
+			{
+				Method
+				{
+					Declaration "string ToString(const bool withAlpha = true) const"
+					Documentation "Returns a string representation of this RGBA"
+				}
+				Method
+				{
+					Declaration "bool opEquals(const RGBA& in other) const"
+					Documentation "Compare colors"
+				}
+				Method
+				{
+					Declaration "RGBA& opAssign(const RGBA& in other)"
+					Documentation "Assignment operator"
+				}
+				Method
+				{
+					Declaration "void RGBA(const RGBA& in other)"
+					Documentation "Copy constructor"
+				}
+				Method
+				{
+					Declaration "void RGBA(const Vector& in color, uint8 a = 255)"
+					Documentation Constructor
+				}
+				Method
+				{
+					Declaration "void RGBA(uint8 r, uint8 g, uint8 b, uint8 a = 255)"
+					Documentation Constructor
+				}
+				Method
+				{
+					Declaration "void RGBA()"
+					Documentation Constructor
+				}
+			}
+			Properties
+			{
+				Property
+				{
+					Declaration "uint8 a"
+					Documentation "Alpha component"
+				}
+				Property
+				{
+					Declaration "uint8 b"
+					Documentation "Blue component"
+				}
+				Property
+				{
+					Declaration "uint8 g"
+					Documentation "Green component"
+				}
+				Property
+				{
+					Declaration "uint8 r"
+					Documentation "Red component"
 				}
 			}
 		}
@@ -31378,6 +32048,18 @@
 			{
 				Value
 				{
+					Name ClServerInfo
+					Value 147
+					Documentation "User message"
+				}
+				Value
+				{
+					Name ChangeSky
+					Value 146
+					Documentation "User message"
+				}
+				Value
+				{
 					Name VModelPos
 					Value 145
 					Documentation "User message"
@@ -32428,6 +33110,75 @@
 					Name GLOBAL_OFF
 					Value 0
 					Documentation "Global state when off"
+				}
+			}
+		}
+		Enum
+		{
+			Namespace ""
+			Documentation "Flags used in CBasePlayer m_iHideHUD"
+			Name HideHUDFlags
+			Values
+			{
+				Value
+				{
+					Name HIDEHUD_AMMO
+					Value 512
+					Documentation "Hides only the Ammo element"
+				}
+				Value
+				{
+					Name HIDEHUD_CROSSHAIR
+					Value 256
+					Documentation "Hides only the Crosshair element"
+				}
+				Value
+				{
+					Name HIDEHUD_CUSTOM_PLUGINS
+					Value 128
+					Documentation "Hides Custom HUD elements from plugins"
+				}
+				Value
+				{
+					Name HIDEHUD_CUSTOM_MAPS
+					Value 64
+					Documentation "Hides Custom HUD elements from map scripts"
+				}
+				Value
+				{
+					Name HIDEHUD_SUITPOWER
+					Value 32
+					Documentation "Hides the Battery(armor) element"
+				}
+				Value
+				{
+					Name HIDEHUD_WEAPON_SELECT
+					Value 16
+					Documentation "Hides the Weapon Selection Menu element"
+				}
+				Value
+				{
+					Name HIDEHUD_HEALTH
+					Value 8
+					Documentation "Hides the Health element"
+				}
+				Value
+				{
+					Name HIDEHUD_ALL
+					Value 4
+					Documentation "Hides all HUD elements"
+				}
+				Value
+				{
+					Name HIDEHUD_FLASHLIGHT
+					Value 2
+					Documentation "Hides the Flashlight element"
+				}
+				Value
+				{
+					Name HIDEHUD_WEAPONS
+					Value 1
+					Documentation "Hides Weapon Selection Menu and Crosshair elements"
 				}
 			}
 		}
@@ -35240,7 +35991,7 @@
 				Value
 				{
 					Name LAST_COMMON_TASK
-					Value 112
+					Value 113
 					Documentation ""
 				}
 				Value
@@ -37396,6 +38147,87 @@
 		Enum
 		{
 			Namespace ""
+			Documentation "Entity mask constants"
+			Name EFLAG
+			Values
+			{
+				Value
+				{
+					Name EFLAG_IGNOREGRAVITY
+					Value 4
+					Documentation "Entity ignores trigger_gravity"
+				}
+				Value
+				{
+					Name EFLAG_PROJECTILE
+					Value 2
+					Documentation "Entity don\'t collide with friendly monsters/players"
+				}
+			}
+		}
+		Enum
+		{
+			Namespace ""
+			Documentation "How an item was collected."
+			Name CollectTypes
+			Values
+			{
+				Value
+				{
+					Name COLLECT_USE_INDIRECT
+					Value 2
+					Documentation "Used indirectly (trigger/etc)"
+				}
+				Value
+				{
+					Name COLLECT_USE_DIRECT
+					Value 1
+					Documentation "Used directly (+use)"
+				}
+				Value
+				{
+					Name COLLECT_TOUCH
+					Value 0
+					Documentation Touched
+				}
+			}
+		}
+		Enum
+		{
+			Namespace ""
+			Documentation "How an item was dropped."
+			Name DropTypes
+			Values
+			{
+				Value
+				{
+					Name DROP_NPC_DEATH
+					Value 3
+					Documentation "By an NPC killed."
+				}
+				Value
+				{
+					Name DROP_PLAYER_DEATH
+					Value 2
+					Documentation "By a player killed."
+				}
+				Value
+				{
+					Name DROP_PLAYER_CMD
+					Value 1
+					Documentation "By a player via drop/dropammo/dropsecammo command."
+				}
+				Value
+				{
+					Name DROP_DEFAULT
+					Value 0
+					Documentation Default/unspecified.
+				}
+			}
+		}
+		Enum
+		{
+			Namespace ""
 			Documentation "Material types supported by breakables"
 			Name Materials
 			Values
@@ -37635,13 +38467,13 @@
 				{
 					Name SF_DODAMAGE
 					Value 8192
-					Documentation "this flag indicates that a player thrown weapon should deal damage to things it hits"
+					Documentation "This flag indicates that a player thrown weapon should deal damage to things it hits"
 				}
 				Value
 				{
 					Name SF_CREATEDWEAPON
 					Value 4096
-					Documentation "this flag indicates that this entity is a weapon created for players,\nas opposed to being created by being placed by a mapper"
+					Documentation "This flag indicates that this entity is a weapon created for players,\nas opposed to being created by being placed by a mapper"
 				}
 				Value
 				{
@@ -37653,7 +38485,7 @@
 				{
 					Name SF_NORESPAWN
 					Value 1024
-					Documentation "set this bit on guns and stuff that should never respawn."
+					Documentation "Set this bit on guns and stuff that should never respawn."
 				}
 			}
 		}
@@ -39040,15 +39872,123 @@
 		Enum
 		{
 			Namespace ""
+			Documentation "Map sprite viewport types."
+			Name MAP_VP_TYPE
+			Values
+			{
+				Value
+				{
+					Name MAP_VP_ORIENTATED
+					Value 4
+					Documentation "Orientated: Angled according to the world instead of player viewport."
+				}
+				Value
+				{
+					Name MAP_VP_FACING_UPRIGHT
+					Value 2
+					Documentation "Facing upright: ???"
+				}
+				Value
+				{
+					Name MAP_VP_PARALLEL_ORITENTATED
+					Value 5
+					Documentation "Parallel orientated: Always face the player, but use angles to rotate the sprite."
+				}
+				Value
+				{
+					Name MAP_VP_PARALLEL_UPRIGHT
+					Value 1
+					Documentation "Parallel upright: Always face the player on horizontal axis only, fixed vertically."
+				}
+				Value
+				{
+					Name MAP_VP_PARALLEL
+					Value 3
+					Documentation "Parallel: Always face the player."
+				}
+				Value
+				{
+					Name MAP_VP_DEFAULT
+					Value 0
+					Documentation "Default. (Do not override the sprite\'s QC choice.)"
+				}
+			}
+		}
+		Enum
+		{
+			Namespace ""
+			Documentation "Sprite viewport types. When overriden stored in entvars_t::sequence with EF_SPRITE_CUSTOM_VP set in entvars_t::effects for engine use."
+			Name VP_TYPE
+			Values
+			{
+				Value
+				{
+					Name VP_ORIENTATED
+					Value 3
+					Documentation "Orientated: Angled according to the world instead of player viewport."
+				}
+				Value
+				{
+					Name VP_FACING_UPRIGHT
+					Value 1
+					Documentation "Facing upright: ???"
+				}
+				Value
+				{
+					Name VP_PARALLEL_ORITENTATED
+					Value 4
+					Documentation "Parallel orientated: Always face the player, but use angles to rotate the sprite."
+				}
+				Value
+				{
+					Name VP_PARALLEL_UPRIGHT
+					Value 0
+					Documentation "Parallel upright: Always face the player on horizontal axis only, fixed vertically."
+				}
+				Value
+				{
+					Name VP_PARALLEL
+					Value 2
+					Documentation "Parallel: Always face the player."
+				}
+			}
+		}
+		Enum
+		{
+			Namespace ""
 			Documentation "entvars_t::effects constants"
 			Name EFFECTS
 			Values
 			{
 				Value
 				{
+					Name EF_NOSHADOW
+					Value 8192
+					Documentation "Don\'t render a studio shadow for this entity"
+				}
+				Value
+				{
+					Name EF_FULLBRIGHT
+					Value 4096
+					Documentation "DonRender the entity at full brightness"
+				}
+				Value
+				{
+					Name EF_NODECALS
+					Value 2048
+					Documentation "Don\'t draw decals on this entity"
+				}
+				Value
+				{
+					Name EF_SPRITE_CUSTOM_VP
+					Value 1024
+					Documentation "Allow a map to override a sprite viewport type (from entvars_t::sequence)"
+				}
+				Value
+				{
 					Name EF_FRAMEANIMTEXTURES
 					Value 512
-					Documentation "Use the value in pev->frame to set the texture on a brush entity"
+					Documentation "Use the value in entvars_t::frame to set the texture on a brush entity"
 				}
 				Value
 				{
@@ -39058,39 +39998,33 @@
 				}
 				Value
 				{
-					Name EF_NODECALS
-					Value 2048
-					Documentation "don\'t draw decals on this entity"
-				}
-				Value
-				{
 					Name EF_NODRAW
 					Value 128
-					Documentation "don\'t draw entity"
+					Documentation "Don\'t draw entity"
 				}
 				Value
 				{
 					Name EF_LIGHT
 					Value 64
-					Documentation "rocket flare glow sprite"
+					Documentation "Rocket flare glow sprite"
 				}
 				Value
 				{
 					Name EF_NOINTERP
 					Value 32
-					Documentation "don\'t interpolate the next frame"
+					Documentation "Don\'t interpolate the next frame"
 				}
 				Value
 				{
 					Name EF_INVLIGHT
 					Value 16
-					Documentation "get lighting from ceiling"
+					Documentation "Get lighting from ceiling"
 				}
 				Value
 				{
 					Name EF_DIMLIGHT
 					Value 8
-					Documentation "player flashlight"
+					Documentation "Player flashlight"
 				}
 				Value
 				{
@@ -39102,13 +40036,13 @@
 				{
 					Name EF_MUZZLEFLASH
 					Value 2
-					Documentation "single frame ELIGHT on entity attachment 0"
+					Documentation "Single frame ELIGHT on entity attachment 0"
 				}
 				Value
 				{
 					Name EF_BRIGHTFIELD
 					Value 1
-					Documentation "swirling cloud of particles"
+					Documentation "Swirling cloud of particles"
 				}
 			}
 		}
@@ -39123,7 +40057,7 @@
 				{
 					Name DAMAGE_AIM
 					Value 2
-					Documentation "allow auto-aim"
+					Documentation "Allow auto-aim"
 				}
 				Value
 				{
@@ -39162,19 +40096,19 @@
 				{
 					Name DEAD_DEAD
 					Value 2
-					Documentation "dead. lying still."
+					Documentation "Dead, lying still."
 				}
 				Value
 				{
 					Name DEAD_DYING
 					Value 1
-					Documentation "playing death animation or still falling off of a ledge waiting to hit ground"
+					Documentation "Playing death animation or still falling off of a ledge waiting to hit ground"
 				}
 				Value
 				{
 					Name DEAD_NO
 					Value 0
-					Documentation alive
+					Documentation Alive
 				}
 			}
 		}
@@ -40191,7 +41125,7 @@
 	{
 		Property
 		{
-			Documentation "Called when the map changes. This happens when the world is destroyed. There may still be entities that exist at this point."
+			Documentation "Called when the map changes. This happens when the world is destroyed. There may still be entities that exist at this point. String will show the next map will be, or empty if the server is shutting down."
 			Namespace Hooks::Game
 			Declaration "const uint32 MapChange"
 		}
@@ -40221,27 +41155,21 @@
 		}
 		Property
 		{
+			Documentation "Called when a monster is killed.This may still be called even when the monster is taking damage while in a event (eg.: death animation). Players also appear there as they\'re technically monsters too."
+			Namespace Hooks::Monster
+			Declaration "const uint32 MonsterKilled"
+		}
+		Property
+		{
+			Documentation "Called when a monster takes damage.Note that the victim entity can\'t be changed at this point. Players also appear there as they\'re technically monsters too."
+			Namespace Hooks::Monster
+			Declaration "const uint32 MonsterTakeDamage"
+		}
+		Property
+		{
 			Documentation "Called when a player connects to the server, and the number of slots left on the server is <= the number of reserved slots. Set bAllowJoin to true to allow the player to join (default false)."
 			Namespace Hooks::Player
 			Declaration "const uint32 CanPlayerUseReservedSlot"
-		}
-		Property
-		{
-			Documentation "Called when a pickup object is about to be collected by a player. Note that basic checks are done before this hook is called."
-			Namespace Hooks::PickupObject
-			Declaration "const uint32 CanCollect"
-		}
-		Property
-		{
-			Documentation "Called when a pickup object materializes."
-			Namespace Hooks::PickupObject
-			Declaration "const uint32 Materialize"
-		}
-		Property
-		{
-			Documentation "Called when a pickup object is collected by a player. "
-			Namespace Hooks::PickupObject
-			Declaration "const uint32 Collected"
 		}
 		Property
 		{
@@ -40260,6 +41188,24 @@
 			Documentation "Called when the game wants to know if the player should be able to respawn or not.Set bCanRespawn to false to disallow, default true."
 			Namespace Hooks::Player
 			Declaration "const uint32 PlayerCanRespawn"
+		}
+		Property
+		{
+			Documentation "Called when a pickup object is about to be collected by a player. Note that basic checks are done before this hook is called."
+			Namespace Hooks::PickupObject
+			Declaration "const uint32 CanCollect"
+		}
+		Property
+		{
+			Documentation "Called when a pickup object materializes."
+			Namespace Hooks::PickupObject
+			Declaration "const uint32 Materialize"
+		}
+		Property
+		{
+			Documentation "Called when a pickup object is collected by a player. "
+			Namespace Hooks::PickupObject
+			Declaration "const uint32 Collected"
 		}
 		Property
 		{
@@ -40311,6 +41257,12 @@
 		}
 		Property
 		{
+			Documentation "Called when a player is revived. At this point all the revival process is finished."
+			Namespace Hooks::Player
+			Declaration "const uint32 PlayerRevived"
+		}
+		Property
+		{
 			Documentation "Called when a player is spraypainting a decal onto a surface. The given trace result contains the surface information. "
 			Namespace Hooks::Player
 			Declaration "const uint32 PlayerDecal"
@@ -40338,6 +41290,12 @@
 			Documentation "Called when a player fires a weapon\'s tertiary attack."
 			Namespace Hooks::Weapon
 			Declaration "const uint32 WeaponTertiaryAttack"
+		}
+		Property
+		{
+			Documentation "Called when a player reloads a weapon."
+			Namespace Hooks::Weapon
+			Declaration "const uint32 WeaponReload"
 		}
 		Property
 		{
@@ -40422,54 +41380,6 @@
 			Documentation "Global player functions instance"
 			Namespace ""
 			Declaration "CPlayerFuncs g_PlayerFuncs"
-		}
-		Property
-		{
-			Documentation "Sven Co-op HUD color"
-			Namespace ""
-			Declaration "const RGBA RGBA_SVENCOOP"
-		}
-		Property
-		{
-			Documentation Orange
-			Namespace ""
-			Declaration "const RGBA RGBA_ORANGE"
-		}
-		Property
-		{
-			Documentation Yellow
-			Namespace ""
-			Declaration "const RGBA RGBA_YELLOW"
-		}
-		Property
-		{
-			Documentation Blue
-			Namespace ""
-			Declaration "const RGBA RGBA_BLUE"
-		}
-		Property
-		{
-			Documentation Green
-			Namespace ""
-			Declaration "const RGBA RGBA_GREEN"
-		}
-		Property
-		{
-			Documentation Red
-			Namespace ""
-			Declaration "const RGBA RGBA_RED"
-		}
-		Property
-		{
-			Documentation Black
-			Namespace ""
-			Declaration "const RGBA RGBA_BLACK"
-		}
-		Property
-		{
-			Documentation White
-			Namespace ""
-			Declaration "const RGBA RGBA_WHITE"
 		}
 		Property
 		{
@@ -40977,6 +41887,882 @@
 		}
 		Property
 		{
+			Documentation "Sven Co-op HUD color"
+			Namespace ""
+			Declaration "const RGBA RGBA_SVENCOOP_HUD"
+		}
+		Property
+		{
+			Documentation "Sven Co-op brand color"
+			Namespace ""
+			Declaration "const RGBA RGBA_SVENCOOP"
+		}
+		Property
+		{
+			Documentation "Medium gray (MS)"
+			Namespace ""
+			Declaration "const RGBA RGBA_MS_MEDIUM_GRAY"
+		}
+		Property
+		{
+			Documentation "Cream (MS)"
+			Namespace ""
+			Declaration "const RGBA RGBA_MS_CREAN"
+		}
+		Property
+		{
+			Documentation "Sky blue (MS)"
+			Namespace ""
+			Declaration "const RGBA RGBA_MS_SKY_BLUE"
+		}
+		Property
+		{
+			Documentation "Money green (MS)"
+			Namespace ""
+			Declaration "const RGBA RGBA_MS_MONEY_GREEN"
+		}
+		Property
+		{
+			Documentation Gainsboro
+			Namespace ""
+			Declaration "const RGBA RGBA_GAINSBORO"
+		}
+		Property
+		{
+			Documentation "Light gray"
+			Namespace ""
+			Declaration "const RGBA RGBA_LIGHT_GRAY"
+		}
+		Property
+		{
+			Documentation Silver
+			Namespace ""
+			Declaration "const RGBA RGBA_SILVER"
+		}
+		Property
+		{
+			Documentation "Dark gray"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_GRAY"
+		}
+		Property
+		{
+			Documentation "Light slate gray"
+			Namespace ""
+			Declaration "const RGBA RGBA_LIGHT_SLATE_GRAY"
+		}
+		Property
+		{
+			Documentation Gray
+			Namespace ""
+			Declaration "const RGBA RGBA_GRAY"
+		}
+		Property
+		{
+			Documentation "Slate gray"
+			Namespace ""
+			Declaration "const RGBA RGBA_SLATE_GRAY"
+		}
+		Property
+		{
+			Documentation "Dim gray"
+			Namespace ""
+			Declaration "const RGBA RGBA_DIM_GRAY"
+		}
+		Property
+		{
+			Documentation "Dark slate gray"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_SLATE_GRAY"
+		}
+		Property
+		{
+			Documentation Black
+			Namespace ""
+			Declaration "const RGBA RGBA_BLACK"
+		}
+		Property
+		{
+			Documentation White
+			Namespace ""
+			Declaration "const RGBA RGBA_WHITE"
+		}
+		Property
+		{
+			Documentation Ivory
+			Namespace ""
+			Declaration "const RGBA RGBA_IVORY"
+		}
+		Property
+		{
+			Documentation Snow
+			Namespace ""
+			Declaration "const RGBA RGBA_SNOW"
+		}
+		Property
+		{
+			Documentation "Mint cream"
+			Namespace ""
+			Declaration "const RGBA RGBA_MINT_CREAM"
+		}
+		Property
+		{
+			Documentation Azure
+			Namespace ""
+			Declaration "const RGBA RGBA_AZURE"
+		}
+		Property
+		{
+			Documentation "Floral white"
+			Namespace ""
+			Declaration "const RGBA RGBA_FLORAL_WHITE"
+		}
+		Property
+		{
+			Documentation Honeydew
+			Namespace ""
+			Declaration "const RGBA RGBA_HONEYDEW"
+		}
+		Property
+		{
+			Documentation "Ghost white"
+			Namespace ""
+			Declaration "const RGBA RGBA_GHOST_WHITE"
+		}
+		Property
+		{
+			Documentation Seashell
+			Namespace ""
+			Declaration "const RGBA RGBA_SEASHELL"
+		}
+		Property
+		{
+			Documentation "Alice blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_ALICE_BLUE"
+		}
+		Property
+		{
+			Documentation "Old lace"
+			Namespace ""
+			Declaration "const RGBA RGBA_OLD_LACE"
+		}
+		Property
+		{
+			Documentation "Lavender blush"
+			Namespace ""
+			Declaration "const RGBA RGBA_LAVENDER_BLUSH"
+		}
+		Property
+		{
+			Documentation "White smoke"
+			Namespace ""
+			Declaration "const RGBA RGBA_WHITE_SMOKE"
+		}
+		Property
+		{
+			Documentation Beige
+			Namespace ""
+			Declaration "const RGBA RGBA_BEIGE"
+		}
+		Property
+		{
+			Documentation Linen
+			Namespace ""
+			Declaration "const RGBA RGBA_LINEN"
+		}
+		Property
+		{
+			Documentation "Antique white"
+			Namespace ""
+			Declaration "const RGBA RGBA_ANTIQUE_WHITE"
+		}
+		Property
+		{
+			Documentation "Misty rose"
+			Namespace ""
+			Declaration "const RGBA RGBA_MISTY_ROSE"
+		}
+		Property
+		{
+			Documentation "Pale green"
+			Namespace ""
+			Declaration "const RGBA RGBA_PALE_GREEN"
+		}
+		Property
+		{
+			Documentation "Green yellow"
+			Namespace ""
+			Declaration "const RGBA RGBA_GREEN_YELLOW"
+		}
+		Property
+		{
+			Documentation "Light green"
+			Namespace ""
+			Declaration "const RGBA RGBA_LIGHT_GREEN"
+		}
+		Property
+		{
+			Documentation Chartreuse
+			Namespace ""
+			Declaration "const RGBA RGBA_CHARTREUSE"
+		}
+		Property
+		{
+			Documentation "Lawn green"
+			Namespace ""
+			Declaration "const RGBA RGBA_LAWN_GREEN"
+		}
+		Property
+		{
+			Documentation "Yellow green"
+			Namespace ""
+			Declaration "const RGBA RGBA_YELLOW_GREEN"
+		}
+		Property
+		{
+			Documentation "Medium aquamarine"
+			Namespace ""
+			Declaration "const RGBA RGBA_MEDIUM_AQUAMARINE"
+		}
+		Property
+		{
+			Documentation "Dark sea green"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_SEA_GREEN"
+		}
+		Property
+		{
+			Documentation "Medium spring green"
+			Namespace ""
+			Declaration "const RGBA RGBA_MEDIUM_SPRING_GREEN"
+		}
+		Property
+		{
+			Documentation "Spring green"
+			Namespace ""
+			Declaration "const RGBA RGBA_SPRING_GREEN"
+		}
+		Property
+		{
+			Documentation Lime
+			Namespace ""
+			Declaration "const RGBA RGBA_LIME"
+		}
+		Property
+		{
+			Documentation "Lime green"
+			Namespace ""
+			Declaration "const RGBA RGBA_LIME_GREEN"
+		}
+		Property
+		{
+			Documentation "Medium sea green"
+			Namespace ""
+			Declaration "const RGBA RGBA_MEDIUM_SEA_GREEN"
+		}
+		Property
+		{
+			Documentation "Olive drab"
+			Namespace ""
+			Declaration "const RGBA RGBA_OLIVE_DRAB"
+		}
+		Property
+		{
+			Documentation Olive
+			Namespace ""
+			Declaration "const RGBA RGBA_OLIVE"
+		}
+		Property
+		{
+			Documentation "Sea green"
+			Namespace ""
+			Declaration "const RGBA RGBA_SEA_GREEN"
+		}
+		Property
+		{
+			Documentation "Forest green"
+			Namespace ""
+			Declaration "const RGBA RGBA_FOREST_GREEN"
+		}
+		Property
+		{
+			Documentation "Dark olive green"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_OLIVE_GREEN"
+		}
+		Property
+		{
+			Documentation Green
+			Namespace ""
+			Declaration "const RGBA RGBA_GREEN"
+		}
+		Property
+		{
+			Documentation "Dark green"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_GREEN"
+		}
+		Property
+		{
+			Documentation "Light cyan"
+			Namespace ""
+			Declaration "const RGBA RGBA_LIGHT_CYAN"
+		}
+		Property
+		{
+			Documentation "Pale turquoise"
+			Namespace ""
+			Declaration "const RGBA RGBA_PALE_TURQUOISE"
+		}
+		Property
+		{
+			Documentation Aquamarine
+			Namespace ""
+			Declaration "const RGBA RGBA_AQUAMARINE"
+		}
+		Property
+		{
+			Documentation Cyan
+			Namespace ""
+			Declaration "const RGBA RGBA_CYAN"
+		}
+		Property
+		{
+			Documentation Aqua
+			Namespace ""
+			Declaration "const RGBA RGBA_AQUA"
+		}
+		Property
+		{
+			Documentation Turquoise
+			Namespace ""
+			Declaration "const RGBA RGBA_TURQUOISE"
+		}
+		Property
+		{
+			Documentation "Medium turquoise"
+			Namespace ""
+			Declaration "const RGBA RGBA_MEDIUM_TURQUOISE"
+		}
+		Property
+		{
+			Documentation "Dark turquoise"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_TURQUOISE"
+		}
+		Property
+		{
+			Documentation "Cadet blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_CADET_BLUE"
+		}
+		Property
+		{
+			Documentation "Light sea green"
+			Namespace ""
+			Declaration "const RGBA RGBA_LIGHT_SEA_GREEN"
+		}
+		Property
+		{
+			Documentation "Dark cyan"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_CYAN"
+		}
+		Property
+		{
+			Documentation Teal
+			Namespace ""
+			Declaration "const RGBA RGBA_TEAL"
+		}
+		Property
+		{
+			Documentation "Powder blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_POWDER_BLUE"
+		}
+		Property
+		{
+			Documentation "Light blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_LIGHT_BLUE"
+		}
+		Property
+		{
+			Documentation "Light steel blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_LIGHT_STEEL_BLUE"
+		}
+		Property
+		{
+			Documentation "Light sky blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_LIGHT_SKY_BLUE"
+		}
+		Property
+		{
+			Documentation "Sky blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_SKY_BLUE"
+		}
+		Property
+		{
+			Documentation "Cornflower blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_CORNFLOWER_BLUE"
+		}
+		Property
+		{
+			Documentation "Deep sky blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_DEEP_SKY_BLUE"
+		}
+		Property
+		{
+			Documentation "Dodger blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_DODGER_BLUE"
+		}
+		Property
+		{
+			Documentation "Steel blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_STEEL_BLUE"
+		}
+		Property
+		{
+			Documentation "Royal blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_ROYAL_BLUE"
+		}
+		Property
+		{
+			Documentation Blue
+			Namespace ""
+			Declaration "const RGBA RGBA_BLUE"
+		}
+		Property
+		{
+			Documentation "Medium blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_MEDIUM_BLUE"
+		}
+		Property
+		{
+			Documentation "Dark blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_BLUE"
+		}
+		Property
+		{
+			Documentation Navy
+			Namespace ""
+			Declaration "const RGBA RGBA_NAVY"
+		}
+		Property
+		{
+			Documentation "Midnight blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_MIDNIGHT_BLUE"
+		}
+		Property
+		{
+			Documentation Lavender
+			Namespace ""
+			Declaration "const RGBA RGBA_LAVENDER"
+		}
+		Property
+		{
+			Documentation Thistle
+			Namespace ""
+			Declaration "const RGBA RGBA_THISTLE"
+		}
+		Property
+		{
+			Documentation Plum
+			Namespace ""
+			Declaration "const RGBA RGBA_PLUM"
+		}
+		Property
+		{
+			Documentation Violet
+			Namespace ""
+			Declaration "const RGBA RGBA_VIOLET"
+		}
+		Property
+		{
+			Documentation Orchid
+			Namespace ""
+			Declaration "const RGBA RGBA_ORCHID"
+		}
+		Property
+		{
+			Documentation "Medium purple"
+			Namespace ""
+			Declaration "const RGBA RGBA_MEDIUM_PURPLE"
+		}
+		Property
+		{
+			Documentation "Medium orchid"
+			Namespace ""
+			Declaration "const RGBA RGBA_MEDIUM_ORCHID"
+		}
+		Property
+		{
+			Documentation "Medium slate blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_MEDIUM_SLATE_BLUE"
+		}
+		Property
+		{
+			Documentation "Slate blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_SLATE_BLUE"
+		}
+		Property
+		{
+			Documentation Magenta
+			Namespace ""
+			Declaration "const RGBA RGBA_MAGENTA"
+		}
+		Property
+		{
+			Documentation Fuchsia
+			Namespace ""
+			Declaration "const RGBA RGBA_FUCHSIA"
+		}
+		Property
+		{
+			Documentation "Dark orchid"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_ORCHID"
+		}
+		Property
+		{
+			Documentation "Blue violet"
+			Namespace ""
+			Declaration "const RGBA RGBA_BLUE_VIOLET"
+		}
+		Property
+		{
+			Documentation "Dark slate blue"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_SLATE_BLUE"
+		}
+		Property
+		{
+			Documentation "Dark violet"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_VIOLET"
+		}
+		Property
+		{
+			Documentation "Dark magenta"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_MAGENTA"
+		}
+		Property
+		{
+			Documentation Purple
+			Namespace ""
+			Declaration "const RGBA RGBA_PURPLE"
+		}
+		Property
+		{
+			Documentation Indigo
+			Namespace ""
+			Declaration "const RGBA RGBA_INDIGO"
+		}
+		Property
+		{
+			Documentation Cornsilk
+			Namespace ""
+			Declaration "const RGBA RGBA_CORNSILK"
+		}
+		Property
+		{
+			Documentation "Blanched almond"
+			Namespace ""
+			Declaration "const RGBA RGBA_BLANCHED_ALMOND"
+		}
+		Property
+		{
+			Documentation Bisque
+			Namespace ""
+			Declaration "const RGBA RGBA_BISQUE"
+		}
+		Property
+		{
+			Documentation "Navajo white"
+			Namespace ""
+			Declaration "const RGBA RGBA_NAVAJO_WHITE"
+		}
+		Property
+		{
+			Documentation Wheat
+			Namespace ""
+			Declaration "const RGBA RGBA_WHEAT"
+		}
+		Property
+		{
+			Documentation Burlywood
+			Namespace ""
+			Declaration "const RGBA RGBA_BURLYWOOD"
+		}
+		Property
+		{
+			Documentation Tan
+			Namespace ""
+			Declaration "const RGBA RGBA_TAN"
+		}
+		Property
+		{
+			Documentation "Sandy brown"
+			Namespace ""
+			Declaration "const RGBA RGBA_SANDY_BROWN"
+		}
+		Property
+		{
+			Documentation Goldenrod
+			Namespace ""
+			Declaration "const RGBA RGBA_GOLDENROD"
+		}
+		Property
+		{
+			Documentation "Rosy brown"
+			Namespace ""
+			Declaration "const RGBA RGBA_ROSY_BROWN"
+		}
+		Property
+		{
+			Documentation Peru
+			Namespace ""
+			Declaration "const RGBA RGBA_PERU"
+		}
+		Property
+		{
+			Documentation "Dark goldenrod"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_GOLDENROD"
+		}
+		Property
+		{
+			Documentation Chocolate
+			Namespace ""
+			Declaration "const RGBA RGBA_CHOCOLATE"
+		}
+		Property
+		{
+			Documentation Sienna
+			Namespace ""
+			Declaration "const RGBA RGBA_SIENNA"
+		}
+		Property
+		{
+			Documentation "Saddle brown"
+			Namespace ""
+			Declaration "const RGBA RGBA_SADDLE_BROWN"
+		}
+		Property
+		{
+			Documentation Brown
+			Namespace ""
+			Declaration "const RGBA RGBA_BROWN"
+		}
+		Property
+		{
+			Documentation Maroon
+			Namespace ""
+			Declaration "const RGBA RGBA_MAROON"
+		}
+		Property
+		{
+			Documentation "Light yellow"
+			Namespace ""
+			Declaration "const RGBA RGBA_LIGHT_YELLOW"
+		}
+		Property
+		{
+			Documentation "Lemon chiffon"
+			Namespace ""
+			Declaration "const RGBA RGBA_LEMON_CHIFFON"
+		}
+		Property
+		{
+			Documentation "Light goldenrod yellow"
+			Namespace ""
+			Declaration "const RGBA RGBA_LIGHT_GOLDENROD_YELLOW"
+		}
+		Property
+		{
+			Documentation "Papaya whip"
+			Namespace ""
+			Declaration "const RGBA RGBA_PAPAYA_WHIP"
+		}
+		Property
+		{
+			Documentation Moccasin
+			Namespace ""
+			Declaration "const RGBA RGBA_MOCCASIN"
+		}
+		Property
+		{
+			Documentation "Pale goldenrod"
+			Namespace ""
+			Declaration "const RGBA RGBA_PALE_GOLDENROD"
+		}
+		Property
+		{
+			Documentation Yellow
+			Namespace ""
+			Declaration "const RGBA RGBA_YELLOW"
+		}
+		Property
+		{
+			Documentation "Peach puff"
+			Namespace ""
+			Declaration "const RGBA RGBA_PEACH_PUFF"
+		}
+		Property
+		{
+			Documentation Khaki
+			Namespace ""
+			Declaration "const RGBA RGBA_KHAKI"
+		}
+		Property
+		{
+			Documentation Gold
+			Namespace ""
+			Declaration "const RGBA RGBA_GOLD"
+		}
+		Property
+		{
+			Documentation "Dark khaki"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_KHAKI"
+		}
+		Property
+		{
+			Documentation Orange
+			Namespace ""
+			Declaration "const RGBA RGBA_ORANGE"
+		}
+		Property
+		{
+			Documentation Coral
+			Namespace ""
+			Declaration "const RGBA RGBA_CORAL"
+		}
+		Property
+		{
+			Documentation "Dark orange"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_ORANGE"
+		}
+		Property
+		{
+			Documentation Tomato
+			Namespace ""
+			Declaration "const RGBA RGBA_TOMATO"
+		}
+		Property
+		{
+			Documentation "Orange red"
+			Namespace ""
+			Declaration "const RGBA RGBA_ORANGE_RED"
+		}
+		Property
+		{
+			Documentation "Light salmon"
+			Namespace ""
+			Declaration "const RGBA RGBA_LIGHT_SALMON"
+		}
+		Property
+		{
+			Documentation "Dark salmon"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_SALMON"
+		}
+		Property
+		{
+			Documentation Salmon
+			Namespace ""
+			Declaration "const RGBA RGBA_SALMON"
+		}
+		Property
+		{
+			Documentation "Light coral"
+			Namespace ""
+			Declaration "const RGBA RGBA_LIGHT_CORAL"
+		}
+		Property
+		{
+			Documentation "Indian red"
+			Namespace ""
+			Declaration "const RGBA RGBA_INDIAN_RED"
+		}
+		Property
+		{
+			Documentation Crimson
+			Namespace ""
+			Declaration "const RGBA RGBA_CRIMSON"
+		}
+		Property
+		{
+			Documentation Firebrick
+			Namespace ""
+			Declaration "const RGBA RGBA_FIREBRICK"
+		}
+		Property
+		{
+			Documentation Red
+			Namespace ""
+			Declaration "const RGBA RGBA_RED"
+		}
+		Property
+		{
+			Documentation "Dark red"
+			Namespace ""
+			Declaration "const RGBA RGBA_DARK_RED"
+		}
+		Property
+		{
+			Documentation Pink
+			Namespace ""
+			Declaration "const RGBA RGBA_PINK"
+		}
+		Property
+		{
+			Documentation "Light pink"
+			Namespace ""
+			Declaration "const RGBA RGBA_LIGHT_PINK"
+		}
+		Property
+		{
+			Documentation "Hot pink"
+			Namespace ""
+			Declaration "const RGBA RGBA_HOT_PINK"
+		}
+		Property
+		{
+			Documentation "Pale violet red"
+			Namespace ""
+			Declaration "const RGBA RGBA_PALE_VIOLET_RED"
+		}
+		Property
+		{
+			Documentation "Deep pink"
+			Namespace ""
+			Declaration "const RGBA RGBA_DEEP_PINK"
+		}
+		Property
+		{
+			Documentation "Medium violet red"
+			Namespace ""
+			Declaration "const RGBA RGBA_MEDIUM_VIOLET_RED"
+		}
+		Property
+		{
 			Documentation "Dynamic decal manager instance"
 			Namespace ""
 			Declaration "CDecals g_Decals"
@@ -41128,9 +42914,9 @@
 	{
 		FuncDef
 		{
-			Documentation "Called when the map changes. This happens when the world is destroyed. There may still be entities that exist at this point."
+			Documentation "Called when the map changes. This happens when the world is destroyed. There may still be entities that exist at this point. String will show the next map will be, or empty if the server is shutting down."
 			Namespace ""
-			Name "HookReturnCode MapChangeHook()"
+			Name "HookReturnCode MapChangeHook(const string& in)"
 		}
 		FuncDef
 		{
@@ -41158,27 +42944,21 @@
 		}
 		FuncDef
 		{
+			Documentation "Called when a monster is killed.This may still be called even when the monster is taking damage while in a event (eg.: death animation). Players also appear there as they\'re technically monsters too."
+			Namespace ""
+			Name "HookReturnCode MonsterKilledHook(CBaseMonster@, CBaseEntity@, int)"
+		}
+		FuncDef
+		{
+			Documentation "Called when a monster takes damage.Note that the victim entity can\'t be changed at this point. Players also appear there as they\'re technically monsters too."
+			Namespace ""
+			Name "HookReturnCode MonsterTakeDamageHook(DamageInfo@)"
+		}
+		FuncDef
+		{
 			Documentation "Called when a player connects to the server, and the number of slots left on the server is <= the number of reserved slots. Set bAllowJoin to true to allow the player to join (default false)."
 			Namespace ""
 			Name "HookReturnCode CanPlayerUseReservedSlotHook(edict_t@, const string& in, const string& in, bool& out)"
-		}
-		FuncDef
-		{
-			Documentation "Called when a pickup object is about to be collected by a player. Note that basic checks are done before this hook is called."
-			Namespace ""
-			Name "HookReturnCode CanCollectHook(CBaseEntity@, CBaseEntity@, bool& out)"
-		}
-		FuncDef
-		{
-			Documentation "Called when a pickup object materializes."
-			Namespace ""
-			Name "HookReturnCode MaterializeHook(CBaseEntity@)"
-		}
-		FuncDef
-		{
-			Documentation "Called when a pickup object is collected by a player. "
-			Namespace ""
-			Name "HookReturnCode CollectedHook(CBaseEntity@, CBaseEntity@)"
 		}
 		FuncDef
 		{
@@ -41197,6 +42977,24 @@
 			Documentation "Called when the game wants to know if the player should be able to respawn or not.Set bCanRespawn to false to disallow, default true."
 			Namespace ""
 			Name "HookReturnCode PlayerCanRespawnHook(CBasePlayer@, bool& out)"
+		}
+		FuncDef
+		{
+			Documentation "Called when a pickup object is about to be collected by a player. Note that basic checks are done before this hook is called."
+			Namespace ""
+			Name "HookReturnCode CanCollectHook(CBaseEntity@, CBaseEntity@, bool& out)"
+		}
+		FuncDef
+		{
+			Documentation "Called when a pickup object materializes."
+			Namespace ""
+			Name "HookReturnCode MaterializeHook(CBaseEntity@)"
+		}
+		FuncDef
+		{
+			Documentation "Called when a pickup object is collected by a player. "
+			Namespace ""
+			Name "HookReturnCode CollectedHook(CBaseEntity@, CBaseEntity@)"
 		}
 		FuncDef
 		{
@@ -41248,6 +43046,12 @@
 		}
 		FuncDef
 		{
+			Documentation "Called when a player is revived. At this point all the revival process is finished."
+			Namespace ""
+			Name "HookReturnCode PlayerRevivedHook(CBasePlayer@ pPlayer)"
+		}
+		FuncDef
+		{
 			Documentation "Called when a player is spraypainting a decal onto a surface. The given trace result contains the surface information. "
 			Namespace ""
 			Name "HookReturnCode PlayerDecalHook(CBasePlayer@, const TraceResult& in)"
@@ -41275,6 +43079,12 @@
 			Documentation "Called when a player fires a weapon\'s tertiary attack."
 			Namespace ""
 			Name "HookReturnCode WeaponTertiaryAttackHook(CBasePlayer@, CBasePlayerWeapon@)"
+		}
+		FuncDef
+		{
+			Documentation "Called when a player reloads a weapon."
+			Namespace ""
+			Name "HookReturnCode WeaponReloadHook(CBasePlayer@, CBasePlayerWeapon@)"
 		}
 		FuncDef
 		{

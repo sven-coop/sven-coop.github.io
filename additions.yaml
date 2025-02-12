@@ -404,20 +404,4 @@ Properties:
     Documentation: "(0.130530, 0.130530, 0.130530)"
   - Declaration: const Vector VECTOR_CONE_20DEGREES
     Documentation: "(0.173650, 0.173650, 0.173650)"
-  - Declaration: const RGBA RGBA_WHITE
-    AddDocumentation: "(255, 255, 255, 255)"
-  - Declaration: const RGBA RGBA_BLACK
-    AddDocumentation: "(0, 0, 0, 255)"
-  - Declaration: const RGBA RGBA_RED
-    AddDocumentation: "(255, 0, 0, 255)"
-  - Declaration: const RGBA RGBA_GREEN
-    AddDocumentation: "(0, 255, 0, 255)"
-  - Declaration: const RGBA RGBA_BLUE
-    AddDocumentation: "(0, 0, 255, 255)"
-  - Declaration: const RGBA RGBA_YELLOW
-    AddDocumentation: "(255, 255, 0, 255)"
-  - Declaration: const RGBA RGBA_ORANGE
-    AddDocumentation: "(255, 128, 0, 255)"
-  - Declaration: const RGBA RGBA_SVENCOOP
-    AddDocumentation: "(100, 130, 200, 255)"
 

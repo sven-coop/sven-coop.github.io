@@ -5,7 +5,7 @@
 	"main": "build.js",
 	"type": "module",
 	"scripts": {
-		"clear": "rm -rf dist && mkdir dist",
+		"clear": "rmdir /s /q dist && mkdir dist",
 		"build": "npm run clear && node build.js",
 		"deploy": "npm run clear && node build.js && gh-pages -d dist"
 	},

@@ -1,6 +1,6 @@
 DocVersion: 2
-GameVersion: 5.25
-APIVersion: 1.25
+GameVersion: 5.26
+APIVersion: 1.26
 Interfaces:
   - InterfaceName: PlayerInVolumeListener
     Namespace: ''
@@ -524,32 +524,36 @@ Classes:
 
           Returns the length of the destination string, or 0 if the buffer was
           not large enough.
+      - Declaration: void SetIsDst(int iIsDst)
+        Documentation: Set daylight savings active.
       - Declaration: void SetYear(int iYear)
         Documentation: Set year.
       - Declaration: void SetMonth(int iMonth)
-        Documentation: Set month (0-11).
+        Documentation: Set month of the year (1-12).
       - Declaration: void SetDayOfMonth(int iDay)
-        Documentation: Set day of month (0-30).
+        Documentation: Set day of the month (1-31).
       - Declaration: void SetHour(int iHours)
-        Documentation: Set hours (0-23).
+        Documentation: Set hours since midnight (0-23).
       - Declaration: void SetMinutes(int iMinutes)
-        Documentation: Set minutes (0-59).
+        Documentation: Set minutes after the hour (0-59).
       - Declaration: void SetSeconds(int iSeconds)
-        Documentation: Set seconds (0-59).
+        Documentation: Set seconds after the minute including leap second (0-60).
       - Declaration: void SetMilliseconds(uint uiMilliseconds)
         Documentation: Set milliseconds.
+      - Declaration: int GetIsDst() const
+        Documentation: Get daylight savings active.
       - Declaration: int GetYear() const
         Documentation: Get year.
       - Declaration: int GetMonth() const
-        Documentation: Get month (0-11).
+        Documentation: Get month of the year (1-12).
       - Declaration: int GetDayOfMonth() const
-        Documentation: Get day of month (0-30).
+        Documentation: Get day of the month (1-31).
       - Declaration: int GetHour() const
-        Documentation: Get hours (0-23).
+        Documentation: Get hours since midnight (0-23).
       - Declaration: int GetMinutes() const
-        Documentation: Get minutes (0-59).
+        Documentation: Get minutes after the hour (0-59).
       - Declaration: int GetSeconds() const
-        Documentation: Get seconds (0-59).
+        Documentation: Get seconds after the minute including leap second (0-60).
       - Declaration: uint GetMilliseconds() const
         Documentation: Get milliseconds.
       - Declaration: void SetUnixTimestamp(time_t time)
@@ -1294,28 +1298,6 @@ Classes:
           <0, 1.0> = left to right
           (-1.0, 0) = right to left
           -1.0 = centered
-  - ClassName: RGBA
-    Namespace: ''
-    Documentation: Color stored as four uint8 components
-    Flags: 2
-    Methods:
-      - Declaration: RGBA& opAssign(const RGBA& in other)
-        Documentation: Assignment operator
-      - Declaration: void RGBA(const RGBA& in other)
-        Documentation: Copy constructor
-      - Declaration: void RGBA(uint8 r, uint8 g, uint8 b, uint8 a = 255)
-        Documentation: Constructor
-      - Declaration: void RGBA()
-        Documentation: Constructor
-    Properties:
-      - Declaration: uint8 a
-        Documentation: Alpha component
-      - Declaration: uint8 b
-        Documentation: Blue component
-      - Declaration: uint8 g
-        Documentation: Green component
-      - Declaration: uint8 r
-        Documentation: Red component
   - ClassName: CEntityFuncs
     Namespace: ''
     Documentation: Global entity functions
@@ -1837,6 +1819,10 @@ Classes:
       - Declaration: bool IsStringInt(const string& in szString)
         Documentation: Returns whether the given string is an integer
       - Declaration: >-
+          void StringToRGBA(RGBA& out rgba, const string& in szString, const
+          char delimiter = char(' '))
+        Documentation: Converts the given string to an RGBA (alpha component is optional)
+      - Declaration: >-
           void StringToVector(Vector& out vecVector, const string& in szString,
           const char delimiter = char(' '))
         Documentation: Converts the given string to a vector
@@ -2086,7 +2072,7 @@ Classes:
         Documentation: Calls the base class implementation of Deploy
       - Declaration: bool CanDeploy()
         Documentation: Calls the base class implementation of CanDeploy
-      - Declaration: void GetItemInfo(ItemInfo& out info)
+      - Declaration: bool GetItemInfo(ItemInfo& out info)
         Documentation: Calls the base class implementation of GetItemInfo
       - Declaration: void Materialize()
         Documentation: Calls the base class implementation of Materialize
@@ -2196,7 +2182,7 @@ Classes:
         Documentation: Calls the base class implementation of Deploy
       - Declaration: bool CanDeploy()
         Documentation: Calls the base class implementation of CanDeploy
-      - Declaration: void GetItemInfo(ItemInfo& out info)
+      - Declaration: bool GetItemInfo(ItemInfo& out info)
         Documentation: Calls the base class implementation of GetItemInfo
       - Declaration: void Materialize()
         Documentation: Calls the base class implementation of Materialize
@@ -3313,6 +3299,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -3323,6 +3317,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -3475,7 +3471,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -3735,6 +3731,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -3745,6 +3749,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -3893,7 +3899,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -4211,6 +4217,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -4221,6 +4235,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -4369,7 +4385,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -4673,6 +4689,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -4683,6 +4707,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -4835,7 +4861,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -5190,6 +5216,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -5200,6 +5234,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -5352,7 +5388,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -5647,6 +5683,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -5657,6 +5701,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -5809,7 +5855,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -5991,6 +6037,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -6001,6 +6055,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -6153,7 +6209,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -6329,7 +6385,7 @@ Classes:
           void SetTransparency(int renderMode, int r, int g, int b, int
           renderAmount, int renderFx)
         Documentation: Sets the transparency of this sprite.
-      - Declaration: float Frames() const
+      - Declaration: int Frames() const
         Documentation: Gets the number of frames in this sprite.
       - Declaration: void TurnOn()
         Documentation: Turns on this sprite.
@@ -6365,6 +6421,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -6375,6 +6439,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -6527,7 +6593,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -6769,7 +6835,7 @@ Classes:
         Documentation: Selects the item with the given name.
       - Declaration: void SelectLastItem()
         Documentation: Selects the last active item.
-      - Declaration: void SelectNextItem()
+      - Declaration: void SelectNextItem(int iItem)
         Documentation: Selects the next item relative to the given item.
       - Declaration: void SelectPrevItem(int iItem)
         Documentation: Selects the previous item relative to the given item.
@@ -6827,7 +6893,9 @@ Classes:
         Documentation: Holster weapon.
       - Declaration: bool SwitchWeapon(CBasePlayerItem@ pWeapon)
         Documentation: Switches weapons to the given item.
-      - Declaration: void RemoveAllItems(const bool fRemoveSuit)
+      - Declaration: >-
+          void RemoveAllItems(const bool removeSuit = false, const bool
+          removeLongJump = false)
         Documentation: Removes all items from the player's inventory.
       - Declaration: void PackDeadPlayerItems()
         Documentation: Packs player weapons into a weapon box if possible.
@@ -7134,8 +7202,8 @@ Classes:
         Documentation: see if given location is in monster's view cone
       - Declaration: bool FInViewCone(CBaseEntity@ pEntity)
         Documentation: see if pEntity is in monster's view cone
-      - Declaration: void BestVisibleEnemy()
-        Documentation: finds best visible enemy for attack
+      - Declaration: CBaseEntity@ BestVisibleEnemy()
+        Documentation: Finds best visible enemy for attack
       - Declaration: void StartMonster()
         Documentation: Starts the monster
       - Declaration: void Revive()
@@ -7149,6 +7217,10 @@ Classes:
       - Declaration: void SetupFriendly()
         Documentation: use this overridden to make some other friendly monsters
       - Declaration: float DamageForce(float flDamage)
+        Documentation: >-
+          Returns the amount of force applied to this monster when the given
+          amount of damage is done.
+      - Declaration: float DamageForce(float flDamage, int bitsDamageType)
         Documentation: >-
           Returns the amount of force applied to this monster when the given
           amount of damage is done.
@@ -7288,6 +7360,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -7298,6 +7378,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -7446,7 +7528,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -8173,8 +8255,8 @@ Classes:
         Documentation: see if given location is in monster's view cone
       - Declaration: bool FInViewCone(CBaseEntity@ pEntity)
         Documentation: see if pEntity is in monster's view cone
-      - Declaration: void BestVisibleEnemy()
-        Documentation: finds best visible enemy for attack
+      - Declaration: CBaseEntity@ BestVisibleEnemy()
+        Documentation: Finds best visible enemy for attack
       - Declaration: void StartMonster()
         Documentation: Starts the monster
       - Declaration: void Revive()
@@ -8188,6 +8270,10 @@ Classes:
       - Declaration: void SetupFriendly()
         Documentation: use this overridden to make some other friendly monsters
       - Declaration: float DamageForce(float flDamage)
+        Documentation: >-
+          Returns the amount of force applied to this monster when the given
+          amount of damage is done.
+      - Declaration: float DamageForce(float flDamage, int bitsDamageType)
         Documentation: >-
           Returns the amount of force applied to this monster when the given
           amount of damage is done.
@@ -8327,6 +8413,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -8337,6 +8431,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -8485,7 +8581,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -9152,8 +9248,8 @@ Classes:
         Documentation: see if given location is in monster's view cone
       - Declaration: bool FInViewCone(CBaseEntity@ pEntity)
         Documentation: see if pEntity is in monster's view cone
-      - Declaration: void BestVisibleEnemy()
-        Documentation: finds best visible enemy for attack
+      - Declaration: CBaseEntity@ BestVisibleEnemy()
+        Documentation: Finds best visible enemy for attack
       - Declaration: void StartMonster()
         Documentation: Starts the monster
       - Declaration: void Revive()
@@ -9167,6 +9263,10 @@ Classes:
       - Declaration: void SetupFriendly()
         Documentation: use this overridden to make some other friendly monsters
       - Declaration: float DamageForce(float flDamage)
+        Documentation: >-
+          Returns the amount of force applied to this monster when the given
+          amount of damage is done.
+      - Declaration: float DamageForce(float flDamage, int bitsDamageType)
         Documentation: >-
           Returns the amount of force applied to this monster when the given
           amount of damage is done.
@@ -9306,6 +9406,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -9316,6 +9424,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -9464,7 +9574,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -10107,8 +10217,8 @@ Classes:
         Documentation: see if given location is in monster's view cone
       - Declaration: bool FInViewCone(CBaseEntity@ pEntity)
         Documentation: see if pEntity is in monster's view cone
-      - Declaration: void BestVisibleEnemy()
-        Documentation: finds best visible enemy for attack
+      - Declaration: CBaseEntity@ BestVisibleEnemy()
+        Documentation: Finds best visible enemy for attack
       - Declaration: void StartMonster()
         Documentation: Starts the monster
       - Declaration: void Revive()
@@ -10122,6 +10232,10 @@ Classes:
       - Declaration: void SetupFriendly()
         Documentation: use this overridden to make some other friendly monsters
       - Declaration: float DamageForce(float flDamage)
+        Documentation: >-
+          Returns the amount of force applied to this monster when the given
+          amount of damage is done.
+      - Declaration: float DamageForce(float flDamage, int bitsDamageType)
         Documentation: >-
           Returns the amount of force applied to this monster when the given
           amount of damage is done.
@@ -10261,6 +10375,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -10271,6 +10393,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -10419,7 +10543,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -10795,6 +10919,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -10805,6 +10937,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -10957,7 +11091,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -11111,14 +11245,18 @@ Classes:
         Documentation: Prepares to remove effects from holder.
       - Declaration: void AddItemEffects()
         Documentation: Prepares to add effects to holder.
-      - Declaration: void Destroy()
-        Documentation: Destroys this item.
-      - Declaration: void Return()
-        Documentation: Returns this item to its original spawn location.
-      - Declaration: bool Drop(bool fForce = false, CBaseEntity@ pCaller = null)
-        Documentation: Drops this item, if it's being carried.
+      - Declaration: void Destroy(bool fIgnoreTriggers = false)
+        Documentation: Destroy this item.
+      - Declaration: void Return(bool fIgnoreTriggers = false)
+        Documentation: Return this item to its original spawn location.
+      - Declaration: >-
+          bool Drop(bool fForce = false, CBaseEntity@ pCaller = null, bool
+          fIgnoreTriggers = false)
+        Documentation: Drop this item if it's being carried.
       - Declaration: bool CanCollect(CBaseEntity@ pOther)
         Documentation: Returns whether this item can be collected by the given entity.
+      - Declaration: bool TryCollect(CBaseEntity@ pOther, bool fIgnoreTriggers = false)
+        Documentation: Try to collect this item.
       - Declaration: void ClearUserData()
         Documentation: |-
           Clears the user data on this entity. WARNING: clears all data.
@@ -11137,6 +11275,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -11147,6 +11293,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -11299,7 +11447,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -11406,14 +11554,20 @@ Classes:
       - Declaration: CBaseEntity@ opImplCast()
         Documentation: Implicitly casts to base type.
     Properties:
+      - Declaration: bool m_fHandledWearingOut
+        Documentation: Item has performed its wearing out trigger
       - Declaration: bool m_fRemovedByForced
         Documentation: Item was just removed by force
+      - Declaration: float m_flActivateTime
+        Documentation: Time the item was last self-activated
       - Declaration: float m_flDropTime
         Documentation: Time the item was last dropped
       - Declaration: float m_flCollectTime
         Documentation: Time the item was last collected
       - Declaration: float m_flTouchedTime
         Documentation: Time the item was last touched
+      - Declaration: int m_iActivateCount
+        Documentation: Number of times the item has been self-activated
       - Declaration: int m_iCollectCount
         Documentation: Number of times the item has been collected
       - Declaration: float m_flEffectDamage
@@ -11438,8 +11592,12 @@ Classes:
         Documentation: Holder has a glow shell
       - Declaration: bool m_fEffectsPermanent
         Documentation: Holder keeps effects after dropping the item
+      - Declaration: bool m_fEffectsWaitUntilActivated
+        Documentation: >-
+          Holder effects do not apply until the item is activated (ignored if
+          m_fCanBeActivated is false)
       - Declaration: string_t m_szTriggerOnDestroy
-        Documentation: On destroy
+        Documentation: On destruction
       - Declaration: string_t m_szTriggerOnMaterialise
         Documentation: On materialise after return
       - Declaration: string_t m_szTriggerOnReturnOther
@@ -11460,6 +11618,18 @@ Classes:
         Documentation: On use by trigger (for collector's team)
       - Declaration: string_t m_szTriggerOnUseSelf
         Documentation: On use by trigger (for collector)
+      - Declaration: string_t m_szTriggerOnCantActivateOther
+        Documentation: On failed self-activation (for everyone else)
+      - Declaration: string_t m_szTriggerOnCantActivateTeam
+        Documentation: On failed self-activation (for collector's team)
+      - Declaration: string_t m_szTriggerOnCantActivateSelf
+        Documentation: On failed self - activation(for collector)
+      - Declaration: string_t m_szTriggerOnActivateOther
+        Documentation: On self-activation (for everyone else)
+      - Declaration: string_t m_szTriggerOnActivateTeam
+        Documentation: On self-activation (for collector's team)
+      - Declaration: string_t m_szTriggerOnActivateSelf
+        Documentation: On self-activation (for collector)
       - Declaration: string_t m_szTriggerOnCantDropOther
         Documentation: On failed drop (for everyone else)
       - Declaration: string_t m_szTriggerOnCantDropTeam
@@ -11500,8 +11670,16 @@ Classes:
           = never, 0 = instant)
       - Declaration: bool m_fCanBeDropped
         Documentation: Holder is allowed to drop this item by choice
+      - Declaration: bool m_fHoldTimeWaitUntilActivated
+        Documentation: >-
+          Maximum hold time is not started until the item is activated (ignored
+          if m_fCanBeActivated is false)
+      - Declaration: bool m_fCanBeActivated
+        Documentation: Holder is allowed to activate this item by choice at any time
       - Declaration: float m_flWearOutTime
         Documentation: Perform a trigger prior to this item being forcibly dropped (0 = none)
+      - Declaration: float m_flActivateWaitTime
+        Documentation: Time to wait between each activation (0 = none)
       - Declaration: float m_flMaximumHoldTime
         Documentation: >-
           Limit to how long this item can be held for, forcibly dropped after (0
@@ -11554,13 +11732,15 @@ Classes:
 
           holders can hold multiple items up to a total weight 100, think of
           this as KG if you like (though what person can carry 100KG!?).
+      - Declaration: int m_iActivateLimit
+        Documentation: How many times the item can be activated (0 = infinite).
       - Declaration: int m_iCollectLimit
         Documentation: >-
           How many times the item can be picked up, destroyed when limit is
           reached (0 = infinite).
       - Declaration: string_t m_szDescription
         Documentation: Friendly item description for client-side UI.
-      - Declaration: string m_szDisplayName
+      - Declaration: string_t m_szDisplayName
         Documentation: Friendly item name for client-side UI.
       - Declaration: string_t m_szItemGroup
         Documentation: Group name referred to by triggers.
@@ -11637,6 +11817,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -11647,6 +11835,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -11799,7 +11989,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -12080,7 +12270,7 @@ Classes:
         Documentation: Returns if deploy was successful.
       - Declaration: bool CanDeploy()
         Documentation: Returns whether this item can deploy.
-      - Declaration: void GetItemInfo(ItemInfo& out info)
+      - Declaration: bool GetItemInfo(ItemInfo& out info)
         Documentation: Gets item info.
       - Declaration: void CheckRespawn()
         Documentation: Check respawn.
@@ -12104,6 +12294,10 @@ Classes:
         Documentation: Default weapon use function.
       - Declaration: void DefaultTouch(CBaseEntity@ pOther)
         Documentation: Touch function. Default touch.
+      - Declaration: void Collect(CBaseEntity@ pOther, CollectTypes collectType)
+        Documentation: >-
+          Attempts to let pOther collect this item, while specifying the collect
+          type.
       - Declaration: void Collect(CBaseEntity@ pOther)
         Documentation: Attempts to let pOther collect this item.
       - Declaration: void DestroyItem()
@@ -12198,6 +12392,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -12208,6 +12410,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -12356,7 +12560,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -12509,6 +12713,8 @@ Classes:
           attack key(s)
       - Declaration: bool m_bPlayEmptySound
         Documentation: Whether to play the empty sound when the player attempts to fire
+      - Declaration: int m_dropType
+        Documentation: The current drop type. Check the DROP_TYPE Enum.
       - Declaration: bool m_bExclusiveHold
         Documentation: >-
           If set, as long as a player has this item, the player must keep this
@@ -12633,7 +12839,7 @@ Classes:
         Documentation: Returns if deploy was successful.
       - Declaration: bool CanDeploy()
         Documentation: Returns whether this item can deploy.
-      - Declaration: void GetItemInfo(ItemInfo& out info)
+      - Declaration: bool GetItemInfo(ItemInfo& out info)
         Documentation: Gets item info.
       - Declaration: void CheckRespawn()
         Documentation: Check respawn.
@@ -12657,6 +12863,10 @@ Classes:
         Documentation: Default weapon use function.
       - Declaration: void DefaultTouch(CBaseEntity@ pOther)
         Documentation: Touch function. Default touch.
+      - Declaration: void Collect(CBaseEntity@ pOther, CollectTypes collectType)
+        Documentation: >-
+          Attempts to let pOther collect this item, while specifying the collect
+          type.
       - Declaration: void Collect(CBaseEntity@ pOther)
         Documentation: Attempts to let pOther collect this item.
       - Declaration: void DestroyItem()
@@ -12751,6 +12961,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -12761,6 +12979,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -12909,7 +13129,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -13020,6 +13240,8 @@ Classes:
       - Declaration: CBaseAnimating@ opImplCast()
         Documentation: Implicitly casts to base type.
     Properties:
+      - Declaration: int m_dropType
+        Documentation: The current drop type. Check the DROP_TYPE Enum.
       - Declaration: bool m_bExclusiveHold
         Documentation: >-
           If set, as long as a player has this item, the player must keep this
@@ -13192,6 +13414,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -13202,6 +13432,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -13350,7 +13582,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -13652,6 +13884,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -13662,6 +13902,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -13810,7 +14052,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -14016,6 +14258,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -14026,6 +14276,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -14174,7 +14426,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -14378,6 +14630,14 @@ Classes:
           data, the object might be removed from this entity.
 
           Only map scripts can use this.
+      - Declaration: void ClearEntityFlags()
+        Documentation: Clear all entity flag masks (EFLAG)
+      - Declaration: bool HasEntityFlag(int FlagMask) const
+        Documentation: Check if it has such entity flag mask (EFLAG) set
+      - Declaration: void RemoveEntityFlag(int FlagMask)
+        Documentation: Remove a entity flag mask (EFLAG)
+      - Declaration: void AddEntityFlag(int FlagMask)
+        Documentation: Add a entity flag mask (EFLAG)
       - Declaration: void EndRevive(float flTimeUntilRevive)
         Documentation: >-
           Called when this entity should be revived. flTimeUntilRevive is the
@@ -14388,6 +14648,8 @@ Classes:
           the revive action completes.
       - Declaration: bool IsRevivable()
         Documentation: Returns whether this entity is revivable at this time.
+      - Declaration: void OnSetOriginByMap()
+        Documentation: Entity callback after trigger_setorigin has moved the entity.
       - Declaration: void OnDestroy()
         Documentation: Entity destructor.
       - Declaration: void OnCreate()
@@ -14540,7 +14802,7 @@ Classes:
         Documentation: Returns whether this entity is triggered by the given entity.
       - Declaration: int BloodColor()
         Documentation: Returns the blood color. See the BLOOD_COLOR enum.
-      - Declaration: void Killed(entvars_t@pevAtttacker, int iGibbed)
+      - Declaration: void Killed(entvars_t@ pevAttacker, int iGibbed)
         Documentation: >-
           Tells this entity it's been killed. See the GIB enum for possible
           values.
@@ -14679,6 +14941,34 @@ Classes:
         Documentation: Whether this entity overrides the classification.
       - Declaration: entvars_t@ pev
         Documentation: Entity variables
+  - ClassName: RGBA
+    Namespace: ''
+    Documentation: Color stored as four uint8 components
+    Flags: 2
+    Methods:
+      - Declaration: string ToString(const bool withAlpha = true) const
+        Documentation: Returns a string representation of this RGBA
+      - Declaration: bool opEquals(const RGBA& in other) const
+        Documentation: Compare colors
+      - Declaration: RGBA& opAssign(const RGBA& in other)
+        Documentation: Assignment operator
+      - Declaration: void RGBA(const RGBA& in other)
+        Documentation: Copy constructor
+      - Declaration: void RGBA(const Vector& in color, uint8 a = 255)
+        Documentation: Constructor
+      - Declaration: void RGBA(uint8 r, uint8 g, uint8 b, uint8 a = 255)
+        Documentation: Constructor
+      - Declaration: void RGBA()
+        Documentation: Constructor
+    Properties:
+      - Declaration: uint8 a
+        Documentation: Alpha component
+      - Declaration: uint8 b
+        Documentation: Blue component
+      - Declaration: uint8 g
+        Documentation: Green component
+      - Declaration: uint8 r
+        Documentation: Red component
   - ClassName: CDecals
     Namespace: ''
     Documentation: Dynamic decal manager
@@ -16337,6 +16627,12 @@ Enums:
     Namespace: NetworkMessages
     Documentation: Network message types
     Values:
+      - Name: ClServerInfo
+        Value: 147
+        Documentation: User message
+      - Name: ChangeSky
+        Value: 146
+        Documentation: User message
       - Name: VModelPos
         Value: 145
         Documentation: User message
@@ -16875,6 +17171,40 @@ Enums:
       - Name: GLOBAL_OFF
         Value: 0
         Documentation: Global state when off
+  - Name: HideHUDFlags
+    Namespace: ''
+    Documentation: Flags used in CBasePlayer m_iHideHUD
+    Values:
+      - Name: HIDEHUD_AMMO
+        Value: 512
+        Documentation: Hides only the Ammo element
+      - Name: HIDEHUD_CROSSHAIR
+        Value: 256
+        Documentation: Hides only the Crosshair element
+      - Name: HIDEHUD_CUSTOM_PLUGINS
+        Value: 128
+        Documentation: Hides Custom HUD elements from plugins
+      - Name: HIDEHUD_CUSTOM_MAPS
+        Value: 64
+        Documentation: Hides Custom HUD elements from map scripts
+      - Name: HIDEHUD_SUITPOWER
+        Value: 32
+        Documentation: Hides the Battery(armor) element
+      - Name: HIDEHUD_WEAPON_SELECT
+        Value: 16
+        Documentation: Hides the Weapon Selection Menu element
+      - Name: HIDEHUD_HEALTH
+        Value: 8
+        Documentation: Hides the Health element
+      - Name: HIDEHUD_ALL
+        Value: 4
+        Documentation: Hides all HUD elements
+      - Name: HIDEHUD_FLASHLIGHT
+        Value: 2
+        Documentation: Hides the Flashlight element
+      - Name: HIDEHUD_WEAPONS
+        Value: 1
+        Documentation: Hides Weapon Selection Menu and Crosshair elements
   - Name: HUD_TIME
     Namespace: ''
     Documentation: Flags used by custom time displays.
@@ -18309,7 +18639,7 @@ Enums:
     Documentation: Task types for the monster AI
     Values:
       - Name: LAST_COMMON_TASK
-        Value: 112
+        Value: 113
         Documentation: ''
       - Name: TASK_PATH_WAYPOINT_DEPARTURE
         Value: 111
@@ -19404,6 +19734,45 @@ Enums:
       - Name: SCRIPT_PLAYING
         Value: 0
         Documentation: Playing the sequence
+  - Name: EFLAG
+    Namespace: ''
+    Documentation: Entity mask constants
+    Values:
+      - Name: EFLAG_IGNOREGRAVITY
+        Value: 4
+        Documentation: Entity ignores trigger_gravity
+      - Name: EFLAG_PROJECTILE
+        Value: 2
+        Documentation: Entity don't collide with friendly monsters/players
+  - Name: CollectTypes
+    Namespace: ''
+    Documentation: How an item was collected.
+    Values:
+      - Name: COLLECT_USE_INDIRECT
+        Value: 2
+        Documentation: Used indirectly (trigger/etc)
+      - Name: COLLECT_USE_DIRECT
+        Value: 1
+        Documentation: Used directly (+use)
+      - Name: COLLECT_TOUCH
+        Value: 0
+        Documentation: Touched
+  - Name: DropTypes
+    Namespace: ''
+    Documentation: How an item was dropped.
+    Values:
+      - Name: DROP_NPC_DEATH
+        Value: 3
+        Documentation: By an NPC killed.
+      - Name: DROP_PLAYER_DEATH
+        Value: 2
+        Documentation: By a player killed.
+      - Name: DROP_PLAYER_CMD
+        Value: 1
+        Documentation: By a player via drop/dropammo/dropsecammo command.
+      - Name: DROP_DEFAULT
+        Value: 0
+        Documentation: Default/unspecified.
   - Name: Materials
     Namespace: ''
     Documentation: Material types supported by breakables
@@ -19527,19 +19896,19 @@ Enums:
       - Name: SF_DODAMAGE
         Value: 8192
         Documentation: >-
-          this flag indicates that a player thrown weapon should deal damage to
+          This flag indicates that a player thrown weapon should deal damage to
           things it hits
       - Name: SF_CREATEDWEAPON
         Value: 4096
         Documentation: |-
-          this flag indicates that this entity is a weapon created for players,
+          This flag indicates that this entity is a weapon created for players,
           as opposed to being created by being placed by a mapper
       - Name: SF_DELAYREMOVE
         Value: 2048
         Documentation: A weapon will be removed from the map after 60sec
       - Name: SF_NORESPAWN
         Value: 1024
-        Documentation: set this bit on guns and stuff that should never respawn.
+        Documentation: Set this bit on guns and stuff that should never respawn.
   - Name: FireBulletsDrawMode
     Namespace: ''
     Documentation: FireBullets draw mode options
@@ -20233,50 +20602,112 @@ Enums:
       - Name: WATERLEVEL_DRY
         Value: 0
         Documentation: Not in water
+  - Name: MAP_VP_TYPE
+    Namespace: ''
+    Documentation: Map sprite viewport types.
+    Values:
+      - Name: MAP_VP_ORIENTATED
+        Value: 4
+        Documentation: 'Orientated: Angled according to the world instead of player viewport.'
+      - Name: MAP_VP_FACING_UPRIGHT
+        Value: 2
+        Documentation: 'Facing upright: ???'
+      - Name: MAP_VP_PARALLEL_ORITENTATED
+        Value: 5
+        Documentation: >-
+          Parallel orientated: Always face the player, but use angles to rotate
+          the sprite.
+      - Name: MAP_VP_PARALLEL_UPRIGHT
+        Value: 1
+        Documentation: >-
+          Parallel upright: Always face the player on horizontal axis only,
+          fixed vertically.
+      - Name: MAP_VP_PARALLEL
+        Value: 3
+        Documentation: 'Parallel: Always face the player.'
+      - Name: MAP_VP_DEFAULT
+        Value: 0
+        Documentation: Default. (Do not override the sprite's QC choice.)
+  - Name: VP_TYPE
+    Namespace: ''
+    Documentation: >-
+      Sprite viewport types. When overriden stored in entvars_t::sequence with
+      EF_SPRITE_CUSTOM_VP set in entvars_t::effects for engine use.
+    Values:
+      - Name: VP_ORIENTATED
+        Value: 3
+        Documentation: 'Orientated: Angled according to the world instead of player viewport.'
+      - Name: VP_FACING_UPRIGHT
+        Value: 1
+        Documentation: 'Facing upright: ???'
+      - Name: VP_PARALLEL_ORITENTATED
+        Value: 4
+        Documentation: >-
+          Parallel orientated: Always face the player, but use angles to rotate
+          the sprite.
+      - Name: VP_PARALLEL_UPRIGHT
+        Value: 0
+        Documentation: >-
+          Parallel upright: Always face the player on horizontal axis only,
+          fixed vertically.
+      - Name: VP_PARALLEL
+        Value: 2
+        Documentation: 'Parallel: Always face the player.'
   - Name: EFFECTS
     Namespace: ''
     Documentation: entvars_t::effects constants
     Values:
+      - Name: EF_NOSHADOW
+        Value: 8192
+        Documentation: Don't render a studio shadow for this entity
+      - Name: EF_FULLBRIGHT
+        Value: 4096
+        Documentation: DonRender the entity at full brightness
+      - Name: EF_NODECALS
+        Value: 2048
+        Documentation: Don't draw decals on this entity
+      - Name: EF_SPRITE_CUSTOM_VP
+        Value: 1024
+        Documentation: >-
+          Allow a map to override a sprite viewport type (from
+          entvars_t::sequence)
       - Name: EF_FRAMEANIMTEXTURES
         Value: 512
-        Documentation: Use the value in pev->frame to set the texture on a brush entity
+        Documentation: Use the value in entvars_t::frame to set the texture on a brush entity
       - Name: EF_NOANIMTEXTURES
         Value: 256
         Documentation: Don't animate brush entities
-      - Name: EF_NODECALS
-        Value: 2048
-        Documentation: don't draw decals on this entity
       - Name: EF_NODRAW
         Value: 128
-        Documentation: don't draw entity
+        Documentation: Don't draw entity
       - Name: EF_LIGHT
         Value: 64
-        Documentation: rocket flare glow sprite
+        Documentation: Rocket flare glow sprite
       - Name: EF_NOINTERP
         Value: 32
-        Documentation: don't interpolate the next frame
+        Documentation: Don't interpolate the next frame
       - Name: EF_INVLIGHT
         Value: 16
-        Documentation: get lighting from ceiling
+        Documentation: Get lighting from ceiling
       - Name: EF_DIMLIGHT
         Value: 8
-        Documentation: player flashlight
+        Documentation: Player flashlight
       - Name: EF_BRIGHTLIGHT
         Value: 4
         Documentation: DLIGHT centered at entity origin
       - Name: EF_MUZZLEFLASH
         Value: 2
-        Documentation: single frame ELIGHT on entity attachment 0
+        Documentation: Single frame ELIGHT on entity attachment 0
       - Name: EF_BRIGHTFIELD
         Value: 1
-        Documentation: swirling cloud of particles
+        Documentation: Swirling cloud of particles
   - Name: DAMAGE
     Namespace: ''
     Documentation: entvars_t::takedamage values
     Values:
       - Name: DAMAGE_AIM
         Value: 2
-        Documentation: allow auto-aim
+        Documentation: Allow auto-aim
       - Name: DAMAGE_YES
         Value: 1
         Documentation: Allow damage
@@ -20295,15 +20726,15 @@ Enums:
         Documentation: The player is in a state where they can be respawned.
       - Name: DEAD_DEAD
         Value: 2
-        Documentation: dead. lying still.
+        Documentation: Dead, lying still.
       - Name: DEAD_DYING
         Value: 1
         Documentation: >-
-          playing death animation or still falling off of a ledge waiting to hit
+          Playing death animation or still falling off of a ledge waiting to hit
           ground
       - Name: DEAD_NO
         Value: 0
-        Documentation: alive
+        Documentation: Alive
   - Name: SOLID
     Namespace: ''
     Documentation: >-
@@ -20924,7 +21355,8 @@ Properties:
   - Declaration: const uint32 MapChange
     Documentation: >-
       Called when the map changes. This happens when the world is destroyed.
-      There may still be entities that exist at this point.
+      There may still be entities that exist at this point. String will show the
+      next map will be, or empty if the server is shutting down.
     Namespace: Hooks::Game
   - Declaration: const uint32 EntityCreated
     Documentation: >-
@@ -20947,23 +21379,24 @@ Properties:
       Called when a player says something in game chat. The SayParameters class
       can be used to manipulate input and veto the message.
     Namespace: Hooks::Player
+  - Declaration: const uint32 MonsterKilled
+    Documentation: >-
+      Called when a monster is killed.This may still be called even when the
+      monster is taking damage while in a event (eg.: death animation). Players
+      also appear there as they're technically monsters too.
+    Namespace: Hooks::Monster
+  - Declaration: const uint32 MonsterTakeDamage
+    Documentation: >-
+      Called when a monster takes damage.Note that the victim entity can't be
+      changed at this point. Players also appear there as they're technically
+      monsters too.
+    Namespace: Hooks::Monster
   - Declaration: const uint32 CanPlayerUseReservedSlot
     Documentation: >-
       Called when a player connects to the server, and the number of slots left
       on the server is <= the number of reserved slots. Set bAllowJoin to true
       to allow the player to join (default false).
     Namespace: Hooks::Player
-  - Declaration: const uint32 CanCollect
-    Documentation: >-
-      Called when a pickup object is about to be collected by a player. Note
-      that basic checks are done before this hook is called.
-    Namespace: Hooks::PickupObject
-  - Declaration: const uint32 Materialize
-    Documentation: Called when a pickup object materializes.
-    Namespace: Hooks::PickupObject
-  - Declaration: const uint32 Collected
-    Documentation: 'Called when a pickup object is collected by a player. '
-    Namespace: Hooks::PickupObject
   - Declaration: const uint32 ClientConnected
     Documentation: >-
       Called when a player connects to the server. if bDisallowJoin is set to
@@ -20979,6 +21412,17 @@ Properties:
       Called when the game wants to know if the player should be able to respawn
       or not.Set bCanRespawn to false to disallow, default true.
     Namespace: Hooks::Player
+  - Declaration: const uint32 CanCollect
+    Documentation: >-
+      Called when a pickup object is about to be collected by a player. Note
+      that basic checks are done before this hook is called.
+    Namespace: Hooks::PickupObject
+  - Declaration: const uint32 Materialize
+    Documentation: Called when a pickup object materializes.
+    Namespace: Hooks::PickupObject
+  - Declaration: const uint32 Collected
+    Documentation: 'Called when a pickup object is collected by a player. '
+    Namespace: Hooks::PickupObject
   - Declaration: const uint32 PlayerTakeDamage
     Documentation: >-
       Called when a player takes damage. Note that the victim entity can't be
@@ -21007,6 +21451,11 @@ Properties:
   - Declaration: const uint32 GetPlayerSpawnSpot
     Documentation: Called when a player is about to get a spawn point before (re)spawning.
     Namespace: Hooks::Player
+  - Declaration: const uint32 PlayerRevived
+    Documentation: >-
+      Called when a player is revived. At this point all the revival process is
+      finished.
+    Namespace: Hooks::Player
   - Declaration: const uint32 PlayerDecal
     Documentation: >-
       Called when a player is spraypainting a decal onto a surface. The given
@@ -21026,6 +21475,9 @@ Properties:
     Namespace: Hooks::Weapon
   - Declaration: const uint32 WeaponTertiaryAttack
     Documentation: Called when a player fires a weapon's tertiary attack.
+    Namespace: Hooks::Weapon
+  - Declaration: const uint32 WeaponReload
+    Documentation: Called when a player reloads a weapon.
     Namespace: Hooks::Weapon
   - Declaration: CSurvivalMode g_SurvivalMode
     Documentation: Survival Mode global instance.
@@ -21068,30 +21520,6 @@ Properties:
     Namespace: ''
   - Declaration: CPlayerFuncs g_PlayerFuncs
     Documentation: Global player functions instance
-    Namespace: ''
-  - Declaration: const RGBA RGBA_SVENCOOP
-    Documentation: Sven Co-op HUD color
-    Namespace: ''
-  - Declaration: const RGBA RGBA_ORANGE
-    Documentation: Orange
-    Namespace: ''
-  - Declaration: const RGBA RGBA_YELLOW
-    Documentation: Yellow
-    Namespace: ''
-  - Declaration: const RGBA RGBA_BLUE
-    Documentation: Blue
-    Namespace: ''
-  - Declaration: const RGBA RGBA_GREEN
-    Documentation: Green
-    Namespace: ''
-  - Declaration: const RGBA RGBA_RED
-    Documentation: Red
-    Namespace: ''
-  - Declaration: const RGBA RGBA_BLACK
-    Documentation: Black
-    Namespace: ''
-  - Declaration: const RGBA RGBA_WHITE
-    Documentation: White
     Namespace: ''
   - Declaration: CEntityFuncs g_EntityFuncs
     Documentation: Global entity functions instance
@@ -21361,6 +21789,444 @@ Properties:
   - Declaration: CActivityMap g_ActivityMap
     Documentation: Activity map instance
     Namespace: ''
+  - Declaration: const RGBA RGBA_SVENCOOP_HUD
+    Documentation: Sven Co-op HUD color
+    Namespace: ''
+  - Declaration: const RGBA RGBA_SVENCOOP
+    Documentation: Sven Co-op brand color
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MS_MEDIUM_GRAY
+    Documentation: Medium gray (MS)
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MS_CREAN
+    Documentation: Cream (MS)
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MS_SKY_BLUE
+    Documentation: Sky blue (MS)
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MS_MONEY_GREEN
+    Documentation: Money green (MS)
+    Namespace: ''
+  - Declaration: const RGBA RGBA_GAINSBORO
+    Documentation: Gainsboro
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LIGHT_GRAY
+    Documentation: Light gray
+    Namespace: ''
+  - Declaration: const RGBA RGBA_SILVER
+    Documentation: Silver
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_GRAY
+    Documentation: Dark gray
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LIGHT_SLATE_GRAY
+    Documentation: Light slate gray
+    Namespace: ''
+  - Declaration: const RGBA RGBA_GRAY
+    Documentation: Gray
+    Namespace: ''
+  - Declaration: const RGBA RGBA_SLATE_GRAY
+    Documentation: Slate gray
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DIM_GRAY
+    Documentation: Dim gray
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_SLATE_GRAY
+    Documentation: Dark slate gray
+    Namespace: ''
+  - Declaration: const RGBA RGBA_BLACK
+    Documentation: Black
+    Namespace: ''
+  - Declaration: const RGBA RGBA_WHITE
+    Documentation: White
+    Namespace: ''
+  - Declaration: const RGBA RGBA_IVORY
+    Documentation: Ivory
+    Namespace: ''
+  - Declaration: const RGBA RGBA_SNOW
+    Documentation: Snow
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MINT_CREAM
+    Documentation: Mint cream
+    Namespace: ''
+  - Declaration: const RGBA RGBA_AZURE
+    Documentation: Azure
+    Namespace: ''
+  - Declaration: const RGBA RGBA_FLORAL_WHITE
+    Documentation: Floral white
+    Namespace: ''
+  - Declaration: const RGBA RGBA_HONEYDEW
+    Documentation: Honeydew
+    Namespace: ''
+  - Declaration: const RGBA RGBA_GHOST_WHITE
+    Documentation: Ghost white
+    Namespace: ''
+  - Declaration: const RGBA RGBA_SEASHELL
+    Documentation: Seashell
+    Namespace: ''
+  - Declaration: const RGBA RGBA_ALICE_BLUE
+    Documentation: Alice blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_OLD_LACE
+    Documentation: Old lace
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LAVENDER_BLUSH
+    Documentation: Lavender blush
+    Namespace: ''
+  - Declaration: const RGBA RGBA_WHITE_SMOKE
+    Documentation: White smoke
+    Namespace: ''
+  - Declaration: const RGBA RGBA_BEIGE
+    Documentation: Beige
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LINEN
+    Documentation: Linen
+    Namespace: ''
+  - Declaration: const RGBA RGBA_ANTIQUE_WHITE
+    Documentation: Antique white
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MISTY_ROSE
+    Documentation: Misty rose
+    Namespace: ''
+  - Declaration: const RGBA RGBA_PALE_GREEN
+    Documentation: Pale green
+    Namespace: ''
+  - Declaration: const RGBA RGBA_GREEN_YELLOW
+    Documentation: Green yellow
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LIGHT_GREEN
+    Documentation: Light green
+    Namespace: ''
+  - Declaration: const RGBA RGBA_CHARTREUSE
+    Documentation: Chartreuse
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LAWN_GREEN
+    Documentation: Lawn green
+    Namespace: ''
+  - Declaration: const RGBA RGBA_YELLOW_GREEN
+    Documentation: Yellow green
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MEDIUM_AQUAMARINE
+    Documentation: Medium aquamarine
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_SEA_GREEN
+    Documentation: Dark sea green
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MEDIUM_SPRING_GREEN
+    Documentation: Medium spring green
+    Namespace: ''
+  - Declaration: const RGBA RGBA_SPRING_GREEN
+    Documentation: Spring green
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LIME
+    Documentation: Lime
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LIME_GREEN
+    Documentation: Lime green
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MEDIUM_SEA_GREEN
+    Documentation: Medium sea green
+    Namespace: ''
+  - Declaration: const RGBA RGBA_OLIVE_DRAB
+    Documentation: Olive drab
+    Namespace: ''
+  - Declaration: const RGBA RGBA_OLIVE
+    Documentation: Olive
+    Namespace: ''
+  - Declaration: const RGBA RGBA_SEA_GREEN
+    Documentation: Sea green
+    Namespace: ''
+  - Declaration: const RGBA RGBA_FOREST_GREEN
+    Documentation: Forest green
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_OLIVE_GREEN
+    Documentation: Dark olive green
+    Namespace: ''
+  - Declaration: const RGBA RGBA_GREEN
+    Documentation: Green
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_GREEN
+    Documentation: Dark green
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LIGHT_CYAN
+    Documentation: Light cyan
+    Namespace: ''
+  - Declaration: const RGBA RGBA_PALE_TURQUOISE
+    Documentation: Pale turquoise
+    Namespace: ''
+  - Declaration: const RGBA RGBA_AQUAMARINE
+    Documentation: Aquamarine
+    Namespace: ''
+  - Declaration: const RGBA RGBA_CYAN
+    Documentation: Cyan
+    Namespace: ''
+  - Declaration: const RGBA RGBA_AQUA
+    Documentation: Aqua
+    Namespace: ''
+  - Declaration: const RGBA RGBA_TURQUOISE
+    Documentation: Turquoise
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MEDIUM_TURQUOISE
+    Documentation: Medium turquoise
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_TURQUOISE
+    Documentation: Dark turquoise
+    Namespace: ''
+  - Declaration: const RGBA RGBA_CADET_BLUE
+    Documentation: Cadet blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LIGHT_SEA_GREEN
+    Documentation: Light sea green
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_CYAN
+    Documentation: Dark cyan
+    Namespace: ''
+  - Declaration: const RGBA RGBA_TEAL
+    Documentation: Teal
+    Namespace: ''
+  - Declaration: const RGBA RGBA_POWDER_BLUE
+    Documentation: Powder blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LIGHT_BLUE
+    Documentation: Light blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LIGHT_STEEL_BLUE
+    Documentation: Light steel blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LIGHT_SKY_BLUE
+    Documentation: Light sky blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_SKY_BLUE
+    Documentation: Sky blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_CORNFLOWER_BLUE
+    Documentation: Cornflower blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DEEP_SKY_BLUE
+    Documentation: Deep sky blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DODGER_BLUE
+    Documentation: Dodger blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_STEEL_BLUE
+    Documentation: Steel blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_ROYAL_BLUE
+    Documentation: Royal blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_BLUE
+    Documentation: Blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MEDIUM_BLUE
+    Documentation: Medium blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_BLUE
+    Documentation: Dark blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_NAVY
+    Documentation: Navy
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MIDNIGHT_BLUE
+    Documentation: Midnight blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LAVENDER
+    Documentation: Lavender
+    Namespace: ''
+  - Declaration: const RGBA RGBA_THISTLE
+    Documentation: Thistle
+    Namespace: ''
+  - Declaration: const RGBA RGBA_PLUM
+    Documentation: Plum
+    Namespace: ''
+  - Declaration: const RGBA RGBA_VIOLET
+    Documentation: Violet
+    Namespace: ''
+  - Declaration: const RGBA RGBA_ORCHID
+    Documentation: Orchid
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MEDIUM_PURPLE
+    Documentation: Medium purple
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MEDIUM_ORCHID
+    Documentation: Medium orchid
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MEDIUM_SLATE_BLUE
+    Documentation: Medium slate blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_SLATE_BLUE
+    Documentation: Slate blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MAGENTA
+    Documentation: Magenta
+    Namespace: ''
+  - Declaration: const RGBA RGBA_FUCHSIA
+    Documentation: Fuchsia
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_ORCHID
+    Documentation: Dark orchid
+    Namespace: ''
+  - Declaration: const RGBA RGBA_BLUE_VIOLET
+    Documentation: Blue violet
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_SLATE_BLUE
+    Documentation: Dark slate blue
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_VIOLET
+    Documentation: Dark violet
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_MAGENTA
+    Documentation: Dark magenta
+    Namespace: ''
+  - Declaration: const RGBA RGBA_PURPLE
+    Documentation: Purple
+    Namespace: ''
+  - Declaration: const RGBA RGBA_INDIGO
+    Documentation: Indigo
+    Namespace: ''
+  - Declaration: const RGBA RGBA_CORNSILK
+    Documentation: Cornsilk
+    Namespace: ''
+  - Declaration: const RGBA RGBA_BLANCHED_ALMOND
+    Documentation: Blanched almond
+    Namespace: ''
+  - Declaration: const RGBA RGBA_BISQUE
+    Documentation: Bisque
+    Namespace: ''
+  - Declaration: const RGBA RGBA_NAVAJO_WHITE
+    Documentation: Navajo white
+    Namespace: ''
+  - Declaration: const RGBA RGBA_WHEAT
+    Documentation: Wheat
+    Namespace: ''
+  - Declaration: const RGBA RGBA_BURLYWOOD
+    Documentation: Burlywood
+    Namespace: ''
+  - Declaration: const RGBA RGBA_TAN
+    Documentation: Tan
+    Namespace: ''
+  - Declaration: const RGBA RGBA_SANDY_BROWN
+    Documentation: Sandy brown
+    Namespace: ''
+  - Declaration: const RGBA RGBA_GOLDENROD
+    Documentation: Goldenrod
+    Namespace: ''
+  - Declaration: const RGBA RGBA_ROSY_BROWN
+    Documentation: Rosy brown
+    Namespace: ''
+  - Declaration: const RGBA RGBA_PERU
+    Documentation: Peru
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_GOLDENROD
+    Documentation: Dark goldenrod
+    Namespace: ''
+  - Declaration: const RGBA RGBA_CHOCOLATE
+    Documentation: Chocolate
+    Namespace: ''
+  - Declaration: const RGBA RGBA_SIENNA
+    Documentation: Sienna
+    Namespace: ''
+  - Declaration: const RGBA RGBA_SADDLE_BROWN
+    Documentation: Saddle brown
+    Namespace: ''
+  - Declaration: const RGBA RGBA_BROWN
+    Documentation: Brown
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MAROON
+    Documentation: Maroon
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LIGHT_YELLOW
+    Documentation: Light yellow
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LEMON_CHIFFON
+    Documentation: Lemon chiffon
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LIGHT_GOLDENROD_YELLOW
+    Documentation: Light goldenrod yellow
+    Namespace: ''
+  - Declaration: const RGBA RGBA_PAPAYA_WHIP
+    Documentation: Papaya whip
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MOCCASIN
+    Documentation: Moccasin
+    Namespace: ''
+  - Declaration: const RGBA RGBA_PALE_GOLDENROD
+    Documentation: Pale goldenrod
+    Namespace: ''
+  - Declaration: const RGBA RGBA_YELLOW
+    Documentation: Yellow
+    Namespace: ''
+  - Declaration: const RGBA RGBA_PEACH_PUFF
+    Documentation: Peach puff
+    Namespace: ''
+  - Declaration: const RGBA RGBA_KHAKI
+    Documentation: Khaki
+    Namespace: ''
+  - Declaration: const RGBA RGBA_GOLD
+    Documentation: Gold
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_KHAKI
+    Documentation: Dark khaki
+    Namespace: ''
+  - Declaration: const RGBA RGBA_ORANGE
+    Documentation: Orange
+    Namespace: ''
+  - Declaration: const RGBA RGBA_CORAL
+    Documentation: Coral
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_ORANGE
+    Documentation: Dark orange
+    Namespace: ''
+  - Declaration: const RGBA RGBA_TOMATO
+    Documentation: Tomato
+    Namespace: ''
+  - Declaration: const RGBA RGBA_ORANGE_RED
+    Documentation: Orange red
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LIGHT_SALMON
+    Documentation: Light salmon
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_SALMON
+    Documentation: Dark salmon
+    Namespace: ''
+  - Declaration: const RGBA RGBA_SALMON
+    Documentation: Salmon
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LIGHT_CORAL
+    Documentation: Light coral
+    Namespace: ''
+  - Declaration: const RGBA RGBA_INDIAN_RED
+    Documentation: Indian red
+    Namespace: ''
+  - Declaration: const RGBA RGBA_CRIMSON
+    Documentation: Crimson
+    Namespace: ''
+  - Declaration: const RGBA RGBA_FIREBRICK
+    Documentation: Firebrick
+    Namespace: ''
+  - Declaration: const RGBA RGBA_RED
+    Documentation: Red
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DARK_RED
+    Documentation: Dark red
+    Namespace: ''
+  - Declaration: const RGBA RGBA_PINK
+    Documentation: Pink
+    Namespace: ''
+  - Declaration: const RGBA RGBA_LIGHT_PINK
+    Documentation: Light pink
+    Namespace: ''
+  - Declaration: const RGBA RGBA_HOT_PINK
+    Documentation: Hot pink
+    Namespace: ''
+  - Declaration: const RGBA RGBA_PALE_VIOLET_RED
+    Documentation: Pale violet red
+    Namespace: ''
+  - Declaration: const RGBA RGBA_DEEP_PINK
+    Documentation: Deep pink
+    Namespace: ''
+  - Declaration: const RGBA RGBA_MEDIUM_VIOLET_RED
+    Documentation: Medium violet red
+    Namespace: ''
   - Declaration: CDecals g_Decals
     Documentation: Dynamic decal manager instance
     Namespace: ''
@@ -21441,10 +22307,11 @@ Typedefs:
     Namespace: ''
     Type: uint32
 FuncDefs:
-  - Name: HookReturnCode MapChangeHook()
+  - Name: HookReturnCode MapChangeHook(const string& in)
     Documentation: >-
       Called when the map changes. This happens when the world is destroyed.
-      There may still be entities that exist at this point.
+      There may still be entities that exist at this point. String will show the
+      next map will be, or empty if the server is shutting down.
     Namespace: ''
   - Name: HookReturnCode EntityCreatedHook(CBaseEntity@)
     Documentation: >-
@@ -21467,6 +22334,18 @@ FuncDefs:
       Called when a player says something in game chat. The SayParameters class
       can be used to manipulate input and veto the message.
     Namespace: ''
+  - Name: HookReturnCode MonsterKilledHook(CBaseMonster@, CBaseEntity@, int)
+    Documentation: >-
+      Called when a monster is killed.This may still be called even when the
+      monster is taking damage while in a event (eg.: death animation). Players
+      also appear there as they're technically monsters too.
+    Namespace: ''
+  - Name: HookReturnCode MonsterTakeDamageHook(DamageInfo@)
+    Documentation: >-
+      Called when a monster takes damage.Note that the victim entity can't be
+      changed at this point. Players also appear there as they're technically
+      monsters too.
+    Namespace: ''
   - Name: >-
       HookReturnCode CanPlayerUseReservedSlotHook(edict_t@, const string& in,
       const string& in, bool& out)
@@ -21474,17 +22353,6 @@ FuncDefs:
       Called when a player connects to the server, and the number of slots left
       on the server is <= the number of reserved slots. Set bAllowJoin to true
       to allow the player to join (default false).
-    Namespace: ''
-  - Name: HookReturnCode CanCollectHook(CBaseEntity@, CBaseEntity@, bool& out)
-    Documentation: >-
-      Called when a pickup object is about to be collected by a player. Note
-      that basic checks are done before this hook is called.
-    Namespace: ''
-  - Name: HookReturnCode MaterializeHook(CBaseEntity@)
-    Documentation: Called when a pickup object materializes.
-    Namespace: ''
-  - Name: HookReturnCode CollectedHook(CBaseEntity@, CBaseEntity@)
-    Documentation: 'Called when a pickup object is collected by a player. '
     Namespace: ''
   - Name: >-
       HookReturnCode ClientConnectedHook(edict_t@, const string& in, const
@@ -21502,6 +22370,17 @@ FuncDefs:
     Documentation: >-
       Called when the game wants to know if the player should be able to respawn
       or not.Set bCanRespawn to false to disallow, default true.
+    Namespace: ''
+  - Name: HookReturnCode CanCollectHook(CBaseEntity@, CBaseEntity@, bool& out)
+    Documentation: >-
+      Called when a pickup object is about to be collected by a player. Note
+      that basic checks are done before this hook is called.
+    Namespace: ''
+  - Name: HookReturnCode MaterializeHook(CBaseEntity@)
+    Documentation: Called when a pickup object materializes.
+    Namespace: ''
+  - Name: HookReturnCode CollectedHook(CBaseEntity@, CBaseEntity@)
+    Documentation: 'Called when a pickup object is collected by a player. '
     Namespace: ''
   - Name: HookReturnCode PlayerTakeDamageHook(DamageInfo@)
     Documentation: >-
@@ -21533,6 +22412,11 @@ FuncDefs:
       out ppEntSpawnSpot)
     Documentation: Called when a player is about to get a spawn point before (re)spawning.
     Namespace: ''
+  - Name: HookReturnCode PlayerRevivedHook(CBasePlayer@ pPlayer)
+    Documentation: >-
+      Called when a player is revived. At this point all the revival process is
+      finished.
+    Namespace: ''
   - Name: HookReturnCode PlayerDecalHook(CBasePlayer@, const TraceResult& in)
     Documentation: >-
       Called when a player is spraypainting a decal onto a surface. The given
@@ -21554,6 +22438,9 @@ FuncDefs:
     Namespace: ''
   - Name: HookReturnCode WeaponTertiaryAttackHook(CBasePlayer@, CBasePlayerWeapon@)
     Documentation: Called when a player fires a weapon's tertiary attack.
+    Namespace: ''
+  - Name: HookReturnCode WeaponReloadHook(CBasePlayer@, CBasePlayerWeapon@)
+    Documentation: Called when a player reloads a weapon.
     Namespace: ''
   - Name: >-
       void CVarCallback(CCVar@ cvar, const string& in szOldValue, float
