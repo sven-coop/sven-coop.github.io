@@ -2,11 +2,11 @@
 <html lang="en-US">
   <head>
     <meta charset="UTF-8" />
-		<meta name="description" content="Sven Co-op 5.25 AngelScript API documentation.">
+		<meta name="description" content="Sven Co-op 5.26 AngelScript API documentation.">
 		<meta property="og:type" content="website">
 		<meta property="og:title" content="CUtility">
 		<meta property="og:site_name" content="Sven Co-op AngelScript API">
-		<meta property="og:description" content="Sven Co-op 5.25 AngelScript API documentation.">
+		<meta property="og:description" content="Sven Co-op 5.26 AngelScript API documentation.">
 		<meta property="og:image" content="https://raw.githubusercontent.com/sven-coop/sven-coop.github.io/main/src/sc.png">
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -90,6 +90,10 @@
         				<tr id='StringToVector'>
         					<td><span class="type">void</span> StringToVector(<a class="type" href='/Vector'>Vector</a><span class="type">&</span> <span class="inout">out</span> vecVector, <span class="type">const</span> <a class="type" href='/string'>string</a><span class="type">&</span> <span class="inout">in</span> szString, <span class="type">const</span> <a class="type" href='/char'>char</a> delimiter = <a class="type" href='/char'>char</a>(' '))</td>
         					<td>Converts the given <a href='/string'>string</a> to a vector</td>
+        				</tr>
+        				<tr id='StringToRGBA'>
+        					<td><span class="type">void</span> StringToRGBA(<a class="type" href='/RGBA'>RGBA</a><span class="type">&</span> <span class="inout">out</span> rgba, <span class="type">const</span> <a class="type" href='/string'>string</a><span class="type">&</span> <span class="inout">in</span> szString, <span class="type">const</span> <a class="type" href='/char'>char</a> delimiter = <a class="type" href='/char'>char</a>(' '))</td>
+        					<td>Converts the given <a href='/string'>string</a> to an <a href='/RGBA'>RGBA</a> (alpha component is optional)</td>
         				</tr>
         				<tr id='IsStringInt'>
         					<td><span class="type">bool</span> IsStringInt(<span class="type">const</span> <a class="type" href='/string'>string</a><span class="type">&</span> <span class="inout">in</span> szString)</td>

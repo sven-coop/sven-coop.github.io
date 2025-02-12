@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+		<meta name="description" content="Sven Co-op 5.26 AngelScript API documentation.">
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="Hooks::Monster">
+		<meta property="og:site_name" content="Sven Co-op AngelScript API">
+		<meta property="og:description" content="Sven Co-op 5.26 AngelScript API documentation.">
+		<meta property="og:image" content="https://raw.githubusercontent.com/sven-coop/sven-coop.github.io/main/src/sc.png">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+		<title>Namespace.Hooks.Monster</title>
+  </head>
+  <body>
+	<header>
+		<nav>
+			<a href="/">Index</a> > <a href="/Namespaces">Namespaces</a> > <a href="/Namespace.Hooks.Monster">Hooks::Monster</a>
+		</nav>
+		<div>
+			<input type="search" id="search-input" placeholder="Search">
+			<ul id="search-suggestions"></ul>
+		</div>
+	</header>
+    <main>
+      <h1>Hooks::Monster</h1>
+      <p>Definitions for Hooks::Monster Namespace</p>
+        <h2 id="Properties">Properties</h2>
+        <table>
+        	<thead>
+        		<tr>
+        				<th>Namespace</th>
+        				<th>Declaration</th>
+        				<th>Description</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+        				<tr id='MonsterTakeDamage'>
+        					<td><a href='/Namespace.Hooks.Monster'>Hooks::Monster</a></td>
+        					<td><span class="type">const</span> <span class="type">uint32</span> MonsterTakeDamage</td>
+        					<td>Called when a monster takes damage.Note that the victim entity can't be changed at this point. Players also appear there as they're technically monsters too.</td>
+        				</tr>
+        				<tr id='MonsterKilled'>
+        					<td><a href='/Namespace.Hooks.Monster'>Hooks::Monster</a></td>
+        					<td><span class="type">const</span> <span class="type">uint32</span> MonsterKilled</td>
+        					<td>Called when a monster is killed.This may still be called even when the monster is taking damage while in a event (eg.: death animation). Players also appear there as they're technically monsters too.</td>
+        				</tr>
+        	</tbody>
+        </table>    </main>
+	<script type="module" src="script.mjs" async defer></script>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+		<meta name="description" content="Sven Co-op 5.26 AngelScript API documentation.">
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="VP_TYPE">
+		<meta property="og:site_name" content="Sven Co-op AngelScript API">
+		<meta property="og:description" content="Sven Co-op 5.26 AngelScript API documentation.">
+		<meta property="og:image" content="https://raw.githubusercontent.com/sven-coop/sven-coop.github.io/main/src/sc.png">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+		<title>VP_TYPE</title>
+  </head>
+  <body>
+	<header>
+		<nav>
+			<a href="/">Index</a> > <a href="/Enums">Enums</a> > <a href="/VP_TYPE">VP_TYPE</a>
+		</nav>
+		<div>
+			<input type="search" id="search-input" placeholder="Search">
+			<ul id="search-suggestions"></ul>
+		</div>
+	</header>
+    <main>
+      <h1>VP_TYPE</h1>
+      <p>Sprite viewport types. When overriden stored in <a href='/entvars_t#sequence'>entvars_t::sequence</a> with <a href='/EFFECTS#EF_SPRITE_CUSTOM_VP'>EF_SPRITE_CUSTOM_VP</a> set in <a href='/entvars_t#effects'>entvars_t::effects</a> for engine use.</p>
+        <h2 id="Values">Values</h2>
+        <table>
+        	<thead>
+        		<tr>
+        				<th>Name</th>
+        				<th>Value</th>
+        				<th>Description</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+        				<tr id='VP_PARALLEL'>
+        					<td>VP_PARALLEL</td>
+        					<td>2</td>
+        					<td>Parallel: Always face the player.</td>
+        				</tr>
+        				<tr id='VP_PARALLEL_UPRIGHT'>
+        					<td>VP_PARALLEL_UPRIGHT</td>
+        					<td>0</td>
+        					<td>Parallel upright: Always face the player on horizontal axis only, fixed vertically.</td>
+        				</tr>
+        				<tr id='VP_PARALLEL_ORITENTATED'>
+        					<td>VP_PARALLEL_ORITENTATED</td>
+        					<td>4</td>
+        					<td>Parallel orientated: Always face the player, but use angles to rotate the sprite.</td>
+        				</tr>
+        				<tr id='VP_FACING_UPRIGHT'>
+        					<td>VP_FACING_UPRIGHT</td>
+        					<td>1</td>
+        					<td>Facing upright: ???</td>
+        				</tr>
+        				<tr id='VP_ORIENTATED'>
+        					<td>VP_ORIENTATED</td>
+        					<td>3</td>
+        					<td>Orientated: Angled according to the world instead of player viewport.</td>
+        				</tr>
+        	</tbody>
+        </table>    </main>
+	<script type="module" src="script.mjs" async defer></script>
+  </body>
+</html>

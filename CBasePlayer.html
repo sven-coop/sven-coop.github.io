@@ -2,11 +2,11 @@
 <html lang="en-US">
   <head>
     <meta charset="UTF-8" />
-		<meta name="description" content="Sven Co-op 5.25 AngelScript API documentation.">
+		<meta name="description" content="Sven Co-op 5.26 AngelScript API documentation.">
 		<meta property="og:type" content="website">
 		<meta property="og:title" content="CBasePlayer">
 		<meta property="og:site_name" content="Sven Co-op AngelScript API">
-		<meta property="og:description" content="Sven Co-op 5.25 AngelScript API documentation.">
+		<meta property="og:description" content="Sven Co-op 5.26 AngelScript API documentation.">
 		<meta property="og:image" content="https://raw.githubusercontent.com/sven-coop/sven-coop.github.io/main/src/sc.png">
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -188,7 +188,7 @@
         					<td>Takes armor from this entity. Note: flArmor is added to entity armor. Use negative values to subtract.If armor_cap is non-zero, won't add more than armor_cap. Returns 1 if it took damage, 0 otherwise.</td>
         				</tr>
         				<tr id='Killed'>
-        					<td><span class="type">void</span> Killed(<a class="type" href='/entvars_t'>entvars_t</a><span class="type">@</span>pevAtttacker, <span class="type">int</span> iGibbed)</td>
+        					<td><span class="type">void</span> Killed(<a class="type" href='/entvars_t'>entvars_t</a><span class="type">@</span> pevAttacker, <span class="type">int</span> iGibbed)</td>
         					<td>Tells this entity it's been killed. See the <a href='/GIB'>GIB</a> enum for possible values.</td>
         				</tr>
         				<tr id='BloodColor'>
@@ -447,6 +447,10 @@
         					<td><span class="type">void</span> OnDestroy()</td>
         					<td>Entity destructor.</td>
         				</tr>
+        				<tr id='OnSetOriginByMap'>
+        					<td><span class="type">void</span> OnSetOriginByMap()</td>
+        					<td>Entity callback after trigger_setorigin has moved the entity.</td>
+        				</tr>
         				<tr id='IsRevivable'>
         					<td><span class="type">bool</span> IsRevivable()</td>
         					<td>Returns whether this entity is revivable at this time.</td>
@@ -458,6 +462,22 @@
         				<tr id='EndRevive'>
         					<td><span class="type">void</span> EndRevive(<span class="type">float</span> flTimeUntilRevive)</td>
         					<td>Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start.</td>
+        				</tr>
+        				<tr id='AddEntityFlag'>
+        					<td><span class="type">void</span> AddEntityFlag(<span class="type">int</span> FlagMask)</td>
+        					<td>Add a entity flag mask (<a href='/EFLAG'>EFLAG</a>)</td>
+        				</tr>
+        				<tr id='RemoveEntityFlag'>
+        					<td><span class="type">void</span> RemoveEntityFlag(<span class="type">int</span> FlagMask)</td>
+        					<td>Remove a entity flag mask (<a href='/EFLAG'>EFLAG</a>)</td>
+        				</tr>
+        				<tr id='HasEntityFlag'>
+        					<td><span class="type">bool</span> HasEntityFlag(<span class="type">int</span> FlagMask) <span class="type">const</span></td>
+        					<td>Check if it has such entity flag mask (<a href='/EFLAG'>EFLAG</a>) set</td>
+        				</tr>
+        				<tr id='ClearEntityFlags'>
+        					<td><span class="type">void</span> ClearEntityFlags()</td>
+        					<td>Clear all entity flag masks (<a href='/EFLAG'>EFLAG</a>)</td>
         				</tr>
         				<tr id='GetUserData'>
         					<td><span class="type">dictionary</span><span class="type">@</span> GetUserData()</td>
@@ -632,6 +652,10 @@
         					<td>returns the difference ( in degrees ) between monster's current yaw and ideal_yaw.<br>Positive result is left turn, negative is right turn.</td>
         				</tr>
         				<tr id='DamageForce'>
+        					<td><span class="type">float</span> DamageForce(<span class="type">float</span> flDamage, <span class="type">int</span> bitsDamageType)</td>
+        					<td>Returns the amount of force applied to this monster when the given amount of damage is done.</td>
+        				</tr>
+        				<tr id='DamageForce@2'>
         					<td><span class="type">float</span> DamageForce(<span class="type">float</span> flDamage)</td>
         					<td>Returns the amount of force applied to this monster when the given amount of damage is done.</td>
         				</tr>
@@ -660,8 +684,8 @@
         					<td>Starts the monster</td>
         				</tr>
         				<tr id='BestVisibleEnemy'>
-        					<td><span class="type">void</span> BestVisibleEnemy()</td>
-        					<td>finds best visible enemy for attack</td>
+        					<td><a class="type" href='/CBaseEntity'>CBaseEntity</a><span class="type">@</span> BestVisibleEnemy()</td>
+        					<td>Finds best visible enemy for attack</td>
         				</tr>
         				<tr id='FInViewCone'>
         					<td><span class="type">bool</span> FInViewCone(<a class="type" href='/CBaseEntity'>CBaseEntity</a><span class="type">@</span> pEntity)</td>
@@ -1132,7 +1156,7 @@
         					<td>Packs player weapons into a weapon box if possible.</td>
         				</tr>
         				<tr id='RemoveAllItems'>
-        					<td><span class="type">void</span> RemoveAllItems(<span class="type">const</span> <span class="type">bool</span> fRemoveSuit)</td>
+        					<td><span class="type">void</span> RemoveAllItems(<span class="type">const</span> <span class="type">bool</span> removeSuit = false, <span class="type">const</span> <span class="type">bool</span> removeLongJump = false)</td>
         					<td>Removes all items from the player's inventory.</td>
         				</tr>
         				<tr id='SwitchWeapon'>
@@ -1240,7 +1264,7 @@
         					<td>Selects the previous item relative to the given item.</td>
         				</tr>
         				<tr id='SelectNextItem'>
-        					<td><span class="type">void</span> SelectNextItem()</td>
+        					<td><span class="type">void</span> SelectNextItem(<span class="type">int</span> iItem)</td>
         					<td>Selects the next item relative to the given item.</td>
         				</tr>
         				<tr id='SelectLastItem'>

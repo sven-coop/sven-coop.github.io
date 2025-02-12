@@ -2,11 +2,11 @@
 <html lang="en-US">
   <head>
     <meta charset="UTF-8" />
-		<meta name="description" content="Sven Co-op 5.25 AngelScript API documentation.">
+		<meta name="description" content="Sven Co-op 5.26 AngelScript API documentation.">
 		<meta property="og:type" content="website">
 		<meta property="og:title" content="CBasePlayerItem">
 		<meta property="og:site_name" content="Sven Co-op AngelScript API">
-		<meta property="og:description" content="Sven Co-op 5.25 AngelScript API documentation.">
+		<meta property="og:description" content="Sven Co-op 5.26 AngelScript API documentation.">
 		<meta property="og:image" content="https://raw.githubusercontent.com/sven-coop/sven-coop.github.io/main/src/sc.png">
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -180,7 +180,7 @@
         					<td>Takes armor from this entity. Note: flArmor is added to entity armor. Use negative values to subtract.If armor_cap is non-zero, won't add more than armor_cap. Returns 1 if it took damage, 0 otherwise.</td>
         				</tr>
         				<tr id='Killed'>
-        					<td><span class="type">void</span> Killed(<a class="type" href='/entvars_t'>entvars_t</a><span class="type">@</span>pevAtttacker, <span class="type">int</span> iGibbed)</td>
+        					<td><span class="type">void</span> Killed(<a class="type" href='/entvars_t'>entvars_t</a><span class="type">@</span> pevAttacker, <span class="type">int</span> iGibbed)</td>
         					<td>Tells this entity it's been killed. See the <a href='/GIB'>GIB</a> enum for possible values.</td>
         				</tr>
         				<tr id='BloodColor'>
@@ -439,6 +439,10 @@
         					<td><span class="type">void</span> OnDestroy()</td>
         					<td>Entity destructor.</td>
         				</tr>
+        				<tr id='OnSetOriginByMap'>
+        					<td><span class="type">void</span> OnSetOriginByMap()</td>
+        					<td>Entity callback after trigger_setorigin has moved the entity.</td>
+        				</tr>
         				<tr id='IsRevivable'>
         					<td><span class="type">bool</span> IsRevivable()</td>
         					<td>Returns whether this entity is revivable at this time.</td>
@@ -450,6 +454,22 @@
         				<tr id='EndRevive'>
         					<td><span class="type">void</span> EndRevive(<span class="type">float</span> flTimeUntilRevive)</td>
         					<td>Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start.</td>
+        				</tr>
+        				<tr id='AddEntityFlag'>
+        					<td><span class="type">void</span> AddEntityFlag(<span class="type">int</span> FlagMask)</td>
+        					<td>Add a entity flag mask (<a href='/EFLAG'>EFLAG</a>)</td>
+        				</tr>
+        				<tr id='RemoveEntityFlag'>
+        					<td><span class="type">void</span> RemoveEntityFlag(<span class="type">int</span> FlagMask)</td>
+        					<td>Remove a entity flag mask (<a href='/EFLAG'>EFLAG</a>)</td>
+        				</tr>
+        				<tr id='HasEntityFlag'>
+        					<td><span class="type">bool</span> HasEntityFlag(<span class="type">int</span> FlagMask) <span class="type">const</span></td>
+        					<td>Check if it has such entity flag mask (<a href='/EFLAG'>EFLAG</a>) set</td>
+        				</tr>
+        				<tr id='ClearEntityFlags'>
+        					<td><span class="type">void</span> ClearEntityFlags()</td>
+        					<td>Clear all entity flag masks (<a href='/EFLAG'>EFLAG</a>)</td>
         				</tr>
         				<tr id='GetUserData'>
         					<td><span class="type">dictionary</span><span class="type">@</span> GetUserData()</td>
@@ -575,6 +595,10 @@
         					<td><span class="type">void</span> Collect(<a class="type" href='/CBaseEntity'>CBaseEntity</a><span class="type">@</span> pOther)</td>
         					<td>Attempts to let pOther collect this item.</td>
         				</tr>
+        				<tr id='Collect@2'>
+        					<td><span class="type">void</span> Collect(<a class="type" href='/CBaseEntity'>CBaseEntity</a><span class="type">@</span> pOther, <a class="type" href='/CollectTypes'>CollectTypes</a> collectType)</td>
+        					<td>Attempts to let pOther collect this item, while specifying the collect type.</td>
+        				</tr>
         				<tr id='DefaultTouch'>
         					<td><span class="type">void</span> DefaultTouch(<a class="type" href='/CBaseEntity'>CBaseEntity</a><span class="type">@</span> pOther)</td>
         					<td>Touch function. Default touch.</td>
@@ -608,7 +632,7 @@
         					<td>Check respawn.</td>
         				</tr>
         				<tr id='GetItemInfo'>
-        					<td><span class="type">void</span> GetItemInfo(<a class="type" href='/ItemInfo'>ItemInfo</a><span class="type">&</span> <span class="inout">out</span> info)</td>
+        					<td><span class="type">bool</span> GetItemInfo(<a class="type" href='/ItemInfo'>ItemInfo</a><span class="type">&</span> <span class="inout">out</span> info)</td>
         					<td>Gets item info.</td>
         				</tr>
         				<tr id='CanDeploy'>
@@ -840,6 +864,10 @@
         				<tr id='m_bExclusiveHold'>
         					<td><span class="type">bool</span> m_bExclusiveHold</td>
         					<td>If set, as long as a player has this item, the player must keep this weapon selected.No more than one item with this set can be carried at one time.</td>
+        				</tr>
+        				<tr id='m_dropType'>
+        					<td><span class="type">int</span> m_dropType</td>
+        					<td>The current drop type. Check the DROP_TYPE Enum.</td>
         				</tr>
         	</tbody>
         </table>    </main>

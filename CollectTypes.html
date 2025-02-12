@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+		<meta name="description" content="Sven Co-op 5.26 AngelScript API documentation.">
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="CollectTypes">
+		<meta property="og:site_name" content="Sven Co-op AngelScript API">
+		<meta property="og:description" content="Sven Co-op 5.26 AngelScript API documentation.">
+		<meta property="og:image" content="https://raw.githubusercontent.com/sven-coop/sven-coop.github.io/main/src/sc.png">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+		<title>CollectTypes</title>
+  </head>
+  <body>
+	<header>
+		<nav>
+			<a href="/">Index</a> > <a href="/Enums">Enums</a> > <a href="/CollectTypes">CollectTypes</a>
+		</nav>
+		<div>
+			<input type="search" id="search-input" placeholder="Search">
+			<ul id="search-suggestions"></ul>
+		</div>
+	</header>
+    <main>
+      <h1>CollectTypes</h1>
+      <p>How an item was collected.</p>
+        <h2 id="Values">Values</h2>
+        <table>
+        	<thead>
+        		<tr>
+        				<th>Name</th>
+        				<th>Value</th>
+        				<th>Description</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+        				<tr id='COLLECT_TOUCH'>
+        					<td>COLLECT_TOUCH</td>
+        					<td>0</td>
+        					<td>Touched</td>
+        				</tr>
+        				<tr id='COLLECT_USE_DIRECT'>
+        					<td>COLLECT_USE_DIRECT</td>
+        					<td>1</td>
+        					<td>Used directly (+use)</td>
+        				</tr>
+        				<tr id='COLLECT_USE_INDIRECT'>
+        					<td>COLLECT_USE_INDIRECT</td>
+        					<td>2</td>
+        					<td>Used indirectly (trigger/etc)</td>
+        				</tr>
+        	</tbody>
+        </table>    </main>
+	<script type="module" src="script.mjs" async defer></script>
+  </body>
+</html>

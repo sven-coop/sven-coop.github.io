@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+		<meta name="description" content="Sven Co-op 5.26 AngelScript API documentation.">
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="MAP_VP_TYPE">
+		<meta property="og:site_name" content="Sven Co-op AngelScript API">
+		<meta property="og:description" content="Sven Co-op 5.26 AngelScript API documentation.">
+		<meta property="og:image" content="https://raw.githubusercontent.com/sven-coop/sven-coop.github.io/main/src/sc.png">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+		<title>MAP_VP_TYPE</title>
+  </head>
+  <body>
+	<header>
+		<nav>
+			<a href="/">Index</a> > <a href="/Enums">Enums</a> > <a href="/MAP_VP_TYPE">MAP_VP_TYPE</a>
+		</nav>
+		<div>
+			<input type="search" id="search-input" placeholder="Search">
+			<ul id="search-suggestions"></ul>
+		</div>
+	</header>
+    <main>
+      <h1>MAP_VP_TYPE</h1>
+      <p>Map sprite viewport types.</p>
+        <h2 id="Values">Values</h2>
+        <table>
+        	<thead>
+        		<tr>
+        				<th>Name</th>
+        				<th>Value</th>
+        				<th>Description</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+        				<tr id='MAP_VP_DEFAULT'>
+        					<td>MAP_VP_DEFAULT</td>
+        					<td>0</td>
+        					<td>Default. (Do not override the sprite's QC choice.)</td>
+        				</tr>
+        				<tr id='MAP_VP_PARALLEL'>
+        					<td>MAP_VP_PARALLEL</td>
+        					<td>3</td>
+        					<td>Parallel: Always face the player.</td>
+        				</tr>
+        				<tr id='MAP_VP_PARALLEL_UPRIGHT'>
+        					<td>MAP_VP_PARALLEL_UPRIGHT</td>
+        					<td>1</td>
+        					<td>Parallel upright: Always face the player on horizontal axis only, fixed vertically.</td>
+        				</tr>
+        				<tr id='MAP_VP_PARALLEL_ORITENTATED'>
+        					<td>MAP_VP_PARALLEL_ORITENTATED</td>
+        					<td>5</td>
+        					<td>Parallel orientated: Always face the player, but use angles to rotate the sprite.</td>
+        				</tr>
+        				<tr id='MAP_VP_FACING_UPRIGHT'>
+        					<td>MAP_VP_FACING_UPRIGHT</td>
+        					<td>2</td>
+        					<td>Facing upright: ???</td>
+        				</tr>
+        				<tr id='MAP_VP_ORIENTATED'>
+        					<td>MAP_VP_ORIENTATED</td>
+        					<td>4</td>
+        					<td>Orientated: Angled according to the world instead of player viewport.</td>
+        				</tr>
+        	</tbody>
+        </table>    </main>
+	<script type="module" src="script.mjs" async defer></script>
+  </body>
+</html>

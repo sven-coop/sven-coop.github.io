@@ -2,11 +2,11 @@
 <html lang="en-US">
   <head>
     <meta charset="UTF-8" />
-		<meta name="description" content="Sven Co-op 5.25 AngelScript API documentation.">
+		<meta name="description" content="Sven Co-op 5.26 AngelScript API documentation.">
 		<meta property="og:type" content="website">
 		<meta property="og:title" content="DateTime">
 		<meta property="og:site_name" content="Sven Co-op AngelScript API">
-		<meta property="og:description" content="Sven Co-op 5.25 AngelScript API documentation.">
+		<meta property="og:description" content="Sven Co-op 5.26 AngelScript API documentation.">
 		<meta property="og:image" content="https://raw.githubusercontent.com/sven-coop/sven-coop.github.io/main/src/sc.png">
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -73,27 +73,31 @@
         				</tr>
         				<tr id='GetSeconds'>
         					<td><span class="type">int</span> GetSeconds() <span class="type">const</span></td>
-        					<td>Get seconds (0-59).</td>
+        					<td>Get seconds after the minute including leap second (0-60).</td>
         				</tr>
         				<tr id='GetMinutes'>
         					<td><span class="type">int</span> GetMinutes() <span class="type">const</span></td>
-        					<td>Get minutes (0-59).</td>
+        					<td>Get minutes after the hour (0-59).</td>
         				</tr>
         				<tr id='GetHour'>
         					<td><span class="type">int</span> GetHour() <span class="type">const</span></td>
-        					<td>Get hours (0-23).</td>
+        					<td>Get hours since midnight (0-23).</td>
         				</tr>
         				<tr id='GetDayOfMonth'>
         					<td><span class="type">int</span> GetDayOfMonth() <span class="type">const</span></td>
-        					<td>Get day of month (0-30).</td>
+        					<td>Get day of the month (1-31).</td>
         				</tr>
         				<tr id='GetMonth'>
         					<td><span class="type">int</span> GetMonth() <span class="type">const</span></td>
-        					<td>Get month (0-11).</td>
+        					<td>Get month of the year (1-12).</td>
         				</tr>
         				<tr id='GetYear'>
         					<td><span class="type">int</span> GetYear() <span class="type">const</span></td>
         					<td>Get year.</td>
+        				</tr>
+        				<tr id='GetIsDst'>
+        					<td><span class="type">int</span> GetIsDst() <span class="type">const</span></td>
+        					<td>Get daylight savings active.</td>
         				</tr>
         				<tr id='SetMilliseconds'>
         					<td><span class="type">void</span> SetMilliseconds(<span class="type">uint</span> uiMilliseconds)</td>
@@ -101,27 +105,31 @@
         				</tr>
         				<tr id='SetSeconds'>
         					<td><span class="type">void</span> SetSeconds(<span class="type">int</span> iSeconds)</td>
-        					<td>Set seconds (0-59).</td>
+        					<td>Set seconds after the minute including leap second (0-60).</td>
         				</tr>
         				<tr id='SetMinutes'>
         					<td><span class="type">void</span> SetMinutes(<span class="type">int</span> iMinutes)</td>
-        					<td>Set minutes (0-59).</td>
+        					<td>Set minutes after the hour (0-59).</td>
         				</tr>
         				<tr id='SetHour'>
         					<td><span class="type">void</span> SetHour(<span class="type">int</span> iHours)</td>
-        					<td>Set hours (0-23).</td>
+        					<td>Set hours since midnight (0-23).</td>
         				</tr>
         				<tr id='SetDayOfMonth'>
         					<td><span class="type">void</span> SetDayOfMonth(<span class="type">int</span> iDay)</td>
-        					<td>Set day of month (0-30).</td>
+        					<td>Set day of the month (1-31).</td>
         				</tr>
         				<tr id='SetMonth'>
         					<td><span class="type">void</span> SetMonth(<span class="type">int</span> iMonth)</td>
-        					<td>Set month (0-11).</td>
+        					<td>Set month of the year (1-12).</td>
         				</tr>
         				<tr id='SetYear'>
         					<td><span class="type">void</span> SetYear(<span class="type">int</span> iYear)</td>
         					<td>Set year.</td>
+        				</tr>
+        				<tr id='SetIsDst'>
+        					<td><span class="type">void</span> SetIsDst(<span class="type">int</span> iIsDst)</td>
+        					<td>Set daylight savings active.</td>
         				</tr>
         				<tr id='Format'>
         					<td><span class="type">int</span> Format(<a class="type" href='/string'>string</a><span class="type">&</span> <span class="inout">out</span> szResult, <span class="type">const</span> <a class="type" href='/string'>string</a><span class="type">&</span> <span class="inout">in</span> szFormat) <span class="type">const</span></td>

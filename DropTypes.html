@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+		<meta name="description" content="Sven Co-op 5.26 AngelScript API documentation.">
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="DropTypes">
+		<meta property="og:site_name" content="Sven Co-op AngelScript API">
+		<meta property="og:description" content="Sven Co-op 5.26 AngelScript API documentation.">
+		<meta property="og:image" content="https://raw.githubusercontent.com/sven-coop/sven-coop.github.io/main/src/sc.png">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+		<title>DropTypes</title>
+  </head>
+  <body>
+	<header>
+		<nav>
+			<a href="/">Index</a> > <a href="/Enums">Enums</a> > <a href="/DropTypes">DropTypes</a>
+		</nav>
+		<div>
+			<input type="search" id="search-input" placeholder="Search">
+			<ul id="search-suggestions"></ul>
+		</div>
+	</header>
+    <main>
+      <h1>DropTypes</h1>
+      <p>How an item was dropped.</p>
+        <h2 id="Values">Values</h2>
+        <table>
+        	<thead>
+        		<tr>
+        				<th>Name</th>
+        				<th>Value</th>
+        				<th>Description</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+        				<tr id='DROP_DEFAULT'>
+        					<td>DROP_DEFAULT</td>
+        					<td>0</td>
+        					<td>Default/unspecified.</td>
+        				</tr>
+        				<tr id='DROP_PLAYER_CMD'>
+        					<td>DROP_PLAYER_CMD</td>
+        					<td>1</td>
+        					<td>By a player via drop/dropammo/dropsecammo command.</td>
+        				</tr>
+        				<tr id='DROP_PLAYER_DEATH'>
+        					<td>DROP_PLAYER_DEATH</td>
+        					<td>2</td>
+        					<td>By a player killed.</td>
+        				</tr>
+        				<tr id='DROP_NPC_DEATH'>
+        					<td>DROP_NPC_DEATH</td>
+        					<td>3</td>
+        					<td>By an NPC killed.</td>
+        				</tr>
+        	</tbody>
+        </table>    </main>
+	<script type="module" src="script.mjs" async defer></script>
+  </body>
+</html>

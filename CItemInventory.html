@@ -2,11 +2,11 @@
 <html lang="en-US">
   <head>
     <meta charset="UTF-8" />
-		<meta name="description" content="Sven Co-op 5.25 AngelScript API documentation.">
+		<meta name="description" content="Sven Co-op 5.26 AngelScript API documentation.">
 		<meta property="og:type" content="website">
 		<meta property="og:title" content="CItemInventory">
 		<meta property="og:site_name" content="Sven Co-op AngelScript API">
-		<meta property="og:description" content="Sven Co-op 5.25 AngelScript API documentation.">
+		<meta property="og:description" content="Sven Co-op 5.26 AngelScript API documentation.">
 		<meta property="og:image" content="https://raw.githubusercontent.com/sven-coop/sven-coop.github.io/main/src/sc.png">
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -172,7 +172,7 @@
         					<td>Takes armor from this entity. Note: flArmor is added to entity armor. Use negative values to subtract.If armor_cap is non-zero, won't add more than armor_cap. Returns 1 if it took damage, 0 otherwise.</td>
         				</tr>
         				<tr id='Killed'>
-        					<td><span class="type">void</span> Killed(<a class="type" href='/entvars_t'>entvars_t</a><span class="type">@</span>pevAtttacker, <span class="type">int</span> iGibbed)</td>
+        					<td><span class="type">void</span> Killed(<a class="type" href='/entvars_t'>entvars_t</a><span class="type">@</span> pevAttacker, <span class="type">int</span> iGibbed)</td>
         					<td>Tells this entity it's been killed. See the <a href='/GIB'>GIB</a> enum for possible values.</td>
         				</tr>
         				<tr id='BloodColor'>
@@ -435,6 +435,10 @@
         					<td><span class="type">void</span> OnDestroy()</td>
         					<td>Entity destructor.</td>
         				</tr>
+        				<tr id='OnSetOriginByMap'>
+        					<td><span class="type">void</span> OnSetOriginByMap()</td>
+        					<td>Entity callback after trigger_setorigin has moved the entity.</td>
+        				</tr>
         				<tr id='IsRevivable'>
         					<td><span class="type">bool</span> IsRevivable()</td>
         					<td>Returns whether this entity is revivable at this time.</td>
@@ -446,6 +450,22 @@
         				<tr id='EndRevive'>
         					<td><span class="type">void</span> EndRevive(<span class="type">float</span> flTimeUntilRevive)</td>
         					<td>Called when this entity should be revived. flTimeUntilRevive is the time until the revival should start.</td>
+        				</tr>
+        				<tr id='AddEntityFlag'>
+        					<td><span class="type">void</span> AddEntityFlag(<span class="type">int</span> FlagMask)</td>
+        					<td>Add a entity flag mask (<a href='/EFLAG'>EFLAG</a>)</td>
+        				</tr>
+        				<tr id='RemoveEntityFlag'>
+        					<td><span class="type">void</span> RemoveEntityFlag(<span class="type">int</span> FlagMask)</td>
+        					<td>Remove a entity flag mask (<a href='/EFLAG'>EFLAG</a>)</td>
+        				</tr>
+        				<tr id='HasEntityFlag'>
+        					<td><span class="type">bool</span> HasEntityFlag(<span class="type">int</span> FlagMask) <span class="type">const</span></td>
+        					<td>Check if it has such entity flag mask (<a href='/EFLAG'>EFLAG</a>) set</td>
+        				</tr>
+        				<tr id='ClearEntityFlags'>
+        					<td><span class="type">void</span> ClearEntityFlags()</td>
+        					<td>Clear all entity flag masks (<a href='/EFLAG'>EFLAG</a>)</td>
         				</tr>
         				<tr id='GetUserData'>
         					<td><span class="type">dictionary</span><span class="type">@</span> GetUserData()</td>
@@ -459,21 +479,25 @@
         					<td><span class="type">void</span> ClearUserData()</td>
         					<td>Clears the user data on this entity. WARNING: clears all data.<br>Only map scripts can use this.</td>
         				</tr>
+        				<tr id='TryCollect'>
+        					<td><span class="type">bool</span> TryCollect(<a class="type" href='/CBaseEntity'>CBaseEntity</a><span class="type">@</span> pOther, <span class="type">bool</span> fIgnoreTriggers = false)</td>
+        					<td>Try to collect this item.</td>
+        				</tr>
         				<tr id='CanCollect'>
         					<td><span class="type">bool</span> CanCollect(<a class="type" href='/CBaseEntity'>CBaseEntity</a><span class="type">@</span> pOther)</td>
         					<td>Returns whether this item can be collected by the given entity.</td>
         				</tr>
         				<tr id='Drop'>
-        					<td><span class="type">bool</span> Drop(<span class="type">bool</span> fForce = false, <a class="type" href='/CBaseEntity'>CBaseEntity</a><span class="type">@</span> pCaller = null)</td>
-        					<td>Drops this item, if it's being carried.</td>
+        					<td><span class="type">bool</span> Drop(<span class="type">bool</span> fForce = false, <a class="type" href='/CBaseEntity'>CBaseEntity</a><span class="type">@</span> pCaller = null, <span class="type">bool</span> fIgnoreTriggers = false)</td>
+        					<td>Drop this item if it's being carried.</td>
         				</tr>
         				<tr id='Return'>
-        					<td><span class="type">void</span> Return()</td>
-        					<td>Returns this item to its original spawn location.</td>
+        					<td><span class="type">void</span> Return(<span class="type">bool</span> fIgnoreTriggers = false)</td>
+        					<td>Return this item to its original spawn location.</td>
         				</tr>
         				<tr id='Destroy'>
-        					<td><span class="type">void</span> Destroy()</td>
-        					<td>Destroys this item.</td>
+        					<td><span class="type">void</span> Destroy(<span class="type">bool</span> fIgnoreTriggers = false)</td>
+        					<td>Destroy this item.</td>
         				</tr>
         				<tr id='AddItemEffects'>
         					<td><span class="type">void</span> AddItemEffects()</td>
@@ -582,7 +606,7 @@
         					<td>Group name referred to by triggers.</td>
         				</tr>
         				<tr id='m_szDisplayName'>
-        					<td><a class="type" href='/string'>string</a> m_szDisplayName</td>
+        					<td><a class="type" href='/string_t'>string_t</a> m_szDisplayName</td>
         					<td>Friendly item name for client-side UI.</td>
         				</tr>
         				<tr id='m_szDescription'>
@@ -592,6 +616,10 @@
         				<tr id='m_iCollectLimit'>
         					<td><span class="type">int</span> m_iCollectLimit</td>
         					<td>How many times the item can be picked up, destroyed when limit is reached (0 = infinite).</td>
+        				</tr>
+        				<tr id='m_iActivateLimit'>
+        					<td><span class="type">int</span> m_iActivateLimit</td>
+        					<td>How many times the item can be activated (0 = infinite).</td>
         				</tr>
         				<tr id='m_flWeight'>
         					<td><span class="type">float</span> m_flWeight</td>
@@ -685,9 +713,21 @@
         					<td><span class="type">float</span> m_flMaximumHoldTime</td>
         					<td>Limit to how long this item can be held for, forcibly dropped after (0 = no limit)</td>
         				</tr>
+        				<tr id='m_flActivateWaitTime'>
+        					<td><span class="type">float</span> m_flActivateWaitTime</td>
+        					<td>Time to wait between each activation (0 = none)</td>
+        				</tr>
         				<tr id='m_flWearOutTime'>
         					<td><span class="type">float</span> m_flWearOutTime</td>
         					<td>Perform a trigger prior to this item being forcibly dropped (0 = none)</td>
+        				</tr>
+        				<tr id='m_fCanBeActivated'>
+        					<td><span class="type">bool</span> m_fCanBeActivated</td>
+        					<td>Holder is allowed to activate this item by choice at any time</td>
+        				</tr>
+        				<tr id='m_fHoldTimeWaitUntilActivated'>
+        					<td><span class="type">bool</span> m_fHoldTimeWaitUntilActivated</td>
+        					<td>Maximum hold time is not started until the item is activated (ignored if m_fCanBeActivated is false)</td>
         				</tr>
         				<tr id='m_fCanBeDropped'>
         					<td><span class="type">bool</span> m_fCanBeDropped</td>
@@ -757,6 +797,30 @@
         					<td><a class="type" href='/string_t'>string_t</a> m_szTriggerOnCantDropOther</td>
         					<td>On failed drop (for everyone else)</td>
         				</tr>
+        				<tr id='m_szTriggerOnActivateSelf'>
+        					<td><a class="type" href='/string_t'>string_t</a> m_szTriggerOnActivateSelf</td>
+        					<td>On self-activation (for collector)</td>
+        				</tr>
+        				<tr id='m_szTriggerOnActivateTeam'>
+        					<td><a class="type" href='/string_t'>string_t</a> m_szTriggerOnActivateTeam</td>
+        					<td>On self-activation (for collector's team)</td>
+        				</tr>
+        				<tr id='m_szTriggerOnActivateOther'>
+        					<td><a class="type" href='/string_t'>string_t</a> m_szTriggerOnActivateOther</td>
+        					<td>On self-activation (for everyone else)</td>
+        				</tr>
+        				<tr id='m_szTriggerOnCantActivateSelf'>
+        					<td><a class="type" href='/string_t'>string_t</a> m_szTriggerOnCantActivateSelf</td>
+        					<td>On failed self - activation(for collector)</td>
+        				</tr>
+        				<tr id='m_szTriggerOnCantActivateTeam'>
+        					<td><a class="type" href='/string_t'>string_t</a> m_szTriggerOnCantActivateTeam</td>
+        					<td>On failed self-activation (for collector's team)</td>
+        				</tr>
+        				<tr id='m_szTriggerOnCantActivateOther'>
+        					<td><a class="type" href='/string_t'>string_t</a> m_szTriggerOnCantActivateOther</td>
+        					<td>On failed self-activation (for everyone else)</td>
+        				</tr>
         				<tr id='m_szTriggerOnUseSelf'>
         					<td><a class="type" href='/string_t'>string_t</a> m_szTriggerOnUseSelf</td>
         					<td>On use by trigger (for collector)</td>
@@ -799,7 +863,11 @@
         				</tr>
         				<tr id='m_szTriggerOnDestroy'>
         					<td><a class="type" href='/string_t'>string_t</a> m_szTriggerOnDestroy</td>
-        					<td>On destroy</td>
+        					<td>On destruction</td>
+        				</tr>
+        				<tr id='m_fEffectsWaitUntilActivated'>
+        					<td><span class="type">bool</span> m_fEffectsWaitUntilActivated</td>
+        					<td>Holder effects do not apply until the item is activated (ignored if m_fCanBeActivated is false)</td>
         				</tr>
         				<tr id='m_fEffectsPermanent'>
         					<td><span class="type">bool</span> m_fEffectsPermanent</td>
@@ -849,6 +917,10 @@
         					<td><span class="type">int</span> m_iCollectCount</td>
         					<td>Number of times the item has been collected</td>
         				</tr>
+        				<tr id='m_iActivateCount'>
+        					<td><span class="type">int</span> m_iActivateCount</td>
+        					<td>Number of times the item has been self-activated</td>
+        				</tr>
         				<tr id='m_flTouchedTime'>
         					<td><span class="type">float</span> m_flTouchedTime</td>
         					<td>Time the item was last touched</td>
@@ -861,9 +933,17 @@
         					<td><span class="type">float</span> m_flDropTime</td>
         					<td>Time the item was last dropped</td>
         				</tr>
+        				<tr id='m_flActivateTime'>
+        					<td><span class="type">float</span> m_flActivateTime</td>
+        					<td>Time the item was last self-activated</td>
+        				</tr>
         				<tr id='m_fRemovedByForced'>
         					<td><span class="type">bool</span> m_fRemovedByForced</td>
         					<td>Item was just removed by force</td>
+        				</tr>
+        				<tr id='m_fHandledWearingOut'>
+        					<td><span class="type">bool</span> m_fHandledWearingOut</td>
+        					<td>Item has performed its wearing out trigger</td>
         				</tr>
         	</tbody>
         </table>    </main>

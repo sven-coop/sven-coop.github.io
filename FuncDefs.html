@@ -2,11 +2,11 @@
 <html lang="en-US">
   <head>
     <meta charset="UTF-8" />
-		<meta name="description" content="Sven Co-op 5.25 AngelScript API documentation.">
+		<meta name="description" content="Sven Co-op 5.26 AngelScript API documentation.">
 		<meta property="og:type" content="website">
 		<meta property="og:title" content="FuncDefs">
 		<meta property="og:site_name" content="Sven Co-op AngelScript API">
-		<meta property="og:description" content="Sven Co-op 5.25 AngelScript API documentation.">
+		<meta property="og:description" content="Sven Co-op 5.26 AngelScript API documentation.">
 		<meta property="og:image" content="https://raw.githubusercontent.com/sven-coop/sven-coop.github.io/main/src/sc.png">
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -74,6 +74,10 @@
         					<td><span class="type">void</span> CVarCallback(<a class="type" href='/CCVar'>CCVar</a><span class="type">@</span> cvar, <span class="type">const</span> <a class="type" href='/string'>string</a><span class="type">&</span> <span class="inout">in</span> szOldValue, <span class="type">float</span> flOldValue)</td>
         					<td>Callback for cvars.</td>
         				</tr>
+        				<tr id='WeaponReloadHook'>
+        					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> WeaponReloadHook(<a class="type" href='/CBasePlayer'>CBasePlayer</a><span class="type">@</span>, <a class="type" href='/CBasePlayerWeapon'>CBasePlayerWeapon</a><span class="type">@</span>)</td>
+        					<td>Called when a player reloads a weapon.</td>
+        				</tr>
         				<tr id='WeaponTertiaryAttackHook'>
         					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> WeaponTertiaryAttackHook(<a class="type" href='/CBasePlayer'>CBasePlayer</a><span class="type">@</span>, <a class="type" href='/CBasePlayerWeapon'>CBasePlayerWeapon</a><span class="type">@</span>)</td>
         					<td>Called when a player fires a weapon's tertiary attack.</td>
@@ -93,6 +97,10 @@
         				<tr id='PlayerDecalHook'>
         					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> PlayerDecalHook(<a class="type" href='/CBasePlayer'>CBasePlayer</a><span class="type">@</span>, <span class="type">const</span> <a class="type" href='/TraceResult'>TraceResult</a><span class="type">&</span> in)</td>
         					<td>Called when a player is spraypainting a decal onto a surface. The given trace result contains the surface information. </td>
+        				</tr>
+        				<tr id='PlayerRevivedHook'>
+        					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> PlayerRevivedHook(<a class="type" href='/CBasePlayer'>CBasePlayer</a><span class="type">@</span> pPlayer)</td>
+        					<td>Called when a player is revived. At this point all the revival process is finished.</td>
         				</tr>
         				<tr id='GetPlayerSpawnSpotHook'>
         					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> GetPlayerSpawnSpotHook(<a class="type" href='/CBasePlayer'>CBasePlayer</a><span class="type">@</span> pPlayer, <a class="type" href='/CBaseEntity'>CBaseEntity</a><span class="type">@</span><span class="type">&</span> <span class="inout">out</span> ppEntSpawnSpot)</td>
@@ -126,18 +134,6 @@
         					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> PlayerTakeDamageHook(<a class="type" href='/DamageInfo'>DamageInfo</a><span class="type">@</span>)</td>
         					<td>Called when a player takes damage. Note that the victim entity can't be changed at this point.</td>
         				</tr>
-        				<tr id='PlayerCanRespawnHook'>
-        					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> PlayerCanRespawnHook(<a class="type" href='/CBasePlayer'>CBasePlayer</a><span class="type">@</span>, <span class="type">bool</span><span class="type">&</span> out)</td>
-        					<td>Called when the game wants to know if the player should be able to respawn or not.Set bCanRespawn to false to disallow, default true.</td>
-        				</tr>
-        				<tr id='PlayerSpawnHook'>
-        					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> PlayerSpawnHook(<a class="type" href='/CBasePlayer'>CBasePlayer</a><span class="type">@</span>)</td>
-        					<td>Called when a player (re)spawns.</td>
-        				</tr>
-        				<tr id='ClientConnectedHook'>
-        					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> ClientConnectedHook(<a class="type" href='/edict_t'>edict_t</a><span class="type">@</span>, <span class="type">const</span> <a class="type" href='/string'>string</a><span class="type">&</span> in, <span class="type">const</span> <a class="type" href='/string'>string</a><span class="type">&</span> in, <span class="type">bool</span><span class="type">&</span> out, <a class="type" href='/string'>string</a><span class="type">&</span> out)</td>
-        					<td>Called when a player connects to the server. if bDisallowJoin is set to false, the player is disconnected. szRejectReason is shown to the player if disconnected. The maximum length of the reject reason <a href='/string'>string</a> is 127 characters.</td>
-        				</tr>
         				<tr id='CollectedHook'>
         					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> CollectedHook(<a class="type" href='/CBaseEntity'>CBaseEntity</a><span class="type">@</span>, <a class="type" href='/CBaseEntity'>CBaseEntity</a><span class="type">@</span>)</td>
         					<td>Called when a pickup object is collected by a player. </td>
@@ -150,9 +146,29 @@
         					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> CanCollectHook(<a class="type" href='/CBaseEntity'>CBaseEntity</a><span class="type">@</span>, <a class="type" href='/CBaseEntity'>CBaseEntity</a><span class="type">@</span>, <span class="type">bool</span><span class="type">&</span> out)</td>
         					<td>Called when a pickup object is about to be collected by a player. Note that basic checks are done before this hook is called.</td>
         				</tr>
+        				<tr id='PlayerCanRespawnHook'>
+        					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> PlayerCanRespawnHook(<a class="type" href='/CBasePlayer'>CBasePlayer</a><span class="type">@</span>, <span class="type">bool</span><span class="type">&</span> out)</td>
+        					<td>Called when the game wants to know if the player should be able to respawn or not.Set bCanRespawn to false to disallow, default true.</td>
+        				</tr>
+        				<tr id='PlayerSpawnHook'>
+        					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> PlayerSpawnHook(<a class="type" href='/CBasePlayer'>CBasePlayer</a><span class="type">@</span>)</td>
+        					<td>Called when a player (re)spawns.</td>
+        				</tr>
+        				<tr id='ClientConnectedHook'>
+        					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> ClientConnectedHook(<a class="type" href='/edict_t'>edict_t</a><span class="type">@</span>, <span class="type">const</span> <a class="type" href='/string'>string</a><span class="type">&</span> in, <span class="type">const</span> <a class="type" href='/string'>string</a><span class="type">&</span> in, <span class="type">bool</span><span class="type">&</span> out, <a class="type" href='/string'>string</a><span class="type">&</span> out)</td>
+        					<td>Called when a player connects to the server. if bDisallowJoin is set to false, the player is disconnected. szRejectReason is shown to the player if disconnected. The maximum length of the reject reason <a href='/string'>string</a> is 127 characters.</td>
+        				</tr>
         				<tr id='CanPlayerUseReservedSlotHook'>
         					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> CanPlayerUseReservedSlotHook(<a class="type" href='/edict_t'>edict_t</a><span class="type">@</span>, <span class="type">const</span> <a class="type" href='/string'>string</a><span class="type">&</span> in, <span class="type">const</span> <a class="type" href='/string'>string</a><span class="type">&</span> in, <span class="type">bool</span><span class="type">&</span> out)</td>
         					<td>Called when a player connects to the server, and the number of slots left on the server is <= the number of reserved slots. Set bAllowJoin to true to allow the player to join (default false).</td>
+        				</tr>
+        				<tr id='MonsterTakeDamageHook'>
+        					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> MonsterTakeDamageHook(<a class="type" href='/DamageInfo'>DamageInfo</a><span class="type">@</span>)</td>
+        					<td>Called when a monster takes damage.Note that the victim entity can't be changed at this point. Players also appear there as they're technically monsters too.</td>
+        				</tr>
+        				<tr id='MonsterKilledHook'>
+        					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> MonsterKilledHook(<a class="type" href='/CBaseMonster'>CBaseMonster</a><span class="type">@</span>, <a class="type" href='/CBaseEntity'>CBaseEntity</a><span class="type">@</span>, <span class="type">int</span>)</td>
+        					<td>Called when a monster is killed.This may still be called even when the monster is taking damage while in a event (eg.: death animation). Players also appear there as they're technically monsters too.</td>
         				</tr>
         				<tr id='ClientSayHook'>
         					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> ClientSayHook(<a class="type" href='/SayParameters'>SayParameters</a><span class="type">@</span>)</td>
@@ -171,8 +187,8 @@
         					<td>Called when a new entity is created. At this point the entity is not spawned yet and may not be fully initialized.</td>
         				</tr>
         				<tr id='MapChangeHook'>
-        					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> MapChangeHook()</td>
-        					<td>Called when the map changes. This happens when the world is destroyed. There may still be entities that exist at this point.</td>
+        					<td><a class="type" href='/HookReturnCode'>HookReturnCode</a> MapChangeHook(<span class="type">const</span> <a class="type" href='/string'>string</a><span class="type">&</span> in)</td>
+        					<td>Called when the map changes. This happens when the world is destroyed. There may still be entities that exist at this point. String will show the next map will be, or empty if the server is shutting down.</td>
         				</tr>
         			</tbody>
         </table>    </main>
